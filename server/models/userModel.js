@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema({
     },
     discount: {
         type: String,
-        enum: ['student', 'regular', 'senior', 'veteran']
+        enum: ['student', 'regular', 'senior', 'veteran'],
+        default: 'regular'
     }
 });
 

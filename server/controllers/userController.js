@@ -23,7 +23,6 @@ exports.register = async (req, res, next) => {
         await newUser.save();
         res.json({
             status: 'Success',
-            statusCode: 200,
             message: 'User created'
         });
     } catch (err) {
@@ -48,7 +47,6 @@ exports.login = async (req, res, next) => {
 
         res.status(200).json({
             status: 'Success',
-            statusCode: 200,
             message: 'User logged in',
             token
         });

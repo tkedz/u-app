@@ -17,7 +17,8 @@ exports.register = async (req, res, next) => {
             username: req.body.username,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
-            discount: req.body.discount
+            discount: req.body.discount,
+            unlimited: req.body.unlimited
         });
 
         await newUser.save();
@@ -38,9 +39,12 @@ exports.login = async (req, res, next) => {
             email
         }).select('+password');
 
+        if (!user)
+            return next(new ErrorHandler(401, 'Invalid email or passowrd'));
+
         const passwdComparision = await bcrypt.compare(password, user.password);
 
-        if (!user || !passwdComparision)
+        if (!passwdComparision)
             return next(new ErrorHandler(401, 'Invalid email or password'));
 
         const token = createJWT(user._id);

@@ -12,6 +12,13 @@ const createJWT = id => {
 
 exports.register = async (req, res, next) => {
     try {
+        //checking if email or username are not taken
+        let user = await User.findOne({ email: req.body.email });
+        if (user) return next(new ErrorHandler(200, 'Email is already taken'));
+        user = await User.findOne({ username: req.body.username });
+        if (user)
+            return next(new ErrorHandler(200, 'Username is already taken'));
+
         const newUser = new User({
             email: req.body.email,
             username: req.body.username,

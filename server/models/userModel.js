@@ -38,11 +38,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['student', 'regular', 'senior', 'veteran'],
         default: 'regular'
-    }
+    },
+    passwordResetToken: String,
+    passwordResetTokenExpiration: Date
 });
 
 userSchema.pre('save', async function(next) {
-    if (this.isNew) {
+    if (this.isNew || this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12);
     }
     this.passwordConfirm = undefined;

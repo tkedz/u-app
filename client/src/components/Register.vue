@@ -133,10 +133,7 @@
                             <option value="veteran">weterana</option>
                         </select>
                     </div>
-                    <button
-                        class="btn btn-primary btn-block"
-                        @click="submitForm"
-                    >
+                    <button class="btn btn-primary btn-block" @click="register">
                         Zarejestruj się
                     </button>
                 </form>
@@ -230,7 +227,7 @@ export default {
             }
             return isValid;
         },
-        async submitForm(event) {
+        async register(event) {
             event.preventDefault();
             const isValid = this.validateForm();
 

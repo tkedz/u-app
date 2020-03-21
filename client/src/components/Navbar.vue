@@ -18,7 +18,7 @@
                 </router-link>
             </li>
             <li class="nav-item-custom">
-                <router-link to="/register" tag="a" class="nav-link-custom">
+                <router-link to="/login" tag="a" class="nav-link-custom">
                     <span>
                         <ion-icon name="home-sharp"></ion-icon>
                     </span>

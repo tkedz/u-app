@@ -14,7 +14,7 @@ app.use('/api/movies', movieRouter);
 app.use((err, req, res, next) => {
     // eslint-disable-next-line no-console
     console.log(err);
-    res.status(err.statusCode).json({
+    res.status(err.statusCode).send({
         status: 'error',
         message: err.message
     });

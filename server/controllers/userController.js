@@ -111,8 +111,8 @@ exports.resetPassword = async (req, res, next) => {
 
     try {
         const user = await User.findOne({
-            passwordResetToken: token
-            // passwordResetExpires: { $gt: Date.now() }
+            passwordResetToken: token,
+            passwordResetExpires: { $gt: Date.now() }
         });
 
         if (!user) {
@@ -131,6 +131,7 @@ exports.resetPassword = async (req, res, next) => {
             message: 'Password changed'
         });
     } catch (err) {
-        return next(new ErrorHandler(400, err.message));
+        const appError = errorController.handleMongoError(err);
+        next(appError);
     }
 };

@@ -135,3 +135,61 @@ exports.resetPassword = async (req, res, next) => {
         next(appError);
     }
 };
+
+exports.updateProfile = async (req, res, next) => {
+    if (!req.body.password)
+        return next(
+            new ErrorHandler(
+                401,
+                'Provide current password to chenge your profile'
+            )
+        );
+
+    //user is already here in req.user
+    const { user } = req;
+
+    const passwdComparision = await bcrypt.compare(
+        req.body.password,
+        user.password
+    );
+
+    if (!passwdComparision)
+        return next(new ErrorHandler(401, 'Invalid password'));
+
+    try {
+        switch (req.body.whatsChanged) {
+            case 'password':
+                user.password = req.body.newPassword;
+                user.passwordConfirm = req.body.newPasswordConfirm;
+                await user.save();
+                break;
+            case 'email':
+                await User.findByIdAndUpdate(
+                    user.id,
+                    { email: req.body.email },
+                    { runValidators: true }
+                );
+                break;
+            case 'unlimited':
+                await User.findByIdAndUpdate(
+                    user.id,
+                    {
+                        unlimited: req.body.unlimited,
+                        discount: req.body.discount
+                    },
+                    { runValidators: true }
+                );
+                break;
+            default:
+                break;
+        }
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User data has been changed'
+        });
+    } catch (err) {
+        const appError = errorController.handleMongoError(err);
+        next(appError);
+    }
+};

@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema({
     passwordResetTokenExpiration: Date
 });
 
+//Schema validation goes first, then middlewares
 userSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12);

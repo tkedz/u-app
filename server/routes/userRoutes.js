@@ -13,5 +13,7 @@ router.patch(
     authController.checkToken,
     userController.updateProfile
 );
+router.get('/get-me', authController.checkToken, userController.isLogged);
+router.get('/:username', userController.getUserProfile);
 
 module.exports = router;

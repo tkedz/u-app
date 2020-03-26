@@ -2,15 +2,28 @@
     <div class="root">
         <app-navbar></app-navbar>
         <main>
-            <router-view></router-view>
+            <transition name="slide" mode="out-in">
+                <router-view></router-view>
+            </transition>
         </main>
     </div>
 </template>
 
 <script>
+import { getters, actions } from './store';
 import Navbar from './components/Navbar';
 export default {
     name: 'App',
+    computed: {
+        ...getters
+    },
+    methods: {
+        ...actions
+    },
+    async created() {
+        console.log('fetch user');
+        await this.fetchLoggedUser();
+    },
     components: {
         appNavbar: Navbar
     }
@@ -18,6 +31,36 @@ export default {
 </script>
 
 <style scoped>
+.slide-enter-active {
+    animation: slide-in 200ms ease-out forwards;
+}
+
+.slide-leave-active {
+    animation: slide-out 200ms ease-out forwards;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+}
+
 @media (max-width: 576px) {
     .root {
         font-size: 14px;

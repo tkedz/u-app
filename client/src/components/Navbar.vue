@@ -17,7 +17,15 @@
                     <span class="link-text">Strona główna</span>
                 </router-link>
             </li>
-            <li class="nav-item-custom">
+            <li class="nav-item-custom" v-if="isLogged">
+                <router-link :to="`/users/${user.username}`" tag="a" class="nav-link-custom">
+                    <span>
+                        <ion-icon name="person"></ion-icon>
+                    </span>
+                    <span class="link-text">Mój profil</span>
+                </router-link>
+            </li>
+            <li class="nav-item-custom" v-if="!isLogged">
                 <router-link to="/login" tag="a" class="nav-link-custom">
                     <span>
                         <ion-icon name="log-in"></ion-icon>
@@ -25,20 +33,33 @@
                     <span class="link-text">Zaloguj się</span>
                 </router-link>
             </li>
-            <li class="nav-item-custom">
-                <router-link to="/" tag="a" class="nav-link-custom">
+            <li class="nav-item-custom" v-if="isLogged" @click="logout">
+                <a class="nav-link-custom">
                     <span>
-                        <ion-icon name="home-sharp"></ion-icon>
+                        <ion-icon name="log-out"></ion-icon>
                     </span>
-                    <span class="link-text">Home</span>
-                </router-link>
+                    <span class="link-text">Wyloguj się</span>
+                </a>
             </li>
         </ul>
     </nav>
 </template>
 
 <script>
-export default {};
+import { getters, mutations } from '../store';
+export default {
+    computed: {
+        ...getters
+    },
+    methods: {
+        ...mutations,
+        logout() {
+            localStorage.removeItem('jwt');
+            this.setUser(null);
+            this.setStatus(false);
+        }
+    }
+};
 </script>
 
 <style scoped>

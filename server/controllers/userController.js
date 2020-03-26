@@ -193,3 +193,28 @@ exports.updateProfile = async (req, res, next) => {
         next(appError);
     }
 };
+
+exports.isLogged = (req, res, next) => {
+    res.status(200).json({
+        status: 'success',
+        user: {
+            email: req.user.email,
+            username: req.user.username,
+            discount: req.user.discount,
+            unlimited: req.user.unlimited
+        },
+        isLogged: true
+    });
+};
+
+exports.getUserProfile = async (req, res, next) => {
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+    if (!user) return next(new ErrorHandler(404, 'User does not exist'));
+
+    res.status(200).json({
+        status: 'success',
+        user: { username: user.username, unlimited: user.unlimited }
+    });
+};

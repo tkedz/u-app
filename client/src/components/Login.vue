@@ -27,31 +27,25 @@
                                 v-model="form.password"
                                 :class="{ 'is-invalid': error }"
                             />
-                            <div v-if="error" class="invalid-feedback">
-                                Podaj email oraz hasło
-                            </div>
+                            <div v-if="error" class="invalid-feedback">Podaj email oraz hasło</div>
                         </div>
                         <div class="clearfix">
                             <button
                                 class="btn btn-primary float-left"
                                 @click.prevent="login"
-                            >
-                                Zaloguj się
-                            </button>
+                            >Zaloguj się</button>
                             <router-link
                                 to="/forgot-password"
                                 tag="a"
                                 class="float-right"
-                                >Zapomniałem hasła</router-link
-                            >
+                            >Zapomniałem hasła</router-link>
                         </div>
                     </form>
                     <router-link
                         to="/register"
                         tag="a"
                         class="badge badge-info py-2 mt-2"
-                        >Nie posiadasz konta? Zarejestruj się!</router-link
-                    >
+                    >Nie posiadasz konta? Zarejestruj się!</router-link>
                 </div>
             </div>
         </div>
@@ -60,6 +54,7 @@
 
 <script>
 import axios from 'axios';
+import { getters, actions } from '../store';
 export default {
     data() {
         return {
@@ -70,7 +65,11 @@ export default {
             error: false
         };
     },
+    computed: {
+        ...getters
+    },
     methods: {
+        ...actions,
         async login() {
             this.error = false;
 
@@ -83,6 +82,7 @@ export default {
 
                     alert('Pomyslnie zalogowano');
                     localStorage.setItem('jwt', result.data.token);
+                    await this.fetchLoggedUser();
                 } catch (err) {
                     alert('Niepoprawne dane. Spróbuj ponownie');
                 }

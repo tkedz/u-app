@@ -49,6 +49,11 @@
                 </div>
             </div>
         </div>
+        <div
+            class="alert alert-success"
+            v-if="successAlert"
+        >Pomyślnie zalogowano. Za chwilę zostaniesz przekierowany na stronę główną</div>
+        <div class="alert alert-danger" v-if="errorAlert">Nie udało się zalogować. Spróbuj ponownie</div>
     </div>
 </template>
 
@@ -62,7 +67,9 @@ export default {
                 email: '',
                 password: ''
             },
-            error: false
+            error: false,
+            successAlert: false,
+            errorAlert: false
         };
     },
     computed: {
@@ -72,6 +79,8 @@ export default {
         ...actions,
         async login() {
             this.error = false;
+            this.errorAlert = false;
+            this.successAlert = false;
 
             if (this.form.email && this.form.password) {
                 try {
@@ -80,11 +89,17 @@ export default {
                         this.form
                     );
 
-                    alert('Pomyslnie zalogowano');
                     localStorage.setItem('jwt', result.data.token);
                     await this.fetchLoggedUser();
+                    this.successAlert = true;
+                    setTimeout(() => {
+                        this.$router.push('/');
+                    }, 1000);
                 } catch (err) {
-                    alert('Niepoprawne dane. Spróbuj ponownie');
+                    this.errorAlert = true;
+                    setTimeout(() => {
+                        this.errorAlert = false;
+                    }, 2000);
                 }
             } else this.error = true;
         }

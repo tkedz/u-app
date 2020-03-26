@@ -23,6 +23,7 @@
                                 <div
                                     class="btn btn-primary flex-fill mr-1"
                                     v-if="myProfile && isLogged"
+                                    @click="displaySettings"
                                 >
                                     <ion-icon name="settings" size="large"></ion-icon>
                                     <span class="d-none d-sm-block">Ustawienia</span>
@@ -33,18 +34,21 @@
                 </div>
             </div>
         </div>
+        <app-user-settings :user="user" v-if="myProfile && isLogged"></app-user-settings>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { getters, actions } from '../store';
+import UserSettings from './UserSettings';
 export default {
     data() {
         return {
             profileOwner: {},
             myProfile: false,
-            isDataFetched: false
+            isDataFetched: false,
+            showSettings: true
         };
     },
     computed: {
@@ -77,6 +81,9 @@ export default {
                 console.log(err);
                 //this.$router.push('/404');
             }
+        },
+        displaySettings() {
+            this.showSettings = true;
         }
     },
     async created() {
@@ -86,6 +93,9 @@ export default {
     async beforeRouteUpdate() {
         console.log('beforeUpdate');
         await this.getUser();
+    },
+    components: {
+        AppUserSettings: UserSettings
     }
 };
 </script>

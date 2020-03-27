@@ -137,24 +137,27 @@ exports.resetPassword = async (req, res, next) => {
 };
 
 exports.updateProfile = async (req, res, next) => {
-    if (!req.body.password)
-        return next(
-            new ErrorHandler(
-                401,
-                'Provide current password to chenge your profile'
-            )
-        );
-
     //user is already here in req.user
     const { user } = req;
 
-    const passwdComparision = await bcrypt.compare(
-        req.body.password,
-        user.password
-    );
+    //if user changes unlimited data there is no need to confirm it with password
+    if (req.body.whatsChanged !== 'unlimited') {
+        if (!req.body.password)
+            return next(
+                new ErrorHandler(
+                    401,
+                    'Provide current password to chenge your profile'
+                )
+            );
 
-    if (!passwdComparision)
-        return next(new ErrorHandler(401, 'Invalid password'));
+        const passwdComparision = await bcrypt.compare(
+            req.body.password,
+            user.password
+        );
+
+        if (!passwdComparision)
+            return next(new ErrorHandler(401, 'Invalid password'));
+    }
 
     try {
         switch (req.body.whatsChanged) {
@@ -164,6 +167,18 @@ exports.updateProfile = async (req, res, next) => {
                 await user.save();
                 break;
             case 'email':
+                //check if email isnt taken
+                // eslint-disable-next-line no-case-declarations
+                const email = await User.findOne({
+                    _id: { $ne: user.id },
+                    email: req.body.email
+                });
+
+                if (email)
+                    return next(
+                        new ErrorHandler(200, 'Email is already taken')
+                    );
+
                 await User.findByIdAndUpdate(
                     user.id,
                     { email: req.body.email },

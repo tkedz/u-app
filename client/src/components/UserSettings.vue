@@ -8,16 +8,16 @@
                         <input
                             type="password"
                             class="form-control"
-                            :class="{ 'is-invalid': errors.newPassword }"
-                            v-model="form.newPassword"
+                            :class="{ 'is-invalid': errors.passwordForm.newPassword }"
+                            v-model="passwordForm.newPassword"
                             @keyup="validateNewPassword"
                         />
                         <div
-                            v-if="errors.newPassword"
+                            v-if="errors.passwordForm.newPassword"
                             class="invalid-feedback"
                         >Hasło musi mieć minimum 8 znaków</div>
                         <div
-                            v-if="errors.newPasswordComparision"
+                            v-if="errors.passwordForm.newPasswordComparision"
                             class="invalid-feedback"
                         >Hasła się nie zgadzają</div>
                     </div>
@@ -28,15 +28,18 @@
                             class="form-control"
                             :class="{
                                     'is-invalid':
-                                        errors.newPasswordConfirm ||
-                                        errors.newPasswordComparision
+                                        errors.passwordForm.newPasswordConfirm ||
+                                        errors.passwordForm.newPasswordComparision
                                     }"
-                            v-model="form.newPasswordConfirm"
+                            v-model="passwordForm.newPasswordConfirm"
                             @keyup="validateNewPassword"
                         />
-                        <div v-if="errors.newPasswordConfirm" class="invalid-feedback">Powtórz hasło</div>
                         <div
-                            v-if="errors.newPasswordComparision"
+                            v-if="errors.passwordForm.newPasswordConfirm"
+                            class="invalid-feedback"
+                        >Powtórz hasło</div>
+                        <div
+                            v-if="errors.passwordForm.newPasswordComparision"
                             class="invalid-feedback"
                         >Hasła się nie zgadzają</div>
                     </div>
@@ -45,16 +48,76 @@
                         <input
                             type="password"
                             class="form-control"
-                            :class="{'is-invalid':errors.currentPassword}"
-                            v-model="form.currentPassword"
+                            :class="{'is-invalid':errors.passwordForm.currentPassword}"
+                            v-model="passwordForm.currentPassword"
                             @keyup="validateNewPassword"
                         />
                         <div
-                            v-if="errors.currentPassword"
+                            v-if="errors.passwordForm.currentPassword"
                             class="invalid-feedback"
                         >Podaj obecne hasło</div>
                     </div>
                     <button class="btn btn-primary" @click.prevent="changePassword">Zmień hasło</button>
+                </form>
+                <hr />
+                <form>
+                    <div class="form-group col-12">
+                        <label>Email</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            :class="{'is-invalid': errors.emailForm.email || errors.emailForm.emailTaken}"
+                            v-model="emailForm.email"
+                            @keyup="validateEmail"
+                        />
+                        <div
+                            v-if="errors.emailForm.email"
+                            class="invalid-feedback"
+                        >Email nieprawidłowy</div>
+                        <div
+                            v-if="errors.emailForm.emailTaken"
+                            class="invalid-feedback"
+                        >Podany email jest zajęty</div>
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Hasło</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            :class="{'is-invalid': errors.emailForm.password}"
+                            v-model="emailForm.password"
+                            @keyup="validateEmail"
+                        />
+                        <div v-if="errors.emailForm.password" class="invalid-feedback">Podaj hasło</div>
+                    </div>
+                    <button class="btn btn-primary" @click.prevent="changeEmail">Zmień email</button>
+                </form>
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <label>Abonent od {{user.unlimited.toLocaleDateString()}}</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            :class="{ 'is-invalid': errors.unlimited }"
+                            v-model="unlimitedForm.unlimited"
+                            @click="errors.unlimited=false"
+                        />
+                        <div
+                            v-if="errors.unlimited"
+                            class="invalid-feedback"
+                        >Podaj datę dołączenia do abonamentu</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Zniżka</label>
+                        <select class="form-control" v-model="unlimitedForm.discount">
+                            <option value="regular">brak</option>
+                            <option value="student">studencka / uczniowska</option>
+                            <option value="senior">seniora</option>
+                            <option value="veteran">weterana</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-block" @click.prevent="changeUnlimited">Zmień</button>
                 </form>
             </div>
         </div>
@@ -67,45 +130,67 @@ export default {
     props: ['user'],
     data() {
         return {
-            form: {
+            passwordForm: {
                 newPassword: '',
                 newPasswordConfirm: '',
                 currentPassword: ''
             },
+            emailForm: {
+                email: this.user.email,
+                password: ''
+            },
+            unlimitedForm: {
+                unlimited: null,
+                discount: this.user.discount
+            },
             errors: {
-                newPassword: false,
-                newPasswordConfirm: false,
-                newPasswordComparision: false,
-                currentPassword: false
+                passwordForm: {
+                    newPassword: false,
+                    newPasswordConfirm: false,
+                    newPasswordComparision: false,
+                    currentPassword: false
+                },
+                emailForm: {
+                    email: false,
+                    emailTaken: false,
+                    password: false
+                },
+                unlimited: false
             }
         };
     },
     methods: {
         validateNewPassword() {
-            this.errors.newPassword = false;
-            this.errors.newPasswordConfirm = false;
-            this.errors.currentPassword = false;
+            this.errors.passwordForm.newPassword = false;
+            this.errors.passwordForm.newPasswordConfirm = false;
+            this.errors.passwordForm.currentPassword = false;
 
-            if (!this.form.newPassword || this.form.newPassword.length < 8) {
-                this.errors.newPassword = true;
+            if (
+                !this.passwordForm.newPassword ||
+                this.passwordForm.newPassword.length < 8
+            ) {
+                this.errors.passwordForm.newPassword = true;
             }
-            if (!this.form.newPasswordConfirm) {
-                this.errors.newPasswordConfirm = true;
+            if (!this.passwordForm.newPasswordConfirm) {
+                this.errors.passwordForm.newPasswordConfirm = true;
             }
-            if (this.form.newPasswordConfirm !== this.form.newPassword) {
-                this.errors.newPasswordComparision = true;
+            if (
+                this.passwordForm.newPasswordConfirm !==
+                this.passwordForm.newPassword
+            ) {
+                this.errors.passwordForm.newPasswordComparision = true;
             } else {
-                this.errors.newPasswordComparision = false;
+                this.errors.passwordForm.newPasswordComparision = false;
             }
-            if (!this.form.currentPassword) this.errors.currentPassword = true;
+            if (!this.passwordForm.currentPassword)
+                this.errors.passwordForm.currentPassword = true;
         },
         async changePassword() {
             this.validateNewPassword();
             let isValid = true;
-            const keys = Object.keys(this.errors);
-            console.log(keys);
+            const keys = Object.keys(this.errors.passwordForm);
             for (const key in keys) {
-                if (this.errors[keys[key]]) {
+                if (this.errors.passwordForm[keys[key]]) {
                     isValid = false;
                     break;
                 }
@@ -119,9 +204,10 @@ export default {
                         `http://localhost:3000/api/users/update-profile`,
                         {
                             whatsChanged: 'password',
-                            password: this.form.currentPassword,
-                            newPassword: this.form.newPassword,
-                            newPasswordConfirm: this.form.newPasswordConfirm
+                            password: this.passwordForm.currentPassword,
+                            newPassword: this.passwordForm.newPassword,
+                            newPasswordConfirm: this.passwordForm
+                                .newPasswordConfirm
                         },
                         {
                             headers: { Authorization: `Bearer ${jwt}` }
@@ -130,16 +216,109 @@ export default {
 
                     if (result.data.status === 'success') {
                         alert('Hasło zmienione');
-                        this.clearForm();
+                        this.clearPasswordFormErrors();
+                        this.clearPasswordForm();
                     }
                 } catch (err) {
                     alert('Uwierzytelnianie nieudane');
                 }
             }
         },
-        clearForm() {
-            Object.keys(this.form).forEach(key => (this.form[key] = ''));
-            Object.keys(this.errors).forEach(key => (this.errors[key] = false));
+        clearPasswordFormErrors() {
+            Object.keys(this.errors.passwordForm).forEach(
+                key => (this.errors.passwordForm[key] = false)
+            );
+        },
+        clearPasswordForm() {
+            Object.keys(this.passwordForm).forEach(
+                key => (this.passwordForm[key] = '')
+            );
+        },
+        validateEmail() {
+            this.errors.emailForm.email = false;
+            this.errors.emailForm.emailTaken = false;
+            this.errors.emailForm.password = false;
+            // eslint-disable-next-line no-useless-escape
+            const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!this.emailForm.email || !regex.test(this.emailForm.email)) {
+                this.errors.emailForm.email = true;
+            }
+
+            if (!this.emailForm.password) this.errors.emailForm.password = true;
+        },
+        async changeEmail() {
+            this.validateEmail();
+            let isValid = true;
+            const keys = Object.keys(this.errors.emailForm);
+            for (const key in keys) {
+                if (this.errors.emailForm[keys[key]]) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (isValid) {
+                const jwt = localStorage.getItem('jwt');
+
+                try {
+                    const result = await axios.patch(
+                        `http://localhost:3000/api/users/update-profile`,
+                        {
+                            whatsChanged: 'email',
+                            email: this.emailForm.email,
+                            password: this.emailForm.password
+                        },
+                        {
+                            headers: { Authorization: `Bearer ${jwt}` }
+                        }
+                    );
+
+                    if (result.data.status === 'success') {
+                        this.clearEmailForm();
+                        alert('Email zmieniony');
+                    } else {
+                        this.errors.emailForm.emailTaken = true;
+                    }
+                } catch (err) {
+                    alert('Uwierzytelnianie nieudane');
+                }
+            }
+        },
+        clearEmailForm() {
+            this.emailForm.password = '';
+        },
+        validateUnlimited() {
+            this.errors.unlimited = false;
+            if (!this.unlimitedForm.unlimited) {
+                this.errors.unlimited = true;
+            }
+            return this.errors.unlimited;
+        },
+        async changeUnlimited() {
+            if (!this.validateUnlimited()) {
+                const jwt = localStorage.getItem('jwt');
+
+                try {
+                    await axios.patch(
+                        `http://localhost:3000/api/users/update-profile`,
+                        {
+                            whatsChanged: 'unlimited',
+                            unlimited: this.unlimitedForm.unlimited,
+                            discount: this.unlimitedForm.discount
+                        },
+                        {
+                            headers: { Authorization: `Bearer ${jwt}` }
+                        }
+                    );
+
+                    this.user.unlimited = new Date(
+                        this.unlimitedForm.unlimited
+                    );
+                    alert('Dane o abonamencie zmienione');
+                } catch (err) {
+                    alert('Uwierzytelnianie nieudane');
+                }
+            }
         }
     }
 };

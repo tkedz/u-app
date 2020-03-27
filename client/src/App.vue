@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="root" v-if="isDataFetched">
         <app-navbar></app-navbar>
         <main>
             <transition name="slide" mode="out-in">
@@ -14,6 +14,11 @@ import { getters, actions } from './store';
 import Navbar from './components/Navbar';
 export default {
     name: 'App',
+    data() {
+        return {
+            isDataFetched: false
+        };
+    },
     computed: {
         ...getters
     },
@@ -23,6 +28,7 @@ export default {
     async created() {
         console.log('fetch user');
         await this.fetchLoggedUser();
+        this.isDataFetched = true;
     },
     components: {
         appNavbar: Navbar

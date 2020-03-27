@@ -12,7 +12,10 @@ export const getters = {
 };
 
 export const mutations = {
-    setUser: val => (state.user = val),
+    setUser: val => {
+        state.user = val;
+        state.user.unlimited = new Date(state.user.unlimited);
+    },
     setStatus: val => (state.isLogged = val)
 };
 

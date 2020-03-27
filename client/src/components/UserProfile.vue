@@ -65,9 +65,7 @@ export default {
                 const { user } = result.data;
 
                 //format date before assigning to variable
-                const unlimitedDate = new Date(
-                    user.unlimited
-                ).toLocaleDateString();
+                const unlimitedDate = new Date(user.unlimited);
                 user.unlimited = unlimitedDate;
                 this.profileOwner = user;
 
@@ -90,8 +88,9 @@ export default {
         //await this.fetchLoggedUser();
         await this.getUser();
     },
-    async beforeRouteUpdate() {
+    async beforeRouteUpdate(to, from, next) {
         console.log('beforeUpdate');
+        next();
         await this.getUser();
     },
     components: {

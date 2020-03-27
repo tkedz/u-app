@@ -23,15 +23,8 @@
                                 v-model="form.email"
                                 @keyup="validateEmail"
                             />
-                            <div v-if="errors.email" class="invalid-feedback">
-                                Podaj email
-                            </div>
-                            <div
-                                v-if="errors.emailTaken"
-                                class="invalid-feedback"
-                            >
-                                Email jest zajęty
-                            </div>
+                            <div v-if="errors.email" class="invalid-feedback">Podaj email</div>
+                            <div v-if="errors.emailTaken" class="invalid-feedback">Email jest zajęty</div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Nazwa użytkownika</label>
@@ -48,15 +41,11 @@
                             <div
                                 v-if="errors.username"
                                 class="invalid-feedback"
-                            >
-                                Podaj nazwę użytkownika
-                            </div>
+                            >Podaj nazwę użytkownika</div>
                             <div
                                 v-if="errors.usernameTaken"
                                 class="invalid-feedback"
-                            >
-                                Nazwa użytkownika jest zajęta
-                            </div>
+                            >Nazwa użytkownika jest zajęta</div>
                         </div>
                     </div>
                     <div class="form-row">
@@ -72,15 +61,11 @@
                             <div
                                 v-if="errors.password"
                                 class="invalid-feedback"
-                            >
-                                Hasło musi mieć minimum 8 znaków
-                            </div>
+                            >Hasło musi mieć minimum 8 znaków</div>
                             <div
                                 v-if="errors.passwordComparision"
                                 class="invalid-feedback"
-                            >
-                                Hasła się nie zgadzają
-                            </div>
+                            >Hasła się nie zgadzają</div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Powtórz hasło</label>
@@ -98,15 +83,11 @@
                             <div
                                 v-if="errors.passwordConfirm"
                                 class="invalid-feedback"
-                            >
-                                Powtórz hasło
-                            </div>
+                            >Powtórz hasło</div>
                             <div
                                 v-if="errors.passwordComparision"
                                 class="invalid-feedback"
-                            >
-                                Hasła się nie zgadzają
-                            </div>
+                            >Hasła się nie zgadzają</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -118,24 +99,21 @@
                             v-model="form.unlimited"
                             @mouseleave="validateUnlimited"
                         />
-                        <div v-if="errors.unlimited" class="invalid-feedback">
-                            Podaj datę dołączenia do abonamentu
-                        </div>
+                        <div
+                            v-if="errors.unlimited"
+                            class="invalid-feedback"
+                        >Podaj datę dołączenia do abonamentu</div>
                     </div>
                     <div class="form-group">
                         <label>Zniżka</label>
                         <select class="form-control" v-model="form.discount">
                             <option value="regular">brak</option>
-                            <option value="student"
-                                >studencka / uczniowska</option
-                            >
+                            <option value="student">studencka / uczniowska</option>
                             <option value="senior">seniora</option>
                             <option value="veteran">weterana</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary btn-block" @click="register">
-                        Zarejestruj się
-                    </button>
+                    <button class="btn btn-primary btn-block" @click="register">Zarejestruj się</button>
                 </form>
             </div>
         </div>

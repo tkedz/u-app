@@ -6,7 +6,7 @@
                     <span>
                         <ion-icon name="heart"></ion-icon>
                     </span>
-                    <span class="link-text">UNLIMITED</span>
+                    <span class="link-text">TEST</span>
                 </router-link>
             </li>
             <li class="nav-item-custom">
@@ -55,7 +55,7 @@ export default {
         ...mutations,
         logout() {
             localStorage.removeItem('jwt');
-            this.setUser(null);
+            this.setUser({});
             this.setStatus(false);
         }
     }

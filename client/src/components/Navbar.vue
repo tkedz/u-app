@@ -25,6 +25,14 @@
                     <span class="link-text">Mój profil</span>
                 </router-link>
             </li>
+            <li class="nav-item-custom">
+                <router-link to="/search" tag="a" class="nav-link-custom">
+                    <span>
+                        <ion-icon name="search"></ion-icon>
+                    </span>
+                    <span class="link-text">Szukaj</span>
+                </router-link>
+            </li>
             <li class="nav-item-custom" v-if="!isLogged">
                 <router-link to="/login" tag="a" class="nav-link-custom">
                     <span>
@@ -122,7 +130,7 @@ export default {
     margin-left: 1.5rem;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .navbar-custom {
         bottom: 0;
         width: 100vw;
@@ -149,7 +157,7 @@ export default {
     }
 }
 
-@media (min-width: 577px) {
+@media (min-width: 769px) {
     .navbar-custom {
         top: 0;
         width: 5rem;

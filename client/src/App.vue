@@ -67,7 +67,7 @@ export default {
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .root {
         font-size: 14px;
         font-family: 'Roboto', sans-serif;
@@ -76,12 +76,11 @@ export default {
 
     main {
         margin: 0;
-
         height: 90vh;
     }
 }
 
-@media (min-width: 577px) {
+@media (min-width: 769px) {
     .root {
         font-size: 16px;
         font-family: 'Roboto', sans-serif;
@@ -89,7 +88,6 @@ export default {
 
     main {
         margin-left: 5rem;
-
         height: 100vh;
     }
 }

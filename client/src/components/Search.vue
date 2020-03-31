@@ -10,8 +10,14 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">🔎</div>
                             </div>
-                            <input type="text" class="form-control" v-model="searchQuery" required />
-                            <button class="btn btn-primary ml-2">Szukaj</button>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="searchQuery.query"
+                                required
+                            />
+                            <!-- <input type="text" v-model.number="searchQuery.year" />> -->
+                            <button class="btn btn-primary ml-2" @click.prevent="search">Szukaj</button>
                         </div>
                     </form>
                 </div>
@@ -19,8 +25,12 @@
         </div>
         <div class="container-fluid">
             <div class="row row-cols-2 row-cols-sm-3 row-cols-xl-5">
-                <div class="col my-2 d-flex justify-content-center" v-for="n in 10" :key="n">
-                    <app-movie-card></app-movie-card>
+                <div
+                    class="col my-2 d-flex justify-content-center"
+                    v-for="movie in searchResults"
+                    :key="movie.imdbID"
+                >
+                    <app-movie-card :movie="movie"></app-movie-card>
                 </div>
             </div>
         </div>
@@ -29,20 +39,39 @@
 
 <script>
 import MovieSearchCard from './MovieSearchCard';
+import axios from 'axios';
 export default {
     data() {
         return {
-            searchQuery: ''
+            searchQuery: {
+                query: '',
+                year: null
+            },
+            currentPage: 1,
+            totalSearchResults: 0,
+            searchResults: []
         };
     },
     computed: {
         validateSearchQuery() {
-            if (this.searchQuery) return true;
+            if (this.searchQuery.query) return true;
             return false;
         }
     },
     methods: {
-        search() {}
+        async search() {
+            try {
+                const result = await axios.get(
+                    `http://localhost:3000/api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=1`
+                );
+
+                console.log(result);
+                this.totalSearchResults = result.data.totalResults;
+                this.searchResults = result.data.data;
+            } catch (err) {
+                alert('Nothing found');
+            }
+        }
     },
     components: {
         AppMovieCard: MovieSearchCard

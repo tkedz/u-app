@@ -1,18 +1,17 @@
 <template>
     <div class="card">
-        <img
-            class="card-img-top"
-            src="https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg"
-        />
+        <img class="card-img-top" :src="movie.Poster" />
         <div class="card-body">
-            <p class="card-title">Blade Runner 2049</p>
-            <p class="card-subtitle mb-2 text-muted">2017</p>
+            <p class="card-title">{{movie.Title}}</p>
+            <p class="card-subtitle mb-2 text-muted">{{movie.Year}}</p>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    props: ['movie']
+};
 </script>
 
 <style scoped>

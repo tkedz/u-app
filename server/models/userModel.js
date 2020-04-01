@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
     unlimited: {
         type: Date
     },
+    region: {
+        type: String,
+        enum: ['warsaw', 'rest'],
+        default: 'rest'
+    },
     discount: {
         type: String,
         enum: ['student', 'regular', 'senior', 'veteran'],

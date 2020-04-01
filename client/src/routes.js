@@ -5,6 +5,7 @@ import ForgotPassword from './components/ForgotPassword.vue';
 import ResetPassword from './components/ResetPassword.vue';
 import UserProfile from './components/UserProfile.vue';
 import Search from './components/Search.vue';
+import MovieDetails from './components/MovieDetails.vue';
 import NotFound from './components/NotFound';
 
 export const routes = [
@@ -15,5 +16,6 @@ export const routes = [
     { path: '/reset-password/:token', component: ResetPassword },
     { path: '/users/:username', component: UserProfile },
     { path: '/search', component: Search },
+    { path: '/movies/:id', component: MovieDetails },
     { path: '*', component: NotFound }
 ];

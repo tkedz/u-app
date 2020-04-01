@@ -3,7 +3,9 @@
         <app-navbar></app-navbar>
         <main>
             <transition name="slide" mode="out-in">
-                <router-view></router-view>
+                <keep-alive include="search">
+                    <router-view></router-view>
+                </keep-alive>
             </transition>
         </main>
     </div>

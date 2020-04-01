@@ -38,7 +38,8 @@ exports.register = async (req, res, next) => {
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
             discount: req.body.discount,
-            unlimited: req.body.unlimited
+            unlimited: req.body.unlimited,
+            region: req.body.region
         });
 
         await newUser.save();

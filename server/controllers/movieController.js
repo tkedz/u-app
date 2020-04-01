@@ -32,8 +32,20 @@ exports.getDetails = async (req, res, next) => {
             return next(new ErrorHandler(400, 'Specify id of a movie'));
 
         const result = await axios.get(
-            `http://www.omdbapi.com/?apikey=${process.env.OMDB_KEY}&i=${req.params.id}`
+            `http://www.omdbapi.com/?apikey=${process.env.OMDB_KEY}&i=${req.params.id}&plot=full`
         );
+
+        //format rotten tomatoes rating
+        result.data.RtRating = 'N/A';
+        for (let i = 0; i < result.data.Ratings.length; i += 1) {
+            if (result.data.Ratings[i].Source === 'Rotten Tomatoes') {
+                result.data.RtRating = result.data.Ratings[1].Value.replace(
+                    '%',
+                    ''
+                );
+                break;
+            }
+        }
 
         if (result.data.Response !== 'True')
             return next(new ErrorHandler(400, 'Movie not found!'));

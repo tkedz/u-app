@@ -41,6 +41,7 @@
 import MovieSearchCard from './MovieSearchCard';
 import axios from 'axios';
 export default {
+    name: 'search',
     data() {
         return {
             searchQuery: {
@@ -69,6 +70,8 @@ export default {
                 this.totalSearchResults = result.data.totalResults;
                 this.searchResults = result.data.data;
             } catch (err) {
+                this.totalSearchResults = 0;
+                this.searchResults = [];
                 alert('Nothing found');
             }
         }

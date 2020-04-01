@@ -1,11 +1,11 @@
 <template>
-    <div class="card">
+    <router-link :to="`/movies/${movie.imdbID}`" tag="div" class="card">
         <img class="card-img-top" :src="movie.Poster" />
         <div class="card-body">
             <p class="card-title">{{movie.Title}}</p>
             <p class="card-subtitle mb-2 text-muted">{{movie.Year}}</p>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -35,12 +35,12 @@ export default {
 }
 
 @media (max-width: 767px) {
-    .card-body .p {
+    .card-body p {
         font-size: 12px;
     }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .card {
         width: 176px;
     }

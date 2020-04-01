@@ -105,6 +105,13 @@
                         >Podaj datę dołączenia do abonamentu</div>
                     </div>
                     <div class="form-group">
+                        <label>Region</label>
+                        <select class="form-control" v-model="form.region">
+                            <option value="rest">poza Warszawą</option>
+                            <option value="warsaw">Warszawa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Zniżka</label>
                         <select class="form-control" v-model="form.discount">
                             <option value="regular">brak</option>
@@ -131,7 +138,8 @@ export default {
                 password: '',
                 passwordConfirm: '',
                 unlimited: null,
-                discount: 'regular'
+                discount: 'regular',
+                region: 'rest'
             },
             errors: {
                 email: false,

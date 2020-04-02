@@ -214,6 +214,7 @@ exports.isLogged = (req, res, next) => {
     res.status(200).json({
         status: 'success',
         user: {
+            id: req.user._id,
             email: req.user.email,
             username: req.user.username,
             discount: req.user.discount,

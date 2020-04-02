@@ -1,6 +1,16 @@
 const axios = require('axios');
 const ErrorHandler = require('../utils/error');
 
+exports.checkIfMovieExists = async id => {
+    const result = await axios.get(
+        `http://www.omdbapi.com/?apikey=${process.env.OMDB_KEY}&i=${id}&plot=full`
+    );
+
+    if (result.data.Response === 'False') return false;
+
+    return true;
+};
+
 exports.findMovies = async (req, res, next) => {
     try {
         if (!req.params.title)

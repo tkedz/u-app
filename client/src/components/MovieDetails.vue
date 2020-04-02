@@ -5,54 +5,57 @@
                 <img :src="movie.Poster" class="poster float-md-right" />
             </div>
             <div class="col-md-8 d-flex flex-column">
-                <h4 class="title">{{movie.Title}}</h4>
-                <h5 class="text-muted">reż. {{movie.Director}}</h5>
-                <p class="lead">{{movie.Plot}}</p>
+                <h4 class="title">{{ movie.Title }}</h4>
+                <h5 class="text-muted">reż. {{ movie.Director }}</h5>
+                <p class="lead">{{ movie.Plot }}</p>
                 <div class="d-flex">
                     <div class="p-2" v-if="movie.imdbRating !== 'N/A'">
                         <img src="@/assets/imdb.jpg" class="logo" />
                         <span
                             class="badge badge-success d-block mt-2 rating"
-                            v-if="movie.imdbRating >=6.5"
-                        >{{movie.imdbRating}}</span>
+                            v-if="movie.imdbRating >= 6.5"
+                        >{{ movie.imdbRating }}</span>
                         <span
                             class="badge badge-warning d-block mt-2 rating"
-                            v-if="movie.imdbRating < 6.5 && movie.imdbRating >=5.0"
-                        >{{movie.imdbRating}}</span>
+                            v-if="
+                                movie.imdbRating < 6.5 &&
+                                    movie.imdbRating >= 5.0
+                            "
+                        >{{ movie.imdbRating }}</span>
                         <span
                             class="badge badge-danger d-block mt-2 rating"
-                            v-if="movie.imdbRating <5.0"
-                        >{{movie.imdbRating}}</span>
+                            v-if="movie.imdbRating < 5.0"
+                        >{{ movie.imdbRating }}</span>
                     </div>
                     <div class="p-2" v-if="movie.RtRating !== 'N/A'">
                         <img src="@/assets/rotten.jpg" class="logo" />
                         <span
                             class="badge badge-success d-block mt-2 rating"
                             v-if="movie.RtRating >= 65"
-                        >{{movie.RtRating}}</span>
+                        >{{ movie.RtRating }}</span>
                         <span
                             class="badge badge-warning d-block mt-2 rating"
                             v-if="movie.RtRating < 65 && movie.RtRating >= 50"
-                        >{{movie.RtRating}}</span>
+                        >{{ movie.RtRating }}</span>
                         <span
                             class="badge badge-danger d-block mt-2 rating"
                             v-if="movie.RtRating < 50"
-                        >{{movie.RtRating}}</span>
+                        >{{ movie.RtRating }}</span>
                     </div>
                     <div class="p-2" v-if="movie.Metascore !== 'N/A'">
                         <img src="@/assets/metacritic.png" class="logo" />
                         <span
                             class="badge badge-success d-block mt-2 rating"
                             v-if="movie.Metascore >= 65"
-                        >{{movie.Metascore}}</span>
+                        >{{ movie.Metascore }}</span>
                         <span
                             class="badge badge-warning d-block mt-2 rating"
                             v-if="movie.Metascore < 65 && movie.Metascore >= 50"
-                        >{{movie.Metascore}}</span>
+                        >{{ movie.Metascore }}</span>
                         <span
                             class="badge badge-danger d-block mt-2 rating"
                             v-if="movie.Metascore < 50"
-                        >{{movie.Metascore}}</span>
+                        >{{ movie.Metascore }}</span>
                     </div>
                 </div>
             </div>
@@ -64,21 +67,21 @@
                 <a
                     class="nav-link"
                     @click="toggle('details')"
-                    :class="{active: active.details}"
+                    :class="{ active: active.details }"
                 >Szczegóły</a>
             </li>
             <li class="nav-item">
                 <a
                     class="nav-link"
                     @click="toggle('cast')"
-                    :class="{active: active.cast}"
+                    :class="{ active: active.cast }"
                 >Obsada / Twórcy</a>
             </li>
             <li class="nav-item" v-if="isLogged">
                 <a
                     class="nav-link"
                     @click="toggle('myRating')"
-                    :class="{active: active.myRating}"
+                    :class="{ active: active.myRating }"
                 >Mój seans</a>
             </li>
         </ul>
@@ -86,61 +89,74 @@
         <div id="details" class="d-flex flex-wrap mt-2" v-if="active.details">
             <div class="px-3">
                 <h5>Data premiery📆</h5>
-                <p class="lead">{{new Date(movie.Released).toLocaleDateString()}}</p>
+                <p class="lead">{{ new Date(movie.Released).toLocaleDateString() }}</p>
             </div>
             <div class="px-3">
                 <h5>Czas trwania⏳</h5>
-                <p class="lead">{{movie.Runtime}}</p>
+                <p class="lead">{{ movie.Runtime }}</p>
             </div>
             <div class="px-3">
                 <h5>Gatunek🎥</h5>
-                <p class="lead">{{movie.Genre}}</p>
+                <p class="lead">{{ movie.Genre }}</p>
             </div>
             <div class="px-3">
                 <h5>Kategoria wiekowa❌</h5>
-                <p class="lead">{{movie.Rated}}</p>
+                <p class="lead">{{ movie.Rated }}</p>
             </div>
             <div class="px-3">
                 <h5>Język💬</h5>
-                <p class="lead">{{movie.Language}}</p>
+                <p class="lead">{{ movie.Language }}</p>
             </div>
             <div class="px-3">
                 <h5>Kraj🌎</h5>
-                <p class="lead">{{movie.Country}}</p>
+                <p class="lead">{{ movie.Country }}</p>
             </div>
             <div class="px-3">
                 <h5>Nagrody🏆</h5>
-                <p class="lead">{{movie.Awards}}</p>
+                <p class="lead">{{ movie.Awards }}</p>
             </div>
         </div>
 
         <div id="cast" class="d-flex flex-column mt-2" v-if="active.cast">
             <div class="px-3">
                 <h5>Reżyseria🎬</h5>
-                <p class="lead">{{movie.Director}}</p>
+                <p class="lead">{{ movie.Director }}</p>
             </div>
             <div class="px-3">
                 <h5>Scenariusz📝</h5>
-                <p class="lead">{{movie.Writer}}</p>
+                <p class="lead">{{ movie.Writer }}</p>
             </div>
             <div class="px-3">
                 <h5>Aktorzy🎭</h5>
-                <p class="lead">{{movie.Actors}}</p>
+                <p class="lead">{{ movie.Actors }}</p>
             </div>
             <div class="px-3">
                 <h5>Produkcja🌆</h5>
-                <p class="lead">{{movie.Production}}</p>
+                <p class="lead">{{ movie.Production }}</p>
             </div>
         </div>
 
         <div id="myRating" class="mt-2" v-if="isLogged && active.myRating">
-            <form>
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Twoja opinia" />
+            <!-- <form>
+                <star-rating
+                    v-model="form.rating"
+                    :max-rating="10"
+                    :star-size="70"
+                    active-color="#ffc107"
+                    :border-color="'#000'"
+                    :glow="1"
+                ></star-rating>
+                <div class="form-group mt-2">
+                    <textarea
+                        type="text"
+                        class="form-control"
+                        placeholder="Twoja opinia"
+                        v-model="form.review"
+                    />
                 </div>
                 <div class="form-group">
-                    <select class="form-control">
-                        <option value="2d" selected>2D</option>
+                    <select class="form-control" v-model="form.screen">
+                        <option value="2d">2D</option>
                         <option value="3d">3D</option>
                         <option value="imax2d">IMAX 2D</option>
                         <option value="imax3d">IMAX 3D</option>
@@ -150,8 +166,9 @@
                         <option value="vip3d">VIP 3D</option>
                     </select>
                 </div>
-                <button class="btn btn-primary">Zapisz</button>
-            </form>
+                <button class="btn btn-primary" @click="postRating">Zapisz</button>
+            </form>-->
+            <rating-form :movie="movie" :userId="user.id"></rating-form>
         </div>
     </div>
 </template>
@@ -159,6 +176,8 @@
 <script>
 import axios from 'axios';
 import { getters } from '../store';
+import RatingForm from '../components/RatingForm';
+// import StarRating from 'vue-star-rating';
 export default {
     data() {
         return {
@@ -168,6 +187,11 @@ export default {
                 cast: false,
                 myRating: false
             }
+            // form: {
+            //     rating: 0,
+            //     review: '',
+            //     screen: '2d'
+            // }
         };
     },
     computed: {
@@ -187,16 +211,44 @@ export default {
                 );
 
                 this.movie = result.data.data;
-                console.log(this.movie);
+                //console.log(this.movie);
             } catch (err) {
                 //TODO redirect to 404
                 alert('Movie not found');
             }
         }
+        // async postRating() {
+        //     const jwt = localStorage.getItem('jwt');
+        //     try {
+        //         await axios.post(
+        //             `http://localhost:3000/api/ratings`,
+        //             {
+        //                 rating: this.form.rating,
+        //                 review: this.form.review,
+        //                 screen: this.form.screen,
+        //                 date: new Date(),
+        //                 movieId: this.movie.imdbID,
+        //                 movieTitle: this.movie.Title,
+        //                 moviePoster: this.movie.Poster
+        //             },
+        //             {
+        //                 headers: { Authorization: `Bearer ${jwt}` }
+        //             }
+        //         );
+        //     } catch (err) {
+        //         alert('Coś poszło nie tak, spróbuj ponownie później');
+        //     }
+        // }
     },
     async created() {
         await this.getMovieDetails();
+    },
+    components: {
+        RatingForm
     }
+    // components: {
+    //     StarRating
+    // }
 };
 </script>
 

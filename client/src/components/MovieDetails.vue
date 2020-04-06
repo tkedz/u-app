@@ -137,37 +137,6 @@
         </div>
 
         <div id="myRating" class="mt-2" v-if="isLogged && active.myRating">
-            <!-- <form>
-                <star-rating
-                    v-model="form.rating"
-                    :max-rating="10"
-                    :star-size="70"
-                    active-color="#ffc107"
-                    :border-color="'#000'"
-                    :glow="1"
-                ></star-rating>
-                <div class="form-group mt-2">
-                    <textarea
-                        type="text"
-                        class="form-control"
-                        placeholder="Twoja opinia"
-                        v-model="form.review"
-                    />
-                </div>
-                <div class="form-group">
-                    <select class="form-control" v-model="form.screen">
-                        <option value="2d">2D</option>
-                        <option value="3d">3D</option>
-                        <option value="imax2d">IMAX 2D</option>
-                        <option value="imax3d">IMAX 3D</option>
-                        <option value="4dx2d">4DX 2D</option>
-                        <option value="4dx3d">4DX 3D</option>
-                        <option value="vip2d">VIP 2D</option>
-                        <option value="vip3d">VIP 3D</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" @click="postRating">Zapisz</button>
-            </form>-->
             <rating-form :movie="movie" :userId="user.id"></rating-form>
         </div>
     </div>
@@ -187,11 +156,6 @@ export default {
                 cast: false,
                 myRating: false
             }
-            // form: {
-            //     rating: 0,
-            //     review: '',
-            //     screen: '2d'
-            // }
         };
     },
     computed: {
@@ -217,28 +181,6 @@ export default {
                 alert('Movie not found');
             }
         }
-        // async postRating() {
-        //     const jwt = localStorage.getItem('jwt');
-        //     try {
-        //         await axios.post(
-        //             `http://localhost:3000/api/ratings`,
-        //             {
-        //                 rating: this.form.rating,
-        //                 review: this.form.review,
-        //                 screen: this.form.screen,
-        //                 date: new Date(),
-        //                 movieId: this.movie.imdbID,
-        //                 movieTitle: this.movie.Title,
-        //                 moviePoster: this.movie.Poster
-        //             },
-        //             {
-        //                 headers: { Authorization: `Bearer ${jwt}` }
-        //             }
-        //         );
-        //     } catch (err) {
-        //         alert('Coś poszło nie tak, spróbuj ponownie później');
-        //     }
-        // }
     },
     async created() {
         await this.getMovieDetails();
@@ -246,9 +188,6 @@ export default {
     components: {
         RatingForm
     }
-    // components: {
-    //     StarRating
-    // }
 };
 </script>
 

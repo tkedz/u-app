@@ -66,7 +66,6 @@ export default {
                     `http://localhost:3000/api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=1`
                 );
 
-                console.log(result);
                 this.totalSearchResults = result.data.totalResults;
                 this.searchResults = result.data.data;
             } catch (err) {

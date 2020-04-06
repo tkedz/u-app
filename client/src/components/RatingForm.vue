@@ -1,23 +1,18 @@
 <template>
-    <form v-if="isDataFetched">
+    <form v-if="isDataFetched" class="mb-3">
         <div class="form-group">
             <star-rating
                 v-model="rating"
                 :max-rating="10"
-                :star-size="70"
-                active-color="#ffc107"
+                :star-size="40"
+                active-color="#ff8800"
                 :border-color="'#000'"
                 :glow="1"
             ></star-rating>
             <div v-if="error" class="text-danger mt-1">Ocena jest wymagana</div>
         </div>
         <div class="form-group">
-            <textarea
-                type="text"
-                class="form-control"
-                placeholder="Twoja opinia"
-                v-model="review"
-            />
+            <textarea type="text" class="form-control" placeholder="Twoja opinia" v-model="review" />
         </div>
         <div class="form-group">
             <select class="form-control" v-model="screen">
@@ -35,16 +30,8 @@
             <label>Data obejrzenia</label>
             <datepicker v-model="date"></datepicker>
         </div>
-        <button class="btn btn-primary" @click.prevent="postRating">
-            Zapisz
-        </button>
-        <button
-            class="btn btn-danger"
-            @click.prevent="deleteRating"
-            v-if="isRated"
-        >
-            Usuń
-        </button>
+        <button class="btn btn-primary" @click.prevent="postRating">Zapisz</button>
+        <button class="btn btn-danger" @click.prevent="deleteRating" v-if="isRated">Usuń</button>
     </form>
 </template>
 
@@ -101,6 +88,13 @@ export default {
                 );
 
                 this.isRated = true;
+
+                //emit event in user profile to update ratings array
+                this.$emit('updated', {
+                    rating: this.rating,
+                    review: this.review,
+                    date: this.date
+                });
             } catch (err) {
                 console.log(err);
                 alert('Coś poszło nie tak, spróbuj ponownie później');
@@ -118,11 +112,11 @@ export default {
                 this.screen = rating.screen;
                 this.date = rating.date;
                 this.isRated = true;
-                this.isDataFetched = true;
             } catch (err) {
                 //user didnt rate the movie yet
                 this.clearForm();
             }
+            this.isDataFetched = true;
         },
         async deleteRating() {
             const jwt = localStorage.getItem('jwt');
@@ -133,6 +127,9 @@ export default {
                 }
             );
             this.clearForm();
+
+            //emit event in user profile to update ratings array
+            this.$emit('deleted');
         }
     },
     async created() {

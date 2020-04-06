@@ -16,6 +16,17 @@ exports.getRating = async (req, res, next) => {
     res.status(200).json({ status: 'success', rating });
 };
 
+exports.getAllUserRatings = async (req, res, next) => {
+    const { userId } = req.params;
+
+    const ratings = await Rating.find({ user: userId });
+
+    if (!ratings)
+        return next(new ErrorHandler(404, 'User didnt rate any movie'));
+
+    res.status(200).json({ status: 'success', ratings });
+};
+
 exports.deleteRating = async (req, res, next) => {
     const { movieId } = req.params;
 

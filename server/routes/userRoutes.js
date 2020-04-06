@@ -16,6 +16,7 @@ router.patch(
 );
 router.get('/get-me', authController.checkToken, userController.isLogged);
 router.get('/:username', userController.getUserProfile);
+router.get('/:userId/ratings', ratingController.getAllUserRatings);
 router.get('/:userId/ratings/:movieId', ratingController.getRating);
 
 module.exports = router;

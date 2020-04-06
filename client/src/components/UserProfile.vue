@@ -12,7 +12,7 @@
                                 <h1 class="display-4">@{{profileOwner.username}}</h1>
                             </div>
                             <div class="d-flex flex-row align-items-center mt-2">
-                                <div class="btn btn-danger flex-fill mr-1">
+                                <div class="btn btn-danger flex-fill mr-1" @click="displayRatings">
                                     <ion-icon name="videocam" size="large"></ion-icon>
                                     <span class="d-none d-sm-block">Filmy</span>
                                 </div>
@@ -34,7 +34,13 @@
                 </div>
             </div>
         </div>
-        <app-user-settings :user="user" v-if="myProfile && isLogged"></app-user-settings>
+        <app-user-ratings
+            :user="profileOwner"
+            :myProfile="myProfile"
+            v-if="showRatings"
+            :key="profileOwner.id"
+        ></app-user-ratings>
+        <app-user-settings :user="user" v-if="showSettings"></app-user-settings>
     </div>
 </template>
 
@@ -42,13 +48,15 @@
 import axios from 'axios';
 import { getters, actions } from '../store';
 import UserSettings from './UserSettings';
+import UserRatings from './UserRatings';
 export default {
     data() {
         return {
             profileOwner: {},
             myProfile: false,
             isDataFetched: false,
-            showSettings: true
+            showSettings: false,
+            showRatings: true
         };
     },
     computed: {
@@ -82,6 +90,11 @@ export default {
         },
         displaySettings() {
             this.showSettings = true;
+            this.showRatings = false;
+        },
+        displayRatings() {
+            this.showSettings = false;
+            this.showRatings = true;
         }
     },
     async created() {
@@ -94,7 +107,8 @@ export default {
         await this.getUser();
     },
     components: {
-        AppUserSettings: UserSettings
+        AppUserSettings: UserSettings,
+        AppUserRatings: UserRatings
     }
 };
 </script>

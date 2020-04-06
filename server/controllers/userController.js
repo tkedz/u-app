@@ -232,6 +232,10 @@ exports.getUserProfile = async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        user: { username: user.username, unlimited: user.unlimited }
+        user: {
+            username: user.username,
+            unlimited: user.unlimited,
+            id: user._id
+        }
     });
 };

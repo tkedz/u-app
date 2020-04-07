@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Rating = require('../models/ratingModel');
 const ErrorHandler = require('../utils/error');
 const errorController = require('../controllers/errorController');
@@ -19,7 +20,34 @@ exports.getRating = async (req, res, next) => {
 exports.getAllUserRatings = async (req, res, next) => {
     const { userId } = req.params;
 
-    const ratings = await Rating.find({ user: userId });
+    //sort order
+    let { order } = req.query;
+    order = parseInt(order, 10);
+    if (order !== 1 && order !== -1) order = 1;
+
+    //from - to dates
+    let { from, to } = req.query;
+    if (from === 'null') from = new Date(0);
+    else from = new Date(from);
+    if (to === 'null') to = new Date();
+    else to = new Date(to);
+
+    const ratings = await Rating.aggregate([
+        {
+            $match: {
+                user: new mongoose.Types.ObjectId(userId),
+                date: {
+                    $gte: from,
+                    $lte: to
+                }
+            }
+        },
+        {
+            $sort: {
+                [req.query.sort]: order
+            }
+        }
+    ]);
 
     if (!ratings)
         return next(new ErrorHandler(404, 'User didnt rate any movie'));

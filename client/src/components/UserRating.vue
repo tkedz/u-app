@@ -71,6 +71,9 @@ export default {
         //create Date obj from rating.date
         this.rating.date = new Date(this.rating.date);
     },
+    beforeUpdate() {
+        this.rating.date = new Date(this.rating.date);
+    },
     components: {
         RatingForm
     }

@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
         enum: ['student', 'regular', 'senior', 'veteran'],
         default: 'regular'
     },
+    photo: {
+        type: String,
+        default: 'default.png'
+    },
     passwordResetToken: String,
     passwordResetTokenExpiration: Date
 });

@@ -4,29 +4,53 @@
             <div class="container">
                 <div class="row no-gutters">
                     <div class="col-md-5 d-flex justify-content-center">
-                        <img src="@/assets/logo.png" />
+                        <img
+                            :src="
+                                `http://localhost:3000/img/${profileOwner.photo}`
+                            "
+                        />
                     </div>
                     <div class="col-md-7">
                         <div class="d-flex flex-column align-items-stretch">
                             <div>
-                                <h1 class="display-4">@{{profileOwner.username}}</h1>
+                                <h1 class="display-4">
+                                    @{{ profileOwner.username }}
+                                </h1>
                             </div>
-                            <div class="d-flex flex-row align-items-center mt-2">
-                                <div class="btn btn-danger flex-fill mr-1" @click="displayRatings">
-                                    <ion-icon name="videocam" size="large"></ion-icon>
+                            <div
+                                class="d-flex flex-row align-items-center mt-2"
+                            >
+                                <div
+                                    class="btn btn-danger flex-fill mr-1"
+                                    @click="displayRatings"
+                                >
+                                    <ion-icon
+                                        name="videocam"
+                                        size="large"
+                                    ></ion-icon>
                                     <span class="d-none d-sm-block">Filmy</span>
                                 </div>
                                 <div class="btn btn-success flex-fill mr-1">
-                                    <ion-icon name="stats-chart" size="large"></ion-icon>
-                                    <span class="d-none d-sm-block">Statystyki</span>
+                                    <ion-icon
+                                        name="stats-chart"
+                                        size="large"
+                                    ></ion-icon>
+                                    <span class="d-none d-sm-block"
+                                        >Statystyki</span
+                                    >
                                 </div>
                                 <div
                                     class="btn btn-primary flex-fill mr-1"
                                     v-if="myProfile && isLogged"
                                     @click="displaySettings"
                                 >
-                                    <ion-icon name="settings" size="large"></ion-icon>
-                                    <span class="d-none d-sm-block">Ustawienia</span>
+                                    <ion-icon
+                                        name="settings"
+                                        size="large"
+                                    ></ion-icon>
+                                    <span class="d-none d-sm-block"
+                                        >Ustawienia</span
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -40,7 +64,11 @@
             v-if="showRatings"
             :key="profileOwner.id"
         ></app-user-ratings>
-        <app-user-settings :user="user" v-if="showSettings"></app-user-settings>
+        <app-user-settings
+            :user="user"
+            v-if="showSettings"
+            @photoChanged="onPhotoChanged"
+        ></app-user-settings>
     </div>
 </template>
 
@@ -83,6 +111,7 @@ export default {
                     this.profileOwner = this.user;
                 }
                 this.isDataFetched = true;
+                console.log(this.profileOwner);
             } catch (err) {
                 console.log(err);
                 //this.$router.push('/404');
@@ -95,6 +124,9 @@ export default {
         displayRatings() {
             this.showSettings = false;
             this.showRatings = true;
+        },
+        onPhotoChanged(photo) {
+            this.profileOwner.photo = photo;
         }
     },
     async created() {
@@ -113,5 +145,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

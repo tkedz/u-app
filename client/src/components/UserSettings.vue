@@ -8,18 +8,24 @@
                         <input
                             type="password"
                             class="form-control"
-                            :class="{ 'is-invalid': errors.passwordForm.newPassword }"
+                            :class="{
+                                'is-invalid': errors.passwordForm.newPassword
+                            }"
                             v-model="passwordForm.newPassword"
                             @keyup="validateNewPassword"
                         />
                         <div
                             v-if="errors.passwordForm.newPassword"
                             class="invalid-feedback"
-                        >Hasło musi mieć minimum 8 znaków</div>
+                        >
+                            Hasło musi mieć minimum 8 znaków
+                        </div>
                         <div
                             v-if="errors.passwordForm.newPasswordComparision"
                             class="invalid-feedback"
-                        >Hasła się nie zgadzają</div>
+                        >
+                            Hasła się nie zgadzają
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Powtórz hasło</label>
@@ -27,37 +33,51 @@
                             type="password"
                             class="form-control"
                             :class="{
-                                    'is-invalid':
-                                        errors.passwordForm.newPasswordConfirm ||
-                                        errors.passwordForm.newPasswordComparision
-                                    }"
+                                'is-invalid':
+                                    errors.passwordForm.newPasswordConfirm ||
+                                    errors.passwordForm.newPasswordComparision
+                            }"
                             v-model="passwordForm.newPasswordConfirm"
                             @keyup="validateNewPassword"
                         />
                         <div
                             v-if="errors.passwordForm.newPasswordConfirm"
                             class="invalid-feedback"
-                        >Powtórz hasło</div>
+                        >
+                            Powtórz hasło
+                        </div>
                         <div
                             v-if="errors.passwordForm.newPasswordComparision"
                             class="invalid-feedback"
-                        >Hasła się nie zgadzają</div>
+                        >
+                            Hasła się nie zgadzają
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Obecne hasło</label>
                         <input
                             type="password"
                             class="form-control"
-                            :class="{'is-invalid':errors.passwordForm.currentPassword}"
+                            :class="{
+                                'is-invalid':
+                                    errors.passwordForm.currentPassword
+                            }"
                             v-model="passwordForm.currentPassword"
                             @keyup="validateNewPassword"
                         />
                         <div
                             v-if="errors.passwordForm.currentPassword"
                             class="invalid-feedback"
-                        >Podaj obecne hasło</div>
+                        >
+                            Podaj obecne hasło
+                        </div>
                     </div>
-                    <button class="btn btn-primary" @click.prevent="changePassword">Zmień hasło</button>
+                    <button
+                        class="btn btn-primary"
+                        @click.prevent="changePassword"
+                    >
+                        Zmień hasło
+                    </button>
                 </form>
                 <hr />
                 <form>
@@ -66,58 +86,109 @@
                         <input
                             type="text"
                             class="form-control"
-                            :class="{'is-invalid': errors.emailForm.email || errors.emailForm.emailTaken}"
+                            :class="{
+                                'is-invalid':
+                                    errors.emailForm.email ||
+                                    errors.emailForm.emailTaken
+                            }"
                             v-model="emailForm.email"
                             @keyup="validateEmail"
                         />
                         <div
                             v-if="errors.emailForm.email"
                             class="invalid-feedback"
-                        >Email nieprawidłowy</div>
+                        >
+                            Email nieprawidłowy
+                        </div>
                         <div
                             v-if="errors.emailForm.emailTaken"
                             class="invalid-feedback"
-                        >Podany email jest zajęty</div>
+                        >
+                            Podany email jest zajęty
+                        </div>
                     </div>
                     <div class="form-group col-12">
                         <label>Hasło</label>
                         <input
                             type="password"
                             class="form-control"
-                            :class="{'is-invalid': errors.emailForm.password}"
+                            :class="{ 'is-invalid': errors.emailForm.password }"
                             v-model="emailForm.password"
                             @keyup="validateEmail"
                         />
-                        <div v-if="errors.emailForm.password" class="invalid-feedback">Podaj hasło</div>
+                        <div
+                            v-if="errors.emailForm.password"
+                            class="invalid-feedback"
+                        >
+                            Podaj hasło
+                        </div>
                     </div>
-                    <button class="btn btn-primary" @click.prevent="changeEmail">Zmień email</button>
+                    <button
+                        class="btn btn-primary"
+                        @click.prevent="changeEmail"
+                    >
+                        Zmień email
+                    </button>
                 </form>
                 <hr />
                 <form>
                     <div class="form-group">
-                        <label>Abonent od {{user.unlimited.toLocaleDateString()}}</label>
+                        <input
+                            id="fileInput"
+                            class="form-control"
+                            :class="{ 'is-invalid': errors.file }"
+                            type="file"
+                            @change="onFileSelected"
+                            accept="image/*"
+                        />
+                        <div class="invalid-feedback" v-if="errors.file">
+                            Wybierz zdjęcie
+                        </div>
+                    </div>
+                    <button
+                        class="btn btn-primary"
+                        @click.prevent="changeUserPhoto"
+                    >
+                        Zmień zdjęcie
+                    </button>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <label
+                            >Abonent od
+                            {{ user.unlimited.toLocaleDateString() }}</label
+                        >
                         <input
                             type="date"
                             class="form-control"
                             :class="{ 'is-invalid': errors.unlimited }"
                             v-model="unlimitedForm.unlimited"
-                            @click="errors.unlimited=false"
+                            @click="errors.unlimited = false"
                         />
-                        <div
-                            v-if="errors.unlimited"
-                            class="invalid-feedback"
-                        >Podaj datę dołączenia do abonamentu</div>
+                        <div v-if="errors.unlimited" class="invalid-feedback">
+                            Podaj datę dołączenia do abonamentu
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Zniżka</label>
-                        <select class="form-control" v-model="unlimitedForm.discount">
+                        <select
+                            class="form-control"
+                            v-model="unlimitedForm.discount"
+                        >
                             <option value="regular">brak</option>
-                            <option value="student">studencka / uczniowska</option>
+                            <option value="student"
+                                >studencka / uczniowska</option
+                            >
                             <option value="senior">seniora</option>
                             <option value="veteran">weterana</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary btn-block" @click.prevent="changeUnlimited">Zmień</button>
+                    <button
+                        class="btn btn-primary btn-block"
+                        @click.prevent="changeUnlimited"
+                    >
+                        Zmień
+                    </button>
                 </form>
             </div>
         </div>
@@ -155,8 +226,10 @@ export default {
                     emailTaken: false,
                     password: false
                 },
-                unlimited: false
-            }
+                unlimited: false,
+                file: false
+            },
+            file: null
         };
     },
     methods: {
@@ -317,6 +390,33 @@ export default {
                     alert('Dane o abonamencie zmienione');
                 } catch (err) {
                     alert('Uwierzytelnianie nieudane');
+                }
+            }
+        },
+        onFileSelected(event) {
+            this.errors.file = false;
+            this.file = event.target.files[0];
+        },
+        async changeUserPhoto() {
+            if (this.file) {
+                const fd = new FormData();
+                fd.append('photo', this.file, this.file.name);
+                try {
+                    const jwt = localStorage.getItem('jwt');
+                    const result = await axios.patch(
+                        `http://localhost:3000/api/users/update-photo`,
+                        fd,
+                        {
+                            headers: { Authorization: `Bearer ${jwt}` }
+                        }
+                    );
+
+                    alert('Zdjecie zmienione');
+                    document.getElementById('fileInput').value = null;
+                    this.file = null;
+                    this.$emit('photoChanged', result.data.photo);
+                } catch (err) {
+                    this.errors.file = true;
                 }
             }
         }

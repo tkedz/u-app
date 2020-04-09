@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const multer = require('multer');
 const User = require('../models/userModel');
 const ErrorHandler = require('../utils/error');
 const errorController = require('./errorController');
@@ -137,12 +138,53 @@ exports.resetPassword = async (req, res, next) => {
     }
 };
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/img/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.mimetype)) {
+        return cb(new ErrorHandler(400, 'Upload only photos'), false);
+    }
+    cb(null, true);
+};
+
+const upload = multer({
+    storage,
+    fileFilter
+});
+
+exports.savePhoto = upload.single('photo');
+
+exports.uploadUserPhoto = async (req, res, next) => {
+    console.log(req.file);
+    await User.findByIdAndUpdate(
+        req.user.id,
+        { photo: req.file.filename },
+        { useFindAndModify: false }
+    );
+    res.status(200).json({
+        status: 'success',
+        message: 'user photo edited',
+        photo: req.file.filename
+    });
+};
+
 exports.updateProfile = async (req, res, next) => {
     //user is already here in req.user
     const { user } = req;
 
-    //if user changes unlimited data there is no need to confirm it with password
-    if (req.body.whatsChanged !== 'unlimited') {
+    //if user changes unlimited data or photo there is no need to confirm it with password
+    if (
+        req.body.whatsChanged !== 'unlimited' &&
+        req.body.whatsChanged !== 'photo'
+    ) {
         if (!req.body.password)
             return next(
                 new ErrorHandler(
@@ -218,7 +260,8 @@ exports.isLogged = (req, res, next) => {
             email: req.user.email,
             username: req.user.username,
             discount: req.user.discount,
-            unlimited: req.user.unlimited
+            unlimited: req.user.unlimited,
+            photo: req.user.photo
         },
         isLogged: true
     });
@@ -235,7 +278,8 @@ exports.getUserProfile = async (req, res, next) => {
         user: {
             username: user.username,
             unlimited: user.unlimited,
-            id: user._id
+            id: user._id,
+            photo: user.photo
         }
     });
 };

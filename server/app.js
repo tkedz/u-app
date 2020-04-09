@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const userRouter = require('./routes/userRoutes');
@@ -12,6 +13,8 @@ app.use(mongoSanitize());
 app.use('/api/users', userRouter);
 app.use('/api/movies', movieRouter);
 app.use('/api/ratings', ratingRouter);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((err, req, res, next) => {
     // eslint-disable-next-line no-console

@@ -14,6 +14,12 @@ router.patch(
     authController.checkToken,
     userController.updateProfile
 );
+router.patch(
+    '/update-photo',
+    authController.checkToken,
+    userController.savePhoto,
+    userController.uploadUserPhoto
+);
 router.get('/get-me', authController.checkToken, userController.isLogged);
 router.get('/:username', userController.getUserProfile);
 router.get('/:userId/ratings', ratingController.getAllUserRatings);

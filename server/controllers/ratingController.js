@@ -17,7 +17,7 @@ exports.getRating = async (req, res, next) => {
     res.status(200).json({ status: 'success', rating });
 };
 
-exports.getAllUserRatings = async (req, res, next) => {
+exports.getUserRatings = async (req, res, next) => {
     const { userId } = req.params;
 
     //sort order
@@ -27,9 +27,9 @@ exports.getAllUserRatings = async (req, res, next) => {
 
     //from - to dates
     let { from, to } = req.query;
-    if (from === 'null') from = new Date(0);
+    if (!from || from === 'null') from = new Date(0);
     else from = new Date(from);
-    if (to === 'null') to = new Date();
+    if (!to || to === 'null') to = new Date();
     else to = new Date(to);
 
     const ratings = await Rating.aggregate([
@@ -52,7 +52,15 @@ exports.getAllUserRatings = async (req, res, next) => {
     if (!ratings)
         return next(new ErrorHandler(404, 'User didnt rate any movie'));
 
-    res.status(200).json({ status: 'success', ratings });
+    console.log(ratings);
+
+    req.ratings = ratings;
+    next();
+};
+
+exports.sendRatingsToClient = (req, res, next) => {
+    //console.log(req.ratings);
+    res.status(200).json({ status: 'success', ratings: req.ratings });
 };
 
 exports.deleteRating = async (req, res, next) => {
@@ -72,6 +80,15 @@ exports.saveRating = async (req, res, next) => {
 
     if (!req.body.movieId || !req.body.movieTitle || !req.body.moviePoster)
         return next(new ErrorHandler(400, 'Provide movie id/title/poster'));
+
+    if (
+        !req.body.movieGenre ||
+        !req.body.movieCountry ||
+        !req.body.movieDirector
+    )
+        return next(
+            new ErrorHandler(400, 'Provide movie genre/country/director')
+        );
 
     const rating = req.body;
     rating.user = req.user._id;

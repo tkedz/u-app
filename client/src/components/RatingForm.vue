@@ -71,6 +71,7 @@ export default {
 
             const jwt = localStorage.getItem('jwt');
             try {
+                console.log(this.date, new Date(this.movie.Released));
                 await axios.post(
                     `http://localhost:3000/api/ratings`,
                     {
@@ -78,9 +79,20 @@ export default {
                         review: this.review,
                         screen: this.screen,
                         date: this.date ? this.date : new Date(),
+                        preRelease: this.date <= new Date(this.movie.Released),
                         movieId: this.movie.imdbID,
                         movieTitle: this.movie.Title,
-                        moviePoster: this.movie.Poster
+                        movieReleased: this.movie.Released,
+                        movieDirector: this.movie.Director,
+                        moviePoster: this.movie.Poster,
+                        movieGenre:
+                            typeof this.movie.Genre === 'string'
+                                ? this.movie.Genre.split(',')
+                                : this.movie.Genre,
+                        movieCountry:
+                            typeof this.movie.Country === 'string'
+                                ? this.movie.Country.split(',')
+                                : this.movie.Country
                     },
                     {
                         headers: { Authorization: `Bearer ${jwt}` }

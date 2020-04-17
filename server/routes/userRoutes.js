@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const ratingController = require('../controllers/ratingController');
+const statsController = require('../controllers/statsController');
 
 const router = express.Router();
 
@@ -22,7 +23,16 @@ router.patch(
 );
 router.get('/get-me', authController.checkToken, userController.isLogged);
 router.get('/:username', userController.getUserProfile);
-router.get('/:userId/ratings', ratingController.getAllUserRatings);
+router.get(
+    '/:userId/ratings',
+    ratingController.getUserRatings,
+    ratingController.sendRatingsToClient
+);
 router.get('/:userId/ratings/:movieId', ratingController.getRating);
+router.get(
+    '/:userId/stats',
+    ratingController.getUserRatings,
+    statsController.calcUserStats
+);
 
 module.exports = router;

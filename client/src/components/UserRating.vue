@@ -54,7 +54,11 @@ export default {
             return {
                 imdbID: this.rating.movieId,
                 Title: this.rating.movieTitle,
-                Poster: this.rating.moviePoster
+                Director: this.rating.movieDirector,
+                Poster: this.rating.moviePoster,
+                Genre: this.rating.movieGenre,
+                Country: this.rating.movieCountry,
+                Released: this.rating.movieReleased
             };
         }
     },

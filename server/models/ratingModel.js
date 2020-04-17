@@ -27,6 +27,10 @@ const ratingSchema = new mongoose.Schema({
         type: Date,
         required: [true, 'Date is required']
     },
+    preRelease: {
+        type: Boolean,
+        required: [true, 'Specify if movie was watched before premiere']
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
@@ -40,8 +44,23 @@ const ratingSchema = new mongoose.Schema({
         type: String,
         require: [true, 'Provide movie title']
     },
+    movieReleased: {
+        type: Date
+    },
+    movieDirector: {
+        type: String,
+        require: [true, 'Provide movie director']
+    },
     moviePoster: {
         type: String
+    },
+    movieGenre: {
+        type: Array,
+        require: [true, 'Provide movie genre']
+    },
+    movieCountry: {
+        type: Array,
+        require: [true, 'Provide movie country']
     }
 });
 

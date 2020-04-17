@@ -1,0 +1,345 @@
+{
+    "prices": [
+        {
+            "from": 0,
+            "to": "05 Mar 2020",
+            "2d": {
+                "rest": {
+                    "week": {
+                        "regular": 26,
+                        "student": 21,
+                        "senior": 22,
+                        "veteran": 22
+                    },
+                    "wednesday": {
+                        "regular": 16,
+                        "student": 16,
+                        "senior": 16,
+                        "veteran": 16
+                    },
+                    "weekend": {
+                        "regular": 29,
+                        "student": 22,
+                        "senior": 23,
+                        "veteran": 23
+                    }
+                }
+            },
+            "3d": {
+                "rest": {
+                    "week": {
+                        "regular": 30,
+                        "student": 24,
+                        "senior": 25,
+                        "veteran": 25
+                    },
+                    "wednesday": {
+                        "regular": 19,
+                        "student": 19,
+                        "senior": 19,
+                        "veteran": 19
+                    },
+                    "weekend": {
+                        "regular": 32,
+                        "student": 26,
+                        "senior": 27,
+                        "veteran": 27
+                    }
+                }
+            },
+            "imax2d": {
+                "rest": {
+                    "week": {
+                        "regular": 28,
+                        "student": 23,
+                        "senior": 24,
+                        "veteran": 24
+                    },
+                    "weekend": {
+                        "regular": 31,
+                        "student": 24,
+                        "senior": 25,
+                        "veteran": 25
+                    }
+                }
+            },
+            "imax3d": {
+                "rest": {
+                    "week": {
+                        "regular": 32,
+                        "student": 26,
+                        "senior": 27,
+                        "veteran": 27
+                    },
+                    "weekend": {
+                        "regular": 34,
+                        "student": 28,
+                        "senior": 29,
+                        "veteran": 29
+                    }
+                }
+            },
+            "4dx2d": {
+                "rest": {
+                    "week": {
+                        "regular": 36,
+                        "student": 31,
+                        "senior": 32,
+                        "veteran": 32
+                    },
+                    "weekend": {
+                        "regular": 39,
+                        "student": 39,
+                        "senior": 39,
+                        "veteran": 39
+                    }
+                }
+            },
+            "4dx3d": {
+                "rest": {
+                    "week": {
+                        "regular": 40,
+                        "student": 34,
+                        "senior": 35,
+                        "veteran": 35
+                    },
+                    "weekend": {
+                        "regular": 42,
+                        "student": 42,
+                        "senior": 42,
+                        "veteran": 42
+                    }
+                }
+            },
+            "vip3d": {
+                "rest": {
+                    "week": {
+                        "regular": 84,
+                        "student": 84,
+                        "senior": 84,
+                        "veteran": 84
+                    },
+                    "wednesday": {
+                        "regular": 68,
+                        "student": 68,
+                        "senior": 68,
+                        "veteran": 68
+                    },
+                    "weekend": {
+                        "regular": 88,
+                        "student": 88,
+                        "senior": 88,
+                        "veteran": 88
+                    }
+                }
+            },
+            "vip2d": {
+                "rest": {
+                    "week": {
+                        "regular": 80,
+                        "student": 80,
+                        "senior": 80,
+                        "veteran": 80
+                    },
+                    "wednesday": {
+                        "regular": 65,
+                        "student": 65,
+                        "senior": 65,
+                        "veteran": 65
+                    },
+                    "weekend": {
+                        "regular": 85,
+                        "student": 85,
+                        "senior": 85,
+                        "veteran": 85
+                    }
+                }
+            }
+        },
+        {
+            "from": 0,
+            "to": "05 Mar 2020",
+            "2d": {
+                "rest": {
+                    "week": {
+                        "regular": 15,
+                        "student": 15,
+                        "senior": 15,
+                        "veteran": 15
+                    },
+                    "wednesday": {
+                        "regular": 15,
+                        "student": 15,
+                        "senior": 15,
+                        "veteran": 15
+                    },
+                    "weekend": {
+                        "regular": 15,
+                        "student": 15,
+                        "senior": 15,
+                        "veteran": 15
+                    }
+                }
+            },
+            "3d": {
+                "rest": {
+                    "week": {
+                        "regular": 17,
+                        "student": 17,
+                        "senior": 17,
+                        "veteran": 17
+                    },
+                    "wednesday": {
+                        "regular": 17,
+                        "student": 17,
+                        "senior": 17,
+                        "veteran": 17
+                    },
+                    "weekend": {
+                        "regular": 17,
+                        "student": 17,
+                        "senior": 17,
+                        "veteran": 17
+                    }
+                }
+            },
+            "imax2d": {
+                "rest": {
+                    "week": {
+                        "regular": 18,
+                        "student": 18,
+                        "senior": 18,
+                        "veteran": 18
+                    },
+                    "weekend": {
+                        "regular": 18,
+                        "student": 18,
+                        "senior": 18,
+                        "veteran": 18
+                    }
+                }
+            },
+            "imax3d": {
+                "rest": {
+                    "week": {
+                        "regular": 20,
+                        "student": 20,
+                        "senior": 20,
+                        "veteran": 20
+                    },
+                    "weekend": {
+                        "regular": 20,
+                        "student": 20,
+                        "senior": 20,
+                        "veteran": 20
+                    }
+                }
+            },
+            "4dx2d": {
+                "rest": {
+                    "week": {
+                        "regular": 29,
+                        "student": 29,
+                        "senior": 29,
+                        "veteran": 29
+                    },
+                    "weekend": {
+                        "regular": 29,
+                        "student": 29,
+                        "senior": 29,
+                        "veteran": 29
+                    }
+                }
+            },
+            "4dx3d": {
+                "rest": {
+                    "week": {
+                        "regular": 31,
+                        "student": 31,
+                        "senior": 31,
+                        "veteran": 31
+                    },
+                    "weekend": {
+                        "regular": 31,
+                        "student": 31,
+                        "senior": 31,
+                        "veteran": 31
+                    }
+                }
+            },
+            "vip3d": {
+                "rest": {
+                    "week": {
+                        "regular": 42,
+                        "student": 42,
+                        "senior": 42,
+                        "veteran": 42
+                    },
+                    "wednesday": {
+                        "regular": 42,
+                        "student": 42,
+                        "senior": 42,
+                        "veteran": 42
+                    },
+                    "weekend": {
+                        "regular": 42,
+                        "student": 42,
+                        "senior": 42,
+                        "veteran": 42
+                    }
+                }
+            },
+            "vip2d": {
+                "rest": {
+                    "week": {
+                        "regular": 38,
+                        "student": 38,
+                        "senior": 38,
+                        "veteran": 38
+                    },
+                    "wednesday": {
+                        "regular": 38,
+                        "student": 38,
+                        "senior": 38,
+                        "veteran": 38
+                    },
+                    "weekend": {
+                        "regular": 38,
+                        "student": 38,
+                        "senior": 38,
+                        "veteran": 38
+                    }
+                }
+            }
+        }
+    ],
+    "unlimited": [
+        {
+            "from": 0,
+            "to": "05 Mar 2020",
+            "warsaw": 57,
+            "rest": 48,
+            "2d": 0,
+            "3d": 2,
+            "imax2d": 2,
+            "imax3d": 4,
+            "4dx2d": 13,
+            "4dx3d": 15,
+            "vip2d": 22,
+            "vip3d": 24
+        },
+        {
+            "from": "06 Mar 2020",
+            "warsaw": 38,
+            "rest": 33,
+            "2d": 0,
+            "3d": 2,
+            "imax2d": 3,
+            "imax3d": 5,
+            "4dx2d": 14,
+            "4dx3d": 16,
+            "vip2d": 23,
+            "vip3d": 25
+        }
+    ]
+}

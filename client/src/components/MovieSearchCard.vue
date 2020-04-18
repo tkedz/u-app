@@ -38,9 +38,7 @@ export default {
     .card-body p {
         font-size: 12px;
     }
-}
 
-@media (min-width: 768px) {
     .card {
         width: 176px;
     }

@@ -1,7 +1,9 @@
+/* eslint-disable */
 const mongoose = require('mongoose');
 const Rating = require('../models/ratingModel');
 const ErrorHandler = require('../utils/error');
 const prices = require('../utils/prices');
+const { getUserProfile } = require('./userController');
 
 exports.calcUserStats = async (req, res, next) => {
     const { userId } = req.params;
@@ -14,7 +16,7 @@ exports.calcUserStats = async (req, res, next) => {
     else to = new Date(to);
 
     //calculate some stats using mongodb aggregation pipeline
-    const stats = await Rating.aggregate([
+    let stats = await Rating.aggregate([
         {
             $match: {
                 user: new mongoose.Types.ObjectId(userId),
@@ -88,9 +90,57 @@ exports.calcUserStats = async (req, res, next) => {
 
     if (!stats) return next(new ErrorHandler(404, 'User didnt rate any movie'));
 
-    //previous middleware provide us plain, non-aggregated user ratings in req.rating
+    stats = stats[0];
+
+    //previous middleware provide us plain, non-aggregated user ratings in req.ratings
     //it is used to calculate stats that could not be calculated by mongodb aggregation pipeline
-    console.log(prices);
+    const user = await getUserProfile(req);
+
+    //calculate amount of money user spent on unlimited subscription
+    const currentDate = new Date(to);
+    const currentDay = parseInt(currentDate.toDateString().split(' ')[2], 10);
+
+    let unlimitedDate;
+    from = new Date(2017, 11, 12);
+    if (from.getTime() < user.unlimited.getTime()) {
+        unlimitedDate = user.unlimited;
+    } else {
+        unlimitedDate = new Date(from);
+    }
+
+    const unlimitedDay = parseInt(
+        user.unlimited.toDateString().split(' ')[2],
+        10
+    );
+
+    let months = (currentDate.getFullYear() - unlimitedDate.getFullYear()) * 12 + (currentDate.getMonth() - unlimitedDate.getMonth()) + 1;
+ 
+    if (currentDay < unlimitedDay) months -= 1;
+
+    stats.subscription = 0;
+    //console.log(prices.unlimited.length, prices.unlimited[0].from);
+    const loop = new Date(unlimitedDate);
+    for (let i = 0; i < months; i += 1) {
+        console.log('PETLA: ' + months);
+        for (let j = 0; j < prices.unlimited.length; j += 1) {
+            if (
+                (prices.unlimited[j].to &&
+                    loop.getTime() >=
+                        new Date(prices.unlimited[j].from).getTime() &&
+                    loop.getTime() <=
+                        new Date(prices.unlimited[j].to).getTime()) ||
+                (!prices.unlimited[j].to &&
+                    loop.getTime() >=
+                        new Date(prices.unlimited[j].from).getTime())
+            ) {
+                console.log('MIESIAC: ' + loop.getMonth());
+                console.log('CENA: ' + prices.unlimited[j][user.region]);
+                stats.subscription += prices.unlimited[j][user.region];
+                loop.setMonth(loop.getMonth() + 1);
+                break;
+            }
+        }
+    }
 
     res.status(200).json({ status: 'success', stats });
 };

@@ -267,19 +267,50 @@ exports.isLogged = (req, res, next) => {
     });
 };
 
-exports.getUserProfile = async (req, res, next) => {
-    const { username } = req.params;
+// exports.getUserProfile = async (req, res, next) => {
+//     const { username } = req.params;
 
-    const user = await User.findOne({ username });
+//     const user = await User.findOne({ username });
+//     if (!user) return next(new ErrorHandler(404, 'User does not exist'));
+
+//     res.status(200).json({
+//         status: 'success',
+//         user: {
+//             username: user.username,
+//             unlimited: user.unlimited,
+//             id: user._id,
+//             photo: user.photo
+//         }
+//     });
+// };
+
+const getUserProfile = async req => {
+    const { username, userId } = req.params;
+    const query = username ? { username: username } : { _id: userId };
+    console.log(username, userId, query);
+
+    const user = await User.findOne(query);
+    console.log(user);
+
+    if (!user) return null;
+
+    return {
+        id: user._id,
+        username: user.username,
+        unlimited: user.unlimited,
+        region: user.region,
+        discount: user.discount,
+        photo: user.photo
+    };
+};
+
+exports.getUserProfile = getUserProfile;
+
+exports.sendUserProfile = async (req, res, next) => {
+    const user = await getUserProfile(req);
+    console.log(user);
+
     if (!user) return next(new ErrorHandler(404, 'User does not exist'));
 
-    res.status(200).json({
-        status: 'success',
-        user: {
-            username: user.username,
-            unlimited: user.unlimited,
-            id: user._id,
-            photo: user.photo
-        }
-    });
+    res.status(200).json({ status: 'success', user });
 };

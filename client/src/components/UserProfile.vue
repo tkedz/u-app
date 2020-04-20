@@ -13,44 +13,24 @@
                     <div class="col-md-7">
                         <div class="d-flex flex-column align-items-stretch">
                             <div>
-                                <h1 class="display-4">
-                                    @{{ profileOwner.username }}
-                                </h1>
+                                <h1 class="display-4">@{{ profileOwner.username }}</h1>
                             </div>
-                            <div
-                                class="d-flex flex-row align-items-center mt-2"
-                            >
-                                <div
-                                    class="btn btn-danger flex-fill mr-1"
-                                    @click="displayRatings"
-                                >
-                                    <ion-icon
-                                        name="videocam"
-                                        size="large"
-                                    ></ion-icon>
+                            <div class="d-flex flex-row align-items-center mt-2">
+                                <div class="btn btn-danger flex-fill mr-1" @click="displayRatings">
+                                    <ion-icon name="videocam" size="large"></ion-icon>
                                     <span class="d-none d-sm-block">Filmy</span>
                                 </div>
-                                <div class="btn btn-success flex-fill mr-1">
-                                    <ion-icon
-                                        name="stats-chart"
-                                        size="large"
-                                    ></ion-icon>
-                                    <span class="d-none d-sm-block"
-                                        >Statystyki</span
-                                    >
+                                <div class="btn btn-success flex-fill mr-1" @click="displayStats">
+                                    <ion-icon name="stats-chart" size="large"></ion-icon>
+                                    <span class="d-none d-sm-block">Statystyki</span>
                                 </div>
                                 <div
                                     class="btn btn-primary flex-fill mr-1"
                                     v-if="myProfile && isLogged"
                                     @click="displaySettings"
                                 >
-                                    <ion-icon
-                                        name="settings"
-                                        size="large"
-                                    ></ion-icon>
-                                    <span class="d-none d-sm-block"
-                                        >Ustawienia</span
-                                    >
+                                    <ion-icon name="settings" size="large"></ion-icon>
+                                    <span class="d-none d-sm-block">Ustawienia</span>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +44,8 @@
             v-if="showRatings"
             :key="profileOwner.id"
         ></app-user-ratings>
-        <app-user-settings
-            :user="user"
-            v-if="showSettings"
-            @photoChanged="onPhotoChanged"
-        ></app-user-settings>
+        <app-user-settings :user="user" v-if="showSettings" @photoChanged="onPhotoChanged"></app-user-settings>
+        <app-user-stats :user="profileOwner" v-if="showStats"></app-user-stats>
     </div>
 </template>
 
@@ -77,6 +54,7 @@ import axios from 'axios';
 import { getters, actions } from '../store';
 import UserSettings from './UserSettings';
 import UserRatings from './UserRatings';
+import UserStats from './UserStats';
 export default {
     data() {
         return {
@@ -84,7 +62,8 @@ export default {
             myProfile: false,
             isDataFetched: false,
             showSettings: false,
-            showRatings: true
+            showRatings: true,
+            showStats: false
         };
     },
     computed: {
@@ -118,12 +97,19 @@ export default {
             }
         },
         displaySettings() {
-            this.showSettings = true;
+            this.showStats = false;
             this.showRatings = false;
+            this.showSettings = true;
         },
         displayRatings() {
+            this.showStats = false;
             this.showSettings = false;
             this.showRatings = true;
+        },
+        displayStats() {
+            this.showSettings = false;
+            this.showRatings = false;
+            this.showStats = true;
         },
         onPhotoChanged(photo) {
             this.profileOwner.photo = photo;
@@ -140,7 +126,8 @@ export default {
     },
     components: {
         AppUserSettings: UserSettings,
-        AppUserRatings: UserRatings
+        AppUserRatings: UserRatings,
+        AppUserStats: UserStats
     }
 };
 </script>

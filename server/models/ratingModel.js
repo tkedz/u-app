@@ -54,6 +54,9 @@ const ratingSchema = new mongoose.Schema({
     moviePoster: {
         type: String
     },
+    movieRuntime: {
+        type: Number
+    },
     movieGenre: {
         type: Array,
         require: [true, 'Provide movie genre']

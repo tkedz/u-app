@@ -85,13 +85,17 @@ export default {
                         movieReleased: this.movie.Released,
                         movieDirector: this.movie.Director,
                         moviePoster: this.movie.Poster,
+                        movieRuntime:
+                            typeof this.movie.Runtime === 'string'
+                                ? parseInt(this.movie.Runtime.split(' ')[0], 10)
+                                : this.movie.Runtime,
                         movieGenre:
                             typeof this.movie.Genre === 'string'
-                                ? this.movie.Genre.split(',')
+                                ? this.movie.Genre.split(', ')
                                 : this.movie.Genre,
                         movieCountry:
                             typeof this.movie.Country === 'string'
-                                ? this.movie.Country.split(',')
+                                ? this.movie.Country.split(', ')
                                 : this.movie.Country
                     },
                     {

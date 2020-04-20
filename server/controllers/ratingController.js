@@ -49,10 +49,9 @@ exports.getUserRatings = async (req, res, next) => {
         }
     ]);
 
-    if (!ratings)
+    //console.log(ratings);
+    if (ratings.length === 0)
         return next(new ErrorHandler(404, 'User didnt rate any movie'));
-
-    console.log(ratings);
 
     req.ratings = ratings;
     next();

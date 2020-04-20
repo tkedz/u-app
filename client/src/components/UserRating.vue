@@ -57,6 +57,7 @@ export default {
                 Director: this.rating.movieDirector,
                 Poster: this.rating.moviePoster,
                 Genre: this.rating.movieGenre,
+                Runtime: this.rating.Runtime,
                 Country: this.rating.movieCountry,
                 Released: this.rating.movieReleased
             };

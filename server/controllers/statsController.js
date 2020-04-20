@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Rating = require('../models/ratingModel');
 const ErrorHandler = require('../utils/error');
-const prices = require('../utils/prices');
+const priceList = require('../utils/prices');
 const { getUserProfile } = require('./userController');
 
 exports.calcUserStats = async (req, res, next) => {
@@ -65,6 +65,10 @@ exports.calcUserStats = async (req, res, next) => {
                 avgRating: [
                     { $group: { _id: null, avgRating: { $avg: '$rating' } } },
                     { $project: { _id: 0 } }
+                ],
+                "timeCount": [
+                    { $group: { _id: null, timeCount: { $sum: "$movieRuntime" } } },
+                    { $project: { _id: 0 } }
                 ]
             }
         },
@@ -81,9 +85,16 @@ exports.calcUserStats = async (req, res, next) => {
             }
         },
         {
+            $unwind: {
+                path: "$timeCount",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
             $addFields: {
                 avgRating: '$avgRating.avgRating',
-                preReleases: '$preReleases.count'
+                preReleases: '$preReleases.count',
+                timeCount: "$timeCount.timeCount"
             }
         }
     ]);
@@ -101,7 +112,7 @@ exports.calcUserStats = async (req, res, next) => {
     const currentDay = parseInt(currentDate.toDateString().split(' ')[2], 10);
 
     let unlimitedDate;
-    from = new Date(2017, 11, 12);
+    //from = new Date(2017, 11, 12);
     if (from.getTime() < user.unlimited.getTime()) {
         unlimitedDate = user.unlimited;
     } else {
@@ -114,33 +125,78 @@ exports.calcUserStats = async (req, res, next) => {
     );
 
     let months = (currentDate.getFullYear() - unlimitedDate.getFullYear()) * 12 + (currentDate.getMonth() - unlimitedDate.getMonth()) + 1;
- 
     if (currentDay < unlimitedDay) months -= 1;
 
+    //calc money spent on subscription
     stats.subscription = 0;
-    //console.log(prices.unlimited.length, prices.unlimited[0].from);
     const loop = new Date(unlimitedDate);
     for (let i = 0; i < months; i += 1) {
-        console.log('PETLA: ' + months);
-        for (let j = 0; j < prices.unlimited.length; j += 1) {
+        //console.log('PETLA: ' + months);
+        for (let j = 0; j < priceList.unlimited.length; j += 1) {
             if (
-                (prices.unlimited[j].to &&
-                    loop.getTime() >=
-                        new Date(prices.unlimited[j].from).getTime() &&
+                (priceList.unlimited[j].to && loop.getTime() >=
+                        new Date(priceList.unlimited[j].from).getTime() &&
                     loop.getTime() <=
-                        new Date(prices.unlimited[j].to).getTime()) ||
-                (!prices.unlimited[j].to &&
+                        new Date(priceList.unlimited[j].to).getTime()) ||
+                (!priceList.unlimited[j].to &&
                     loop.getTime() >=
-                        new Date(prices.unlimited[j].from).getTime())
+                        new Date(priceList.unlimited[j].from).getTime())
             ) {
-                console.log('MIESIAC: ' + loop.getMonth());
-                console.log('CENA: ' + prices.unlimited[j][user.region]);
-                stats.subscription += prices.unlimited[j][user.region];
+               // console.log('MIESIAC: ' + loop.getMonth());
+                //console.log('CENA: ' + priceList.unlimited[j][user.region]);
+                stats.subscription += priceList.unlimited[j][user.region];
                 loop.setMonth(loop.getMonth() + 1);
                 break;
             }
         }
     }
+
+    //calc money that the user would spend without a subscription
+    stats.moneyWoSubscription = 0;
+    req.ratings.forEach(el => {
+        if(el.date.getTime() >= unlimitedDate) {
+            
+            let validPrices, validUnlimited
+
+            for (let j = 0; j < priceList.prices.length; j += 1) {
+                if (
+                    (priceList.prices[j].to && el.date.getTime() >=
+                            new Date(priceList.prices[j].from).getTime() &&
+                        el.date.getTime() <=
+                            new Date(priceList.prices[j].to).getTime()) ||
+                    (!priceList.prices[j].to &&
+                        el.date.getTime() >=
+                            new Date(priceList.prices[j].from).getTime())
+                ) {
+                    validPrices = priceList.prices[j];
+                    break;
+                }
+            }
+
+            for (let j = 0; j < priceList.unlimited.length; j += 1) {
+                if (
+                    (priceList.unlimited[j].to && el.date.getTime() >=
+                            new Date(priceList.unlimited[j].from).getTime() &&
+                        el.date.getTime() <=
+                            new Date(priceList.unlimited[j].to).getTime()) ||
+                    (!priceList.unlimited[j].to &&
+                        el.date.getTime() >=
+                            new Date(priceList.unlimited[j].from).getTime())
+                ) {
+                    validUnlimited = priceList.unlimited[j];
+                    break;
+                }
+            }
+
+            let week = 'week';
+            if([0, 6].includes(el.date.getDay())) week = 'weekend';
+            else if([3].includes(el.date.getDay())) week = 'wednesday';
+            
+            stats.moneyWoSubscription += validPrices[el.screen][user.region][week][user.discount];
+
+            stats.subscription += validUnlimited[el.screen];
+        }
+    });
 
     res.status(200).json({ status: 'success', stats });
 };

@@ -287,10 +287,10 @@ exports.isLogged = (req, res, next) => {
 const getUserProfile = async req => {
     const { username, userId } = req.params;
     const query = username ? { username: username } : { _id: userId };
-    console.log(username, userId, query);
+    //console.log(username, userId, query);
 
     const user = await User.findOne(query);
-    console.log(user);
+    //console.log(user);
 
     if (!user) return null;
 

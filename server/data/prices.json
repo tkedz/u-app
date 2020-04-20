@@ -55,6 +55,12 @@
                         "senior": 24,
                         "veteran": 24
                     },
+                    "wednesday": {
+                        "regular": 28,
+                        "student": 23,
+                        "senior": 24,
+                        "veteran": 24
+                    },
                     "weekend": {
                         "regular": 31,
                         "student": 24,
@@ -66,6 +72,12 @@
             "imax3d": {
                 "rest": {
                     "week": {
+                        "regular": 32,
+                        "student": 26,
+                        "senior": 27,
+                        "veteran": 27
+                    },
+                    "wednesday": {
                         "regular": 32,
                         "student": 26,
                         "senior": 27,
@@ -87,6 +99,12 @@
                         "senior": 32,
                         "veteran": 32
                     },
+                    "wednesday": {
+                        "regular": 36,
+                        "student": 31,
+                        "senior": 32,
+                        "veteran": 32
+                    },
                     "weekend": {
                         "regular": 39,
                         "student": 39,
@@ -98,6 +116,12 @@
             "4dx3d": {
                 "rest": {
                     "week": {
+                        "regular": 40,
+                        "student": 34,
+                        "senior": 35,
+                        "veteran": 35
+                    },
+                    "wednesday": {
                         "regular": 40,
                         "student": 34,
                         "senior": 35,
@@ -157,8 +181,7 @@
             }
         },
         {
-            "from": 0,
-            "to": "05 Mar 2020",
+            "from": "06 Mar 2020",
             "2d": {
                 "rest": {
                     "week": {
@@ -211,6 +234,12 @@
                         "senior": 18,
                         "veteran": 18
                     },
+                    "wednesday": {
+                        "regular": 18,
+                        "student": 18,
+                        "senior": 18,
+                        "veteran": 18
+                    },
                     "weekend": {
                         "regular": 18,
                         "student": 18,
@@ -222,6 +251,12 @@
             "imax3d": {
                 "rest": {
                     "week": {
+                        "regular": 20,
+                        "student": 20,
+                        "senior": 20,
+                        "veteran": 20
+                    },
+                    "wednesday": {
                         "regular": 20,
                         "student": 20,
                         "senior": 20,
@@ -243,6 +278,12 @@
                         "senior": 29,
                         "veteran": 29
                     },
+                    "wednesday": {
+                        "regular": 29,
+                        "student": 29,
+                        "senior": 29,
+                        "veteran": 29
+                    },
                     "weekend": {
                         "regular": 29,
                         "student": 29,
@@ -254,6 +295,12 @@
             "4dx3d": {
                 "rest": {
                     "week": {
+                        "regular": 31,
+                        "student": 31,
+                        "senior": 31,
+                        "veteran": 31
+                    },
+                    "wednesday": {
                         "regular": 31,
                         "student": 31,
                         "senior": 31,

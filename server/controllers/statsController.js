@@ -5,15 +5,28 @@ const ErrorHandler = require('../utils/error');
 const priceList = require('../utils/prices');
 const { getUserProfile } = require('./userController');
 
+const formatStats = (array, objInit) => {
+    //mongoDB aggregation return array of objects, but chartkick in frontend needs associative array
+    let associativeArr = objInit;
+    const keys = Object.keys(array[0]);
+
+    array.forEach(el => {
+        associativeArr[el[keys[1]]] = el[keys[0]];
+    });
+    return associativeArr;
+}
+
 exports.calcUserStats = async (req, res, next) => {
     const { userId } = req.params;
 
     //from - to dates
-    let { from, to } = req.query;
-    if (!from || from === 'null') from = new Date(0);
-    else from = new Date(from);
-    if (!to || to === 'null') to = new Date();
-    else to = new Date(to);
+     const { from, to } = req;
+    // if (!from || from === 'null') from = new Date(0);
+    // else from = new Date(from);
+    // if (!to || to === 'null') to = new Date();
+    // else to = new Date(to);
+
+    //console.log(req.from, req.to);
 
     //calculate some stats using mongodb aggregation pipeline
     let stats = await Rating.aggregate([
@@ -99,9 +112,11 @@ exports.calcUserStats = async (req, res, next) => {
         }
     ]);
 
+    //console.log(stats);
     if (!stats) return next(new ErrorHandler(404, 'User didnt rate any movie'));
 
     stats = stats[0];
+    if(!stats.preReleases) stats.preReleases = 0;
 
     //previous middleware provide us plain, non-aggregated user ratings in req.ratings
     //it is used to calculate stats that could not be calculated by mongodb aggregation pipeline
@@ -198,5 +213,14 @@ exports.calcUserStats = async (req, res, next) => {
         }
     });
 
+    stats.moviesWatched = req.ratings.length;
+
+    //format data
+    stats.genres = formatStats(stats.genres, {});
+    stats.countries = formatStats(stats.countries, {});
+    stats.directors = formatStats(stats.directors, {});
+    stats.screens = formatStats(stats.screens, {"2d": 0, "3d": 0, "imax2d": 0, "imax3d": 0, "4dx2d": 0, "4dx3d": 0, "vip2d": 0, "vip3d": 0});
+    stats.ratings = formatStats(stats.ratings, { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0 });
+    
     res.status(200).json({ status: 'success', stats });
 };

@@ -28,9 +28,14 @@ exports.getUserRatings = async (req, res, next) => {
     //from - to dates
     let { from, to } = req.query;
     if (!from || from === 'null') from = new Date(0);
-    else from = new Date(from);
+    else from = new Date(parseInt(from, 10));
     if (!to || to === 'null') to = new Date();
-    else to = new Date(to);
+    else to = new Date(parseInt(to, 10));
+
+    req.from = from;
+    req.to = to;
+
+    //console.log(from, to);
 
     const ratings = await Rating.aggregate([
         {

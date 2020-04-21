@@ -60,12 +60,22 @@ export default {
             to: null
         };
     },
+    computed: {
+        fromDate() {
+            if (this.from) return new Date(this.from).getTime();
+            return new Date(0).getTime();
+        },
+        toDate() {
+            if (this.to) return new Date(this.to).getTime();
+            return new Date().getTime();
+        }
+    },
     methods: {
         async getRatings() {
             try {
                 //console.log(this.user);
                 const result = await axios.get(
-                    `http://localhost:3000/api/users/${this.user.id}/ratings?${this.sortQuery}&from=${this.from}&to=${this.to}`
+                    `http://localhost:3000/api/users/${this.user.id}/ratings?${this.sortQuery}&from=${this.fromDate}&to=${this.toDate}`
                 );
                 this.ratings = result.data.ratings;
                 //console.log(this.ratings);

@@ -18,8 +18,9 @@ router.patch(
 router.patch(
     '/update-photo',
     authController.checkToken,
-    userController.savePhoto,
-    userController.uploadUserPhoto
+    userController.uploadUserPhoto,
+    userController.resizeUserPhoto,
+    userController.saveUserPhoto
 );
 router.get('/get-me', authController.checkToken, userController.isLogged);
 router.get(

@@ -8,6 +8,7 @@
                             :src="
                                 `http://localhost:3000/img/${profileOwner.photo}`
                             "
+                            class="rounded-circle"
                         />
                     </div>
                     <div class="col-md-7">

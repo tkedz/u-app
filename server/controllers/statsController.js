@@ -13,6 +13,17 @@ const formatStats = (array, objInit) => {
     array.forEach(el => {
         associativeArr[el[keys[1]]] = el[keys[0]];
     });
+
+    if(associativeArr.hasOwnProperty('USA')) {
+        associativeArr['United States'] = associativeArr['USA'];
+        delete associativeArr['USA']
+    }
+
+    if(associativeArr.hasOwnProperty('UK')) {
+        associativeArr['United Kingdom'] = associativeArr['UK'];
+        delete associativeArr['UK']
+    }
+
     return associativeArr;
 }
 
@@ -221,6 +232,7 @@ exports.calcUserStats = async (req, res, next) => {
     stats.directors = formatStats(stats.directors, {});
     stats.screens = formatStats(stats.screens, {"2d": 0, "3d": 0, "imax2d": 0, "imax3d": 0, "4dx2d": 0, "4dx3d": 0, "vip2d": 0, "vip3d": 0});
     stats.ratings = formatStats(stats.ratings, { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0 });
+    stats.countriesCount = Object.keys(stats.countries).length;
     
     res.status(200).json({ status: 'success', stats });
 };

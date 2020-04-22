@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/userModel');
 const ErrorHandler = require('../utils/error');
 const errorController = require('./errorController');
@@ -138,14 +139,16 @@ exports.resetPassword = async (req, res, next) => {
     }
 };
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public/img/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './public/img/');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + file.originalname);
+//     }
+// });
+
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -160,10 +163,27 @@ const upload = multer({
     fileFilter
 });
 
-exports.savePhoto = upload.single('photo');
+exports.uploadUserPhoto = upload.single('photo');
 
-exports.uploadUserPhoto = async (req, res, next) => {
-    console.log(req.file);
+exports.resizeUserPhoto = async (req, res, next) => {
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+    try {
+        await sharp(req.file.buffer)
+            .resize(200, 200)
+            .toFormat('jpeg')
+            .jpeg({ quality: 90 })
+            .toFile(`public/img/${req.file.filename}`);
+    } catch (err) {
+        next(
+            new ErrorHandler(400, 'Something went wrong with processing image')
+        );
+    }
+
+    next();
+};
+
+exports.saveUserPhoto = async (req, res, next) => {
     await User.findByIdAndUpdate(
         req.user.id,
         { photo: req.file.filename },

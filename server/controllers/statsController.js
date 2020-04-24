@@ -31,7 +31,7 @@ exports.calcUserStats = async (req, res, next) => {
     const { userId } = req.params;
 
     //from - to dates
-     const { from, to } = req;
+     const { from, to, profileOwner } = req;
     // if (!from || from === 'null') from = new Date(0);
     // else from = new Date(from);
     // if (!to || to === 'null') to = new Date();
@@ -129,100 +129,102 @@ exports.calcUserStats = async (req, res, next) => {
     stats = stats[0];
     if(!stats.preReleases) stats.preReleases = 0;
 
-    //previous middleware provide us plain, non-aggregated user ratings in req.ratings
-    //it is used to calculate stats that could not be calculated by mongodb aggregation pipeline
-    const user = await getUserProfile(req);
-
-    //calculate amount of money user spent on unlimited subscription
-    const currentDate = new Date(to);
-    const currentDay = parseInt(currentDate.toDateString().split(' ')[2], 10);
-
-    let unlimitedDate;
-    //from = new Date(2017, 11, 12);
-    if (from.getTime() < user.unlimited.getTime()) {
-        unlimitedDate = user.unlimited;
-    } else {
-        unlimitedDate = new Date(from);
-    }
-
-    const unlimitedDay = parseInt(
-        user.unlimited.toDateString().split(' ')[2],
-        10
-    );
-
-    let months = (currentDate.getFullYear() - unlimitedDate.getFullYear()) * 12 + (currentDate.getMonth() - unlimitedDate.getMonth()) + 1;
-    if (currentDay < unlimitedDay) months -= 1;
-
-    //calc money spent on subscription
-    stats.subscription = 0;
-    const loop = new Date(unlimitedDate);
-    for (let i = 0; i < months; i += 1) {
-        //console.log('PETLA: ' + months);
-        for (let j = 0; j < priceList.unlimited.length; j += 1) {
-            if (
-                (priceList.unlimited[j].to && loop.getTime() >=
-                        new Date(priceList.unlimited[j].from).getTime() &&
-                    loop.getTime() <=
-                        new Date(priceList.unlimited[j].to).getTime()) ||
-                (!priceList.unlimited[j].to &&
-                    loop.getTime() >=
-                        new Date(priceList.unlimited[j].from).getTime())
-            ) {
-               // console.log('MIESIAC: ' + loop.getMonth());
-                //console.log('CENA: ' + priceList.unlimited[j][user.region]);
-                stats.subscription += priceList.unlimited[j][user.region];
-                loop.setMonth(loop.getMonth() + 1);
-                break;
-            }
+    if(profileOwner) {
+        //previous middleware provide us plain, non-aggregated user ratings in req.ratings
+        //it is used to calculate stats that could not be calculated by mongodb aggregation pipeline
+        const user = await getUserProfile(req);
+    
+        //calculate amount of money user spent on unlimited subscription
+        const currentDate = new Date(to);
+        const currentDay = parseInt(currentDate.toDateString().split(' ')[2], 10);
+    
+        let unlimitedDate;
+        //from = new Date(2017, 11, 12);
+        if (from.getTime() < user.unlimited.getTime()) {
+            unlimitedDate = user.unlimited;
+        } else {
+            unlimitedDate = new Date(from);
         }
-    }
-
-    //calc money that the user would spend without a subscription
-    stats.moneyWoSubscription = 0;
-    req.ratings.forEach(el => {
-        if(el.date.getTime() >= unlimitedDate) {
-            
-            let validPrices, validUnlimited
-
-            for (let j = 0; j < priceList.prices.length; j += 1) {
-                if (
-                    (priceList.prices[j].to && el.date.getTime() >=
-                            new Date(priceList.prices[j].from).getTime() &&
-                        el.date.getTime() <=
-                            new Date(priceList.prices[j].to).getTime()) ||
-                    (!priceList.prices[j].to &&
-                        el.date.getTime() >=
-                            new Date(priceList.prices[j].from).getTime())
-                ) {
-                    validPrices = priceList.prices[j];
-                    break;
-                }
-            }
-
+    
+        const unlimitedDay = parseInt(
+            user.unlimited.toDateString().split(' ')[2],
+            10
+        );
+    
+        let months = (currentDate.getFullYear() - unlimitedDate.getFullYear()) * 12 + (currentDate.getMonth() - unlimitedDate.getMonth()) + 1;
+        if (currentDay < unlimitedDay) months -= 1;
+    
+        //calc money spent on subscription
+        stats.subscription = 0;
+        const loop = new Date(unlimitedDate);
+        for (let i = 0; i < months; i += 1) {
+            //console.log('PETLA: ' + months);
             for (let j = 0; j < priceList.unlimited.length; j += 1) {
                 if (
-                    (priceList.unlimited[j].to && el.date.getTime() >=
+                    (priceList.unlimited[j].to && loop.getTime() >=
                             new Date(priceList.unlimited[j].from).getTime() &&
-                        el.date.getTime() <=
+                        loop.getTime() <=
                             new Date(priceList.unlimited[j].to).getTime()) ||
                     (!priceList.unlimited[j].to &&
-                        el.date.getTime() >=
+                        loop.getTime() >=
                             new Date(priceList.unlimited[j].from).getTime())
                 ) {
-                    validUnlimited = priceList.unlimited[j];
+                   // console.log('MIESIAC: ' + loop.getMonth());
+                    //console.log('CENA: ' + priceList.unlimited[j][user.region]);
+                    stats.subscription += priceList.unlimited[j][user.region];
+                    loop.setMonth(loop.getMonth() + 1);
                     break;
                 }
             }
-
-            let week = 'week';
-            if([0, 6].includes(el.date.getDay())) week = 'weekend';
-            else if([3].includes(el.date.getDay())) week = 'wednesday';
-            
-            stats.moneyWoSubscription += validPrices[el.screen][user.region][week][user.discount];
-
-            stats.subscription += validUnlimited[el.screen];
         }
-    });
+    
+        //calc money that the user would spend without a subscription
+        stats.moneyWoSubscription = 0;
+        req.ratings.forEach(el => {
+            if(el.date.getTime() >= unlimitedDate) {
+                
+                let validPrices, validUnlimited
+    
+                for (let j = 0; j < priceList.prices.length; j += 1) {
+                    if (
+                        (priceList.prices[j].to && el.date.getTime() >=
+                                new Date(priceList.prices[j].from).getTime() &&
+                            el.date.getTime() <=
+                                new Date(priceList.prices[j].to).getTime()) ||
+                        (!priceList.prices[j].to &&
+                            el.date.getTime() >=
+                                new Date(priceList.prices[j].from).getTime())
+                    ) {
+                        validPrices = priceList.prices[j];
+                        break;
+                    }
+                }
+    
+                for (let j = 0; j < priceList.unlimited.length; j += 1) {
+                    if (
+                        (priceList.unlimited[j].to && el.date.getTime() >=
+                                new Date(priceList.unlimited[j].from).getTime() &&
+                            el.date.getTime() <=
+                                new Date(priceList.unlimited[j].to).getTime()) ||
+                        (!priceList.unlimited[j].to &&
+                            el.date.getTime() >=
+                                new Date(priceList.unlimited[j].from).getTime())
+                    ) {
+                        validUnlimited = priceList.unlimited[j];
+                        break;
+                    }
+                }
+    
+                let week = 'week';
+                if([0, 6].includes(el.date.getDay())) week = 'weekend';
+                else if([3].includes(el.date.getDay())) week = 'wednesday';
+                
+                stats.moneyWoSubscription += validPrices[el.screen][user.region][week][user.discount];
+    
+                stats.subscription += validUnlimited[el.screen];
+            }
+        });
+    }
 
     stats.moviesWatched = req.ratings.length;
 

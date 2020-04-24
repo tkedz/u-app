@@ -36,6 +36,7 @@ router.get(
 router.get('/:userId/ratings/:movieId', ratingController.getRating);
 router.get(
     '/:userId/stats',
+    authController.isProfileOwner,
     ratingController.getUserRatings,
     statsController.calcUserStats
 );

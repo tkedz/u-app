@@ -31,3 +31,26 @@ exports.checkToken = async (req, res, next) => {
         res.status(403).json({ status: 'error', message: 'Forbidden route' });
     }
 };
+
+exports.isProfileOwner = async (req, res, next) => {
+    const header = req.headers.authorization;
+
+    if (typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        } catch (err) {
+            req.profileOwner = false;
+            next();
+        }
+
+        req.profileOwner = req.params.userId === decoded.id;
+        next();
+    } else {
+        req.profileOwner = false;
+        next();
+    }
+};

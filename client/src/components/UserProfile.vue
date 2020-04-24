@@ -46,7 +46,12 @@
             :key="profileOwner.id"
         ></app-user-ratings>
         <app-user-settings :user="user" v-if="showSettings" @photoChanged="onPhotoChanged"></app-user-settings>
-        <app-user-stats :user="profileOwner" v-if="showStats"></app-user-stats>
+        <app-user-stats
+            :user="profileOwner"
+            :loggedUser="user"
+            v-if="showStats"
+            :key="profileOwner.id"
+        ></app-user-stats>
     </div>
 </template>
 

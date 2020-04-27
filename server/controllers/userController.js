@@ -334,3 +334,17 @@ exports.sendUserProfile = async (req, res, next) => {
 
     res.status(200).json({ status: 'success', user });
 };
+
+exports.searchUsers = async (req, res, next) => {
+    const users = await User.find(
+        {
+            username: { $regex: req.params.username, $options: 'i' }
+        },
+        'username photo'
+    );
+    console.log(users);
+
+    if (users.length === 0) return next(new ErrorHandler(404, 'Nothing found'));
+
+    res.status(200).json({ status: 'success', users });
+};

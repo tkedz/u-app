@@ -64,7 +64,7 @@
 
                     <div class="card text-center bg-primary mb-3" v-if="myProfile">
                         <div class="card-body">
-                            <h5>Pieniądze, które wydane by były bez abonamentu</h5>
+                            <h5>Pieniądze, które wydał/a bez abonamentu</h5>
                             <h4 class="display-4">💸{{ stats.moneyWoSubscription }} zł</h4>
                         </div>
                     </div>

@@ -40,5 +40,6 @@ router.get(
     ratingController.getUserRatings,
     statsController.calcUserStats
 );
+router.get('/search/:username', userController.searchUsers);
 
 module.exports = router;

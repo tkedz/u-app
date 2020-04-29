@@ -50,7 +50,7 @@ export default {
             isDataFetched: false
         };
     },
-    props: ['movie', 'userId'],
+    props: ['movie', 'userId', 'discount'],
     computed: {
         error() {
             if (this.rating >= 1 && this.rating <= 10) return false;
@@ -96,7 +96,8 @@ export default {
                         movieCountry:
                             typeof this.movie.Country === 'string'
                                 ? this.movie.Country.split(', ')
-                                : this.movie.Country
+                                : this.movie.Country,
+                        discount: this.discount
                     },
                     {
                         headers: { Authorization: `Bearer ${jwt}` }

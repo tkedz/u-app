@@ -184,7 +184,8 @@ exports.calcUserStats = async (req, res, next) => {
             if(el.date.getTime() >= unlimitedDate) {
                 
                 let validPrices, validUnlimited
-    
+                
+                //determine price list that applies to current rating
                 for (let j = 0; j < priceList.prices.length; j += 1) {
                     if (
                         (priceList.prices[j].to && el.date.getTime() >=
@@ -199,7 +200,8 @@ exports.calcUserStats = async (req, res, next) => {
                         break;
                     }
                 }
-    
+                
+                //determine extra charge for a ticket
                 for (let j = 0; j < priceList.unlimited.length; j += 1) {
                     if (
                         (priceList.unlimited[j].to && el.date.getTime() >=
@@ -219,7 +221,8 @@ exports.calcUserStats = async (req, res, next) => {
                 if([0, 6].includes(el.date.getDay())) week = 'weekend';
                 else if([3].includes(el.date.getDay())) week = 'wednesday';
                 
-                stats.moneyWoSubscription += validPrices[el.screen][user.region][week][user.discount];
+                //console.log(el);
+                stats.moneyWoSubscription += validPrices[el.screen][user.region][week][el.discount];
     
                 stats.subscription += validUnlimited[el.screen];
             }

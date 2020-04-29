@@ -137,7 +137,7 @@
         </div>
 
         <div id="myRating" class="mt-2" v-if="isLogged && active.myRating">
-            <rating-form :movie="movie" :userId="user.id"></rating-form>
+            <rating-form :movie="movie" :userId="user.id" :discount="user.discount"></rating-form>
         </div>
     </div>
 </template>

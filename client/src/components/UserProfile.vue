@@ -39,12 +39,14 @@
                 </div>
             </div>
         </div>
-        <app-user-ratings
-            :user="profileOwner"
-            :myProfile="myProfile"
-            v-if="showRatings"
-            :key="profileOwner.id"
-        ></app-user-ratings>
+        <keep-alive>
+            <app-user-ratings
+                :user="profileOwner"
+                :myProfile="myProfile"
+                v-if="showRatings"
+                :key="profileOwner.id"
+            ></app-user-ratings>
+        </keep-alive>
         <app-user-settings :user="user" v-if="showSettings" @photoChanged="onPhotoChanged"></app-user-settings>
         <app-user-stats
             :user="profileOwner"

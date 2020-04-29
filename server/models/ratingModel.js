@@ -64,6 +64,12 @@ const ratingSchema = new mongoose.Schema({
     movieCountry: {
         type: Array,
         require: [true, 'Provide movie country']
+    },
+    discount: {
+        type: String,
+        enum: ['student', 'regular', 'senior', 'veteran'],
+        default: 'regular',
+        require: [true, 'Provide type of discount']
     }
 });
 

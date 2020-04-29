@@ -32,6 +32,7 @@
             v-if="edit"
             :movie="movie"
             :userId="user.id"
+            :discount="user.discount"
             @deleted="$emit('deleted', index)"
             @updated="ratingUpdated"
         ></rating-form>

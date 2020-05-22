@@ -151,7 +151,7 @@ exports.resetPassword = async (req, res, next) => {
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const allowedTypes = ['image/jpeg', 'image/gif', 'image/png'];
     if (!allowedTypes.includes(file.mimetype)) {
         return cb(new ErrorHandler(400, 'Upload only photos'), false);
     }
@@ -304,7 +304,7 @@ exports.isLogged = (req, res, next) => {
 //     });
 // };
 
-const getUserProfile = async req => {
+const getUserProfile = async (req, fullData) => {
     const { username, userId } = req.params;
     const query = username ? { username: username } : { _id: userId };
     //console.log(username, userId, query);
@@ -314,12 +314,20 @@ const getUserProfile = async req => {
 
     if (!user) return null;
 
+    if (fullData) {
+        return {
+            id: user._id,
+            username: user.username,
+            unlimited: user.unlimited,
+            region: user.region,
+            discount: user.discount,
+            photo: user.photo
+        };
+    }
+
     return {
         id: user._id,
         username: user.username,
-        unlimited: user.unlimited,
-        region: user.region,
-        discount: user.discount,
         photo: user.photo
     };
 };
@@ -327,7 +335,7 @@ const getUserProfile = async req => {
 exports.getUserProfile = getUserProfile;
 
 exports.sendUserProfile = async (req, res, next) => {
-    const user = await getUserProfile(req);
+    const user = await getUserProfile(req, false);
     console.log(user);
 
     if (!user) return next(new ErrorHandler(404, 'User does not exist'));

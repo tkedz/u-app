@@ -26,8 +26,12 @@ exports.findMovies = async (req, res, next) => {
         if (result.data.Response !== 'True')
             return next(new ErrorHandler(400, 'Nothing found'));
 
+        result.data.Search.forEach(el => {
+            delete el.Type;
+        });
+
         res.status(200).json({
-            status: 'Success',
+            status: 'success',
             data: result.data.Search,
             totalResults: result.data.totalResults
         });
@@ -60,8 +64,10 @@ exports.getDetails = async (req, res, next) => {
         if (result.data.Response !== 'True')
             return next(new ErrorHandler(400, 'Movie not found!'));
 
-        res.status(200).json({ status: 'Success', data: result.data });
+        res.status(200).json({ status: 'success', data: result.data });
     } catch (err) {
-        next(new ErrorHandler(400, err.message));
+        if (process.env.NODE_ENV === 'production')
+            return next(new ErrorHandler(400, 'Movie not found!'));
+        return next(new ErrorHandler(400, err.message));
     }
 };

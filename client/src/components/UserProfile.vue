@@ -88,8 +88,8 @@ export default {
                 const { user } = result.data;
 
                 //format date before assigning to variable
-                const unlimitedDate = new Date(user.unlimited);
-                user.unlimited = unlimitedDate;
+                //const unlimitedDate = new Date(user.unlimited);
+                //user.unlimited = unlimitedDate;
                 this.profileOwner = user;
 
                 //check if profile owner is the same user as user logged in

@@ -37,8 +37,8 @@ exports.calcUserStats = async (req, res, next) => {
     // if (!to || to === 'null') to = new Date();
     // else to = new Date(to);
 
-    //console.log(req.from, req.to);
-
+    //console.log(from, to);
+console.log(req.ratings)
     //calculate some stats using mongodb aggregation pipeline
     let stats = await Rating.aggregate([
         {
@@ -90,7 +90,7 @@ exports.calcUserStats = async (req, res, next) => {
                     { $group: { _id: null, avgRating: { $avg: '$rating' } } },
                     { $project: { _id: 0 } }
                 ],
-                "timeCount": [
+                timeCount: [
                     { $group: { _id: null, timeCount: { $sum: "$movieRuntime" } } },
                     { $project: { _id: 0 } }
                 ]
@@ -132,7 +132,7 @@ exports.calcUserStats = async (req, res, next) => {
     if(profileOwner) {
         //previous middleware provide us plain, non-aggregated user ratings in req.ratings
         //it is used to calculate stats that could not be calculated by mongodb aggregation pipeline
-        const user = await getUserProfile(req);
+        const user = await getUserProfile(req, true);
     
         //calculate amount of money user spent on unlimited subscription
         const currentDate = new Date(to);
@@ -140,6 +140,7 @@ exports.calcUserStats = async (req, res, next) => {
     
         let unlimitedDate;
         //from = new Date(2017, 11, 12);
+        console.log(typeof user.unlimited);
         if (from.getTime() < user.unlimited.getTime()) {
             unlimitedDate = user.unlimited;
         } else {
@@ -236,7 +237,7 @@ exports.calcUserStats = async (req, res, next) => {
     stats.countries = formatStats(stats.countries, {});
     stats.directors = formatStats(stats.directors, {});
     stats.screens = formatStats(stats.screens, {"2d": 0, "3d": 0, "imax2d": 0, "imax3d": 0, "4dx2d": 0, "4dx3d": 0, "vip2d": 0, "vip3d": 0});
-    stats.ratings = formatStats(stats.ratings, { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0 });
+    stats.ratings = formatStats(stats.ratings, { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0 });
     stats.countriesCount = Object.keys(stats.countries).length;
     
     res.status(200).json({ status: 'success', stats });

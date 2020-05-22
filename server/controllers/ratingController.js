@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const mongoose = require('mongoose');
 const Rating = require('../models/ratingModel');
 const ErrorHandler = require('../utils/error');
@@ -21,7 +22,7 @@ exports.getUserRatings = async (req, res, next) => {
     const { userId } = req.params;
 
     //sort order
-    let { order } = req.query;
+    let { order, sort } = req.query;
     order = parseInt(order, 10);
     if (order !== 1 && order !== -1) order = 1;
 
@@ -35,7 +36,9 @@ exports.getUserRatings = async (req, res, next) => {
     req.from = from;
     req.to = to;
 
-    //console.log(from, to);
+    if (sort !== 'date' && sort !== 'rating') sort = 'date';
+
+    console.log(from, to);
 
     const ratings = await Rating.aggregate([
         {
@@ -49,7 +52,7 @@ exports.getUserRatings = async (req, res, next) => {
         },
         {
             $sort: {
-                [req.query.sort]: order
+                [sort]: order
             }
         }
     ]);
@@ -79,20 +82,24 @@ exports.deleteRating = async (req, res, next) => {
 };
 
 exports.saveRating = async (req, res, next) => {
-    if (!req.body.rating || !req.body.screen || !req.body.date)
-        return next(new ErrorHandler(400, 'Provide rating/date/screen type'));
+    // if (!req.body.rating || !req.body.screen || !req.body.date)
+    //     return next(new ErrorHandler(400, 'Provide rating/date/screen type'));
 
-    if (!req.body.movieId || !req.body.movieTitle || !req.body.moviePoster)
-        return next(new ErrorHandler(400, 'Provide movie id/title/poster'));
+    // if (!req.body.movieId || !req.body.movieTitle || !req.body.moviePoster)
+    //     return next(new ErrorHandler(400, 'Provide movie Id/Title/Poster'));
 
-    if (
-        !req.body.movieGenre ||
-        !req.body.movieCountry ||
-        !req.body.movieDirector
-    )
-        return next(
-            new ErrorHandler(400, 'Provide movie genre/country/director')
-        );
+    // if (
+    //     !req.body.movieGenre ||
+    //     !req.body.movieCountry ||
+    //     !req.body.movieDirector
+    // )
+    //     return next(
+    //         new ErrorHandler(400, 'Provide movie Genre/Country/Director')
+    //     );
+
+    // console.log(req.body);
+    // if (!('preRelease' in req.body) || !req.body.discount)
+    //     return next(new ErrorHandler(400, 'Provide preRelease/discount'));
 
     const rating = req.body;
     rating.user = req.user._id;
@@ -103,16 +110,54 @@ exports.saveRating = async (req, res, next) => {
 
     try {
         //create new document or update if it exists (upsert option)
-        await Rating.findOneAndUpdate(
-            { user: rating.user, movieId: rating.movieId },
-            rating,
-            { upsert: true, runValidators: true, useFindAndModify: false }
-        );
+        let resultToSave = await Rating.findOne({
+            user: rating.user,
+            movieId: rating.movieId
+        });
+
+        console.log('rating', rating);
+        if (!resultToSave) resultToSave = new Rating(rating);
+        else {
+            for (const [key, value] of Object.entries(rating)) {
+                resultToSave[key] = value;
+            }
+            console.log('RESULT TO SAVE', resultToSave);
+        }
+
+        await resultToSave.save();
 
         res.status(200).json({
             status: 'success',
             message: 'Rating added/updated'
         });
+    } catch (err) {
+        const appError = errorController.handleMongoError(err);
+        next(appError);
+    }
+};
+
+exports.updateRating = async (req, res, next) => {
+    if (!req.params.movieId)
+        return next(new ErrorHandler(404, 'Provide movie id'));
+
+    const movieExists = await checkIfMovieExists(req.params.movieId);
+    if (!movieExists)
+        return next(new ErrorHandler(404, 'Movie does not exist'));
+
+    const updatedRating = req.body;
+
+    try {
+        const result = await Rating.findOneAndUpdate(
+            { user: req.user._id, movieId: req.params.movieId },
+            updatedRating,
+            { useFindAndModify: false, runValidators: true }
+        );
+
+        //console.log(result);
+        if (!result)
+            return next(new ErrorHandler(404, 'Please rate this movie first'));
+
+        res.status(200).json({ status: 'success', message: 'Rating updated' });
     } catch (err) {
         const appError = errorController.handleMongoError(err);
         next(appError);

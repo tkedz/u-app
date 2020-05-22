@@ -38,38 +38,41 @@ const ratingSchema = new mongoose.Schema({
     },
     movieId: {
         type: String,
-        require: [true, 'Provide movie ID']
+        required: [true, 'Provide movie ID']
     },
     movieTitle: {
         type: String,
-        require: [true, 'Provide movie title']
+        required: [true, 'Provide movie title']
     },
     movieReleased: {
-        type: Date
+        type: Date,
+        required: [true, 'Provide movie release date']
     },
     movieDirector: {
         type: String,
-        require: [true, 'Provide movie director']
+        required: [true, 'Provide movie director']
     },
     moviePoster: {
-        type: String
+        type: String,
+        required: [true, 'Provide movie poster']
     },
     movieRuntime: {
-        type: Number
+        type: Number,
+        required: [true, 'Provide movie runtime']
     },
     movieGenre: {
         type: Array,
-        require: [true, 'Provide movie genre']
+        required: [true, 'Provide movie genre']
     },
     movieCountry: {
         type: Array,
-        require: [true, 'Provide movie country']
+        required: [true, 'Provide movie country']
     },
     discount: {
         type: String,
         enum: ['student', 'regular', 'senior', 'veteran'],
         default: 'regular',
-        require: [true, 'Provide type of discount']
+        required: [true, 'Provide type of discount']
     }
 });
 

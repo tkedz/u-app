@@ -1,7 +1,15 @@
 <template>
-    <div>404 Not Found</div>
+    <div>{{message}}</div>
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            message: '404 Not Found'
+        }
+    }
+};
 </script>
+
+<style></style>

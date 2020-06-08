@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <form>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Nowe hasło</label>
                         <input
                             type="password"
@@ -23,7 +23,7 @@
                             class="invalid-feedback"
                         >Hasła się nie zgadzają</div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Powtórz hasło</label>
                         <input
                             type="password"
@@ -45,7 +45,7 @@
                             class="invalid-feedback"
                         >Hasła się nie zgadzają</div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Obecne hasło</label>
                         <input
                             type="password"
@@ -61,13 +61,16 @@
                             v-if="errors.passwordForm.currentPassword"
                             class="invalid-feedback"
                         >Podaj obecne hasło</div>
+                        <button
+                            class="btn btn-primary mt-3 btn-block"
+                            @click.prevent="changePassword"
+                        >Zmień hasło</button>
                     </div>
-                    <button class="btn btn-primary" @click.prevent="changePassword">Zmień hasło</button>
                 </form>
-                <hr />
+                <hr class="bg-warning col-md-8 offset-md-2" />
                 <form>
-                    <div class="form-group col-12">
-                        <label>Email</label>
+                    <div class="form-group col-md-8 offset-md-2">
+                        <label>Nowy email</label>
                         <input
                             type="text"
                             class="form-control"
@@ -88,7 +91,7 @@
                             class="invalid-feedback"
                         >Podany email jest zajęty</div>
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Hasło</label>
                         <input
                             type="password"
@@ -98,12 +101,16 @@
                             @keyup="validateEmail"
                         />
                         <div v-if="errors.emailForm.password" class="invalid-feedback">Podaj hasło</div>
+                        <button
+                            class="btn btn-primary mt-3 btn-block"
+                            @click.prevent="changeEmail"
+                        >Zmień email</button>
                     </div>
-                    <button class="btn btn-primary" @click.prevent="changeEmail">Zmień email</button>
                 </form>
-                <hr />
+                <hr class="bg-warning col-md-8 offset-md-2" />
                 <form>
-                    <div class="form-group">
+                    <div class="form-group col-md-8 offset-md-2">
+                        <label>Zdjęcie</label>
                         <input
                             id="fileInput"
                             class="form-control"
@@ -113,11 +120,15 @@
                             accept="image/*"
                         />
                         <div class="invalid-feedback" v-if="errors.file">Wybierz zdjęcie</div>
+                        <button
+                            class="btn btn-primary mt-3 btn-block"
+                            @click.prevent="changeUserPhoto"
+                        >Zmień zdjęcie</button>
                     </div>
-                    <button class="btn btn-primary" @click.prevent="changeUserPhoto">Zmień zdjęcie</button>
                 </form>
+                <hr class="bg-warning col-md-8 offset-md-2" />
                 <form>
-                    <div class="form-group">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Data dołączenia do abonamentu</label>
                         <datepicker
                             v-model="unlimitedForm.unlimited"
@@ -129,7 +140,7 @@
                             class="text-danger"
                         >Podaj datę dołączenia do abonamentu</div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-8 offset-md-2">
                         <label>Zniżka</label>
                         <select class="form-control" v-model="unlimitedForm.discount">
                             <option value="regular">brak</option>
@@ -137,17 +148,23 @@
                             <option value="senior">seniora</option>
                             <option value="veteran">weterana</option>
                         </select>
+                        <button
+                            class="btn btn-primary btn-block mt-3"
+                            @click.prevent="changeUnlimited"
+                        >Zmień dane o abonamencie</button>
                     </div>
-                    <button class="btn btn-primary btn-block" @click.prevent="changeUnlimited">Zmień</button>
                 </form>
             </div>
         </div>
+        <app-alert v-if="showSuccessAlert" :success="true">{{alertMessage}}</app-alert>
+        <app-alert v-if="showErrorAlert" :success="false">{{alertMessage}}</app-alert>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import Datepicker from 'vuejs-datepicker';
+import Alert from './Alert';
 export default {
     props: ['user'],
     data() {
@@ -180,7 +197,10 @@ export default {
                 unlimited: false,
                 file: false
             },
-            file: null
+            file: null,
+            showSuccessAlert: false,
+            showErrorAlert: false,
+            alertMessage: ''
         };
     },
     methods: {
@@ -239,12 +259,23 @@ export default {
                     );
 
                     if (result.data.status === 'success') {
-                        alert('Hasło zmienione');
+                        //alert('Hasło zmienione');
+                        this.alertMessage = 'Hasło zmienione';
                         this.clearPasswordFormErrors();
                         this.clearPasswordForm();
+
+                        this.showSuccessAlert = true;
+                        setTimeout(() => {
+                            this.showSuccessAlert = false;
+                        }, 2000);
                     }
                 } catch (err) {
-                    alert('Uwierzytelnianie nieudane');
+                    //alert('Uwierzytelnianie nieudane');
+                    this.alertMessage = 'Uwierzytelnianie nieudane';
+                    this.showErrorAlert = true;
+                    setTimeout(() => {
+                        this.showErrorAlert = false;
+                    }, 2000);
                 }
             }
         },
@@ -299,12 +330,22 @@ export default {
 
                     if (result.data.status === 'success') {
                         this.clearEmailForm();
-                        alert('Email zmieniony');
+                        //alert('Email zmieniony');
+                        this.alertMessage = 'Email zmieniony';
+                        this.showSuccessAlert = true;
+                        setTimeout(() => {
+                            this.showSuccessAlert = false;
+                        }, 2000);
                     } else {
                         this.errors.emailForm.emailTaken = true;
                     }
                 } catch (err) {
-                    alert('Uwierzytelnianie nieudane');
+                    //alert('Uwierzytelnianie nieudane');
+                    this.alertMessage = 'Uwierzytelnianie nieudane';
+                    this.showErrorAlert = true;
+                    setTimeout(() => {
+                        this.showErrorAlert = false;
+                    }, 2000);
                 }
             }
         },
@@ -338,9 +379,19 @@ export default {
                     this.user.unlimited = new Date(
                         this.unlimitedForm.unlimited
                     );
-                    alert('Dane o abonamencie zmienione');
+                    //alert('Dane o abonamencie zmienione');
+                    this.alertMessage = 'Dane o abonencie zmienione';
+                    this.showSuccessAlert = true;
+                    setTimeout(() => {
+                        this.showSuccessAlert = false;
+                    }, 2000);
                 } catch (err) {
-                    alert('Uwierzytelnianie nieudane');
+                    //alert('Uwierzytelnianie nieudane');
+                    this.alertMessage = 'Uwierzytelnianie nieudane';
+                    this.showErrorAlert = true;
+                    setTimeout(() => {
+                        this.showErrorAlert = false;
+                    }, 2000);
                 }
             }
         },
@@ -362,7 +413,13 @@ export default {
                         }
                     );
 
-                    alert('Zdjecie zmienione');
+                    //alert('Zdjecie zmienione');
+                    this.alertMessage = 'Zdjecie zmienione';
+                    this.showSuccessAlert = true;
+                    setTimeout(() => {
+                        this.showSuccessAlert = false;
+                    }, 2000);
+
                     document.getElementById('fileInput').value = null;
                     this.file = null;
                     this.$emit('photoChanged', result.data.photo);
@@ -373,7 +430,8 @@ export default {
         }
     },
     components: {
-        Datepicker
+        Datepicker,
+        AppAlert: Alert
     }
 };
 </script>

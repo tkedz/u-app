@@ -42,7 +42,10 @@
                 @updated="ratingUpdated"
             ></user-rating>
         </div>
-        <div class="alert alert-danger" v-else>{{user.username}} nie ocenił jeszcze żadnego filmu</div>
+        <div
+            class="alert alert-danger"
+            v-if="isComponentCreated && ratings.length === 0"
+        >{{user.username}} nie ocenił jeszcze żadnego filmu</div>
     </div>
 </template>
 
@@ -57,7 +60,8 @@ export default {
             ratings: [],
             sortQuery: 'sort=date&order=-1',
             from: null,
-            to: null
+            to: null,
+            isComponentCreated: false
         };
     },
     computed: {
@@ -94,6 +98,7 @@ export default {
     },
     async created() {
         await this.getRatings();
+        this.isComponentCreated = true;
     },
     beforeRouteUpdate(to, from, next) {
         this.getRatings();

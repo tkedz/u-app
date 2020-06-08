@@ -124,11 +124,13 @@
                 </form>
             </div>
         </div>
+        <app-alert :success="true" v-if="showAlert">Rejestracja udana. Możesz się zalogować</app-alert>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Alert from './Alert';
 export default {
     data() {
         return {
@@ -150,7 +152,8 @@ export default {
                 passwordConfirm: false,
                 passwordComparision: false,
                 unlimited: false
-            }
+            },
+            showAlert: false
         };
     },
     methods: {
@@ -187,7 +190,7 @@ export default {
             }
         },
         validateUnlimited() {
-            console.log('validate unlimited');
+            //console.log('validate unlimited');
             this.errors.unlimited = false;
             if (!this.form.unlimited) {
                 this.errors.unlimited = true;
@@ -204,7 +207,7 @@ export default {
             for (const error in this.errors) {
                 //checking if property is not inherited
                 if (Object.prototype.hasOwnProperty.call(this.errors, error)) {
-                    console.log(error + ' : ' + this.errors[error]);
+                    //console.log(error + ' : ' + this.errors[error]);
                     if (this.errors[error] === true) {
                         isValid = false;
                         break;
@@ -218,7 +221,6 @@ export default {
             const isValid = this.validateForm();
 
             if (isValid) {
-                console.log('????');
                 const result = await axios.post(
                     `http://localhost:3000/api/users/register`,
                     this.form
@@ -233,7 +235,11 @@ export default {
                 } else {
                     //TODO alert registration succesfull, and clear form
                     this.clearForm();
-                    alert('Rejestracja udana');
+                    //alert('Rejestracja udana');
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2000);
                 }
             }
         },
@@ -243,6 +249,9 @@ export default {
             this.form.discount = 'regular';
             Object.keys(this.errors).forEach(key => (this.errors[key] = false));
         }
+    },
+    components: {
+        appAlert: Alert
     }
 };
 </script>

@@ -28,7 +28,7 @@ export default {
         ...actions
     },
     async created() {
-        console.log('fetch user');
+        //('fetch user');
         await this.fetchLoggedUser();
         this.isDataFetched = true;
     },

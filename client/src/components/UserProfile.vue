@@ -13,8 +13,8 @@
                     </div>
                     <div class="col-md-7">
                         <div class="d-flex flex-column align-items-stretch">
-                            <div>
-                                <h1 class="display-4">@{{ profileOwner.username }}</h1>
+                            <div class="text-center text-md-left">
+                                <h1 class="display-4">{{ profileOwner.username }}</h1>
                             </div>
                             <div class="d-flex flex-row align-items-center mt-2">
                                 <div class="btn btn-danger flex-fill mr-1" @click="displayRatings">
@@ -100,8 +100,8 @@ export default {
                 this.isDataFetched = true;
                 console.log(this.profileOwner);
             } catch (err) {
-                console.log(err);
-                //this.$router.push('/404');
+                //console.log(err);
+                this.$router.push('/404');
             }
         },
         displaySettings() {
@@ -128,7 +128,7 @@ export default {
         await this.getUser();
     },
     async beforeRouteUpdate(to, from, next) {
-        console.log('beforeUpdate');
+        //console.log('beforeUpdate');
         next();
         await this.getUser();
     },

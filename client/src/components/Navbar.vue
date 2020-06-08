@@ -6,7 +6,7 @@
                     <span>
                         <ion-icon name="heart"></ion-icon>
                     </span>
-                    <span class="link-text">TEST</span>
+                    <span class="link-text">U-APP</span>
                 </router-link>
             </li>
             <li class="nav-item-custom">

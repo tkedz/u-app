@@ -49,17 +49,23 @@
                 </div>
             </div>
         </div>
-        <div
-            class="alert alert-success"
+        <!-- <div
+            class="alert alert-success mt-2"
             v-if="successAlert"
-        >Pomyślnie zalogowano. Za chwilę zostaniesz przekierowany na stronę główną</div>
-        <div class="alert alert-danger" v-if="errorAlert">Nie udało się zalogować. Spróbuj ponownie</div>
+        >Pomyślnie zalogowano. Za chwilę zostaniesz przekierowany na stronę główną</div>-->
+        <!-- <div
+            class="alert alert-danger p-4 position-absolute"
+            v-if="errorAlert"
+        >Nie udało się zalogować. Spróbuj ponownie</div>-->
+        <app-alert v-if="successAlert" :success="true">Pomyślnie zalogowano.</app-alert>
+        <app-alert v-if="errorAlert" :success="false">Nie udało się zalogować. Spróbuj ponownie</app-alert>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { getters, actions } from '../store';
+import Alert from './Alert';
 export default {
     data() {
         return {
@@ -103,6 +109,9 @@ export default {
                 }
             } else this.error = true;
         }
+    },
+    components: {
+        appAlert: Alert
     }
 };
 </script>

@@ -27,6 +27,8 @@ const formatStats = (array, objInit) => {
     return associativeArr;
 }
 
+
+
 exports.calcUserStats = async (req, res, next) => {
     const { userId } = req.params;
 
@@ -235,7 +237,12 @@ console.log(req.ratings)
     //format data
     stats.genres = formatStats(stats.genres, {});
     stats.countries = formatStats(stats.countries, {});
-    stats.directors = formatStats(stats.directors, {});
+
+    if(stats.directors.length < 11) {
+        stats.directors = formatStats(stats.directors, {});
+    } else {
+        stats.directors = formatStats(stats.directors.slice(0, 10), {});
+    }
     stats.screens = formatStats(stats.screens, {"2d": 0, "3d": 0, "imax2d": 0, "imax3d": 0, "4dx2d": 0, "4dx3d": 0, "vip2d": 0, "vip3d": 0});
     stats.ratings = formatStats(stats.ratings, { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0 });
     stats.countriesCount = Object.keys(stats.countries).length;

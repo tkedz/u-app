@@ -2,7 +2,7 @@
     <div class="h-100 position-relative">
         <header class="photo position-relative">
             <div class="container h-100 text-center">
-                <span class="d-inline-block p-5 text-warning font-weight-bold heading">UNLIMITED APP</span>
+                <span class="d-inline-block p-5 text-warning font-weight-bold heading">U-APP</span>
             </div>
             <div class="credits position-absolute">Photo by Felix Mooneeram on Unsplash</div>
         </header>

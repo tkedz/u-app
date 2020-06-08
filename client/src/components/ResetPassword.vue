@@ -2,15 +2,9 @@
     <div>
         <div class="jumbotron jumbotron-fluid">
             <div class="container text-center">
-                <h1 class="d-none d-md-block display-4">
-                    Resetowanie hasła 🔑
-                </h1>
-                <h1 class="d-block d-md-none display-6">
-                    Resetowanie hasła 🔑
-                </h1>
-                <p class="lead">
-                    Podaj nowe hasło
-                </p>
+                <h1 class="d-none d-md-block display-4">Resetowanie hasła 🔑</h1>
+                <h1 class="d-block d-md-none display-6">Resetowanie hasła 🔑</h1>
+                <p class="lead">Podaj nowe hasło</p>
             </div>
         </div>
         <div class="container">
@@ -47,37 +41,33 @@
                             <div
                                 v-if="errors.password"
                                 class="invalid-feedback"
-                            >
-                                Podaj hasło (min. 8 znaków)
-                            </div>
+                            >Podaj hasło (min. 8 znaków)</div>
                             <div
                                 v-if="errors.passwordComparision"
                                 class="invalid-feedback"
-                            >
-                                Hasła się nie zgadzają
-                            </div>
+                            >Hasła się nie zgadzają</div>
                         </div>
                         <button
                             class="btn btn-primary float-left"
                             @click.prevent="resetPassword"
-                        >
-                            Wyślij
-                        </button>
+                        >Wyślij</button>
                         <router-link
                             to="/forgot-password"
                             tag="a"
                             class="badge badge-info float-right"
-                            >Wygeneruj nowy token</router-link
-                        >
+                        >Wygeneruj nowy token</router-link>
                     </form>
                 </div>
             </div>
         </div>
+        <app-alert v-if="showSuccessAlert" :success="true">Hasło zresetowane</app-alert>
+        <app-alert v-if="showErrorAlert" :success="false">Nie udało się zmienić hasła. Token wygasł</app-alert>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Alert from './Alert';
 export default {
     data() {
         return {
@@ -88,7 +78,9 @@ export default {
             errors: {
                 password: false,
                 passwordComparision: false
-            }
+            },
+            showSuccessAlert: false,
+            showErrorAlert: false
         };
     },
     methods: {
@@ -119,12 +111,23 @@ export default {
                         this.form
                     );
 
-                    alert('Hasło zresetowane');
+                    //alert('Hasło zresetowane');
+                    this.showSuccessAlert = true;
+                    setTimeout(() => {
+                        this.showSuccessAlert = false;
+                    }, 2000);
                 } catch (err) {
-                    alert('Nie udało się zmienić hasła. Token wygasł');
+                    //alert('Nie udało się zmienić hasła. Token wygasł');
+                    this.showErrorAlert = true;
+                    setTimeout(() => {
+                        this.showErrorAlert = false;
+                    }, 2000);
                 }
             }
         }
+    },
+    components: {
+        appAlert: Alert
     }
 };
 </script>

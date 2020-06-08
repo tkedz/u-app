@@ -73,12 +73,15 @@
                 </div>
             </div>
         </div>
+        <app-alert v-if="showAlert" :success="false">Nic nie znaleziono</app-alert>
     </div>
 </template>
 
 <script>
+/* eslint-disable no-empty */
 import MovieSearchCard from './MovieSearchCard';
 import UserSeachCard from './UserSearchCard';
+import Alert from './Alert';
 import axios from 'axios';
 export default {
     name: 'search',
@@ -92,7 +95,8 @@ export default {
             totalSearchResults: 0,
             searchResults: [],
             whatToSearch: 'movies',
-            displayMovies: true
+            displayMovies: true,
+            showAlert: false
         };
     },
     computed: {
@@ -116,12 +120,13 @@ export default {
                     page
                 }
             });
+
             this.search();
         }
     },
     methods: {
         async search() {
-            console.log('search');
+            //console.log('search');
             if (this.whatToSearch === 'movies') {
                 try {
                     const result = await axios.get(
@@ -144,7 +149,11 @@ export default {
                 } catch (err) {
                     this.totalSearchResults = 0;
                     this.searchResults = [];
-                    alert('Nothing found');
+                    //alert('Nothing found');
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2000);
                     this.$router.push({ path: 'search' });
                 }
             } else {
@@ -161,7 +170,11 @@ export default {
                 } catch (err) {
                     this.totalSearchResults = 0;
                     this.searchResults = [];
-                    alert('Nothing found');
+                    //alert('Nothing found');
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2000);
                     this.$router.push({ path: 'search' });
                 }
             }
@@ -169,10 +182,11 @@ export default {
     },
     components: {
         AppMovieCard: MovieSearchCard,
-        AppUserCard: UserSeachCard
+        AppUserCard: UserSeachCard,
+        AppAlert: Alert
     },
     async created() {
-        console.log('created search component');
+        //console.log('created search component');
         let executeQuery = false;
 
         if (this.$route.query.title) {

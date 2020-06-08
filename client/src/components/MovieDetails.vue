@@ -2,7 +2,16 @@
     <div class="container p-2">
         <div class="row">
             <div class="col-md-4 text-center">
-                <img :src="movie.Poster" class="poster float-md-right" />
+                <img
+                    v-if="movie.Poster !== 'N/A'"
+                    :src="movie.Poster"
+                    class="poster float-md-right"
+                />
+                <img
+                    v-else
+                    :src="`http://localhost:3000/img/noposter.jpg`"
+                    class="poster float-md-right"
+                />
             </div>
             <div class="col-md-8 d-flex flex-column">
                 <h4 class="title">{{ movie.Title }}</h4>
@@ -139,6 +148,8 @@
         <div id="myRating" class="mt-2" v-if="isLogged && active.myRating">
             <rating-form :movie="movie" :userId="user.id" :discount="user.discount"></rating-form>
         </div>
+
+        <app-alert :success="false" v-if="showAlert">Nie znaleziono filmu</app-alert>
     </div>
 </template>
 
@@ -146,6 +157,7 @@
 import axios from 'axios';
 import { getters } from '../store';
 import RatingForm from '../components/RatingForm';
+import Alert from './Alert';
 // import StarRating from 'vue-star-rating';
 export default {
     data() {
@@ -155,7 +167,8 @@ export default {
                 details: true,
                 cast: false,
                 myRating: false
-            }
+            },
+            showAlert: false
         };
     },
     computed: {
@@ -175,10 +188,8 @@ export default {
                 );
 
                 this.movie = result.data.data;
-                //console.log(this.movie);
             } catch (err) {
-                //TODO redirect to 404
-                alert('Movie not found');
+                this.$router.push('/404');
             }
         }
     },
@@ -186,7 +197,8 @@ export default {
         await this.getMovieDetails();
     },
     components: {
-        RatingForm
+        RatingForm,
+        appAlert: Alert
     }
 };
 </script>

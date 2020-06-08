@@ -21,7 +21,7 @@
             </div>
         </div>
         <div
-            class="alert alert-danger"
+            class="alert alert-danger mt-2"
             v-if="error"
         >{{ user.username }} nie ocenił jeszcze żadnego filmu</div>
         <div v-else>
@@ -146,19 +146,19 @@
 
                 <!-- Ulubieni twórcy -->
                 <h4 class="text-muted">Ulubieni twórcy</h4>
-                <bar-chart
+                <column-chart
                     :data="directorsData"
                     :library="chartOptions"
                     :colors="['#2A9FD6','#FF8800']"
-                ></bar-chart>
+                ></column-chart>
 
                 <!-- Ulubione gatunki -->
                 <h4 class="text-muted">Ulubione gatunki</h4>
-                <bar-chart
+                <column-chart
                     :data="genresData"
                     :library="chartOptions"
                     :colors="['#2A9FD6','#FF8800']"
-                ></bar-chart>
+                ></column-chart>
 
                 <!-- Liczba obejrzanych filmów ze względu na kraj produkcji -->
                 <h4 class="text-muted">Liczba obejrzanych filmów ze względu na kraj produkcji</h4>
@@ -168,7 +168,7 @@
                     adapter="google"
                 ></geo-chart>
                 <div
-                    class="card text-center mt-1"
+                    class="card text-center mt-1 m-2"
                     :class="{'bg-primary': isComparision, 'text-white': isComparision}"
                 >
                     <div class="card-body">
@@ -186,7 +186,7 @@
                     adapter="google"
                     v-if="isComparision"
                 ></geo-chart>
-                <div class="card text-center mt-1 bg-warning text-white" v-if="isComparision">
+                <div class="card text-center mt-1 bg-warning text-white m-2" v-if="isComparision">
                     <div class="card-body">
                         <h4>Obejrzałeś/aś filmy z {{compare.countriesCount}} różnych krajów 🌎</h4>
                     </div>
@@ -194,11 +194,11 @@
 
                 <!-- Sale kinowe -->
                 <h4 class="text-muted">Sale kinowe</h4>
-                <div class="alert alert-primary text-center" v-if="isComparision">
+                <div class="alert alert-primary text-center m-2" v-if="isComparision">
                     <h4 class="alert-heading">{{user.username}}</h4>
                 </div>
                 <pie-chart :data="stats.screens"></pie-chart>
-                <div class="alert alert-warning text-center" v-if="isComparision">
+                <div class="alert alert-warning text-center m-2" v-if="isComparision">
                     <h4 class="alert-heading">{{loggedUser.username}}</h4>
                 </div>
                 <pie-chart :data="compare.screens" v-if="isComparision"></pie-chart>
@@ -206,12 +206,14 @@
                 <hr class="bg-warning" />
             </div>
         </div>
+        <app-alert v-if="showAlert" :success="false">Nie masz żadnych ocen</app-alert>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import Datepicker from 'vuejs-datepicker';
+import Alert from './Alert';
 
 export default {
     data() {
@@ -323,9 +325,13 @@ export default {
                         `http://localhost:3000/api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
                     );
                     this.compare = result.data.stats;
-                    console.log(this.compare);
+                    //(this.compare);
                 } catch (err) {
-                    alert('Nie masz żadnych ocen');
+                    //alert('Nie masz żadnych ocen');
+                    this.showAlert = true;
+                    setTimeout(() => {
+                        this.showAlert = false;
+                    }, 2000);
                 }
             }
         }
@@ -334,7 +340,8 @@ export default {
         this.getStats();
     },
     components: {
-        Datepicker
+        Datepicker,
+        appAlert: Alert
     }
 };
 </script>

@@ -24,7 +24,7 @@
             class="alert alert-danger mt-2"
             v-if="error"
         >{{ user.username }} nie ocenił jeszcze żadnego filmu</div>
-        <div v-else>
+        <div v-if="!error && statsLoaded">
             <div class="mt-2 rounded bg-light p-3">
                 <div class="clearfix">
                     <h1 class="display-md-4 float-left" v-if="myProfile">Twoje podsumowanie!</h1>
@@ -137,7 +137,7 @@
                             <span v-if="isComparision">⭐</span>
                         </h5>
                         <h4 class="display-4" v-if="!isComparision">⭐{{stats.avgRating.toFixed(2)}}</h4>
-                        <h4 class="display-4" v-else>
+                        <h4 class="display-4" v-if="isComparision && compare.avgRating">
                             <span class="text-primary">{{stats.avgRating.toFixed(2)}}</span> 🆚
                             <span class="text-warning">{{compare.avgRating.toFixed(2)}}</span>
                         </h4>
@@ -224,6 +224,8 @@ export default {
             to: null,
             error: false,
             isComparision: false,
+            showAlert: false,
+            statsLoaded: false,
             chartOptions: {
                 legend: {
                     labels: {
@@ -308,6 +310,7 @@ export default {
                     }
                 );
                 this.stats = result.data.stats;
+                this.statsLoaded = true;
                 //console.log(this.stats);
             } catch (err) {
                 this.error = true;

@@ -98,7 +98,7 @@ export default {
                     this.profileOwner = this.user;
                 }
                 this.isDataFetched = true;
-                console.log(this.profileOwner);
+                //console.log(this.profileOwner);
             } catch (err) {
                 //console.log(err);
                 this.$router.push('/404');

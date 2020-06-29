@@ -40,7 +40,7 @@ exports.calcUserStats = async (req, res, next) => {
     // else to = new Date(to);
 
     //console.log(from, to);
-console.log(req.ratings)
+
     //calculate some stats using mongodb aggregation pipeline
     let stats = await Rating.aggregate([
         {
@@ -142,7 +142,7 @@ console.log(req.ratings)
     
         let unlimitedDate;
         //from = new Date(2017, 11, 12);
-        console.log(typeof user.unlimited);
+        //console.log(typeof user.unlimited);
         if (from.getTime() < user.unlimited.getTime()) {
             unlimitedDate = user.unlimited;
         } else {

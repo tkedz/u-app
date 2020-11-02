@@ -38,7 +38,7 @@ exports.getUserRatings = async (req, res, next) => {
 
     if (sort !== 'date' && sort !== 'rating') sort = 'date';
 
-    console.log(from, to);
+    //console.log(from, to);
 
     const ratings = await Rating.aggregate([
         {
@@ -115,13 +115,13 @@ exports.saveRating = async (req, res, next) => {
             movieId: rating.movieId
         });
 
-        console.log('rating', rating);
+        //console.log('rating', rating);
         if (!resultToSave) resultToSave = new Rating(rating);
         else {
             for (const [key, value] of Object.entries(rating)) {
                 resultToSave[key] = value;
             }
-            console.log('RESULT TO SAVE', resultToSave);
+            //console.log('RESULT TO SAVE', resultToSave);
         }
 
         await resultToSave.save();

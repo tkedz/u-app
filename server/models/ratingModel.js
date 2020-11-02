@@ -58,7 +58,7 @@ const ratingSchema = new mongoose.Schema({
     },
     movieRuntime: {
         type: Number,
-        required: [true, 'Provide movie runtime']
+        required: [false, 'Provide movie runtime']
     },
     movieGenre: {
         type: Array,

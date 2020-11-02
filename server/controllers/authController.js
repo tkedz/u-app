@@ -41,7 +41,7 @@ exports.isProfileOwner = async (req, res, next) => {
 
         let decoded;
         try {
-            decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
         } catch (err) {
             req.profileOwner = false;
             next();

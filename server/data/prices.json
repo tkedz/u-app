@@ -182,6 +182,7 @@
         },
         {
             "from": "06 Mar 2020",
+            "to": "21 Jul 2020",
             "2d": {
                 "rest": {
                     "week": {
@@ -358,6 +359,185 @@
                     }
                 }
             }
+        },
+        {
+            "from": "22 Jul 2020",
+            "2d": {
+                "rest": {
+                    "week": {
+                        "regular": 25,
+                        "student": 21,
+                        "senior": 21,
+                        "veteran": 21
+                    },
+                    "wednesday": {
+                        "regular": 16.5,
+                        "student": 16.5,
+                        "senior": 16.5,
+                        "veteran": 16.5
+                    },
+                    "weekend": {
+                        "regular": 25,
+                        "student": 21,
+                        "senior": 21,
+                        "veteran": 21
+                    }
+                }
+            },
+            "3d": {
+                "rest": {
+                    "week": {
+                        "regular": 27,
+                        "student": 23,
+                        "senior": 23,
+                        "veteran": 23
+                    },
+                    "wednesday": {
+                        "regular": 18.5,
+                        "student": 18.5,
+                        "senior": 18.5,
+                        "veteran": 18.5
+                    },
+                    "weekend": {
+                        "regular": 27,
+                        "student": 23,
+                        "senior": 23,
+                        "veteran": 23
+                    }
+                }
+            },
+            "imax2d": {
+                "rest": {
+                    "week": {
+                        "regular": 24,
+                        "student": 20,
+                        "senior": 20,
+                        "veteran": 20
+                    },
+                    "wednesday": {
+                        "regular": 24,
+                        "student": 20,
+                        "senior": 20,
+                        "veteran": 20
+                    },
+                    "weekend": {
+                        "regular": 28,
+                        "student": 24,
+                        "senior": 24,
+                        "veteran": 24
+                    }
+                }
+            },
+            "imax3d": {
+                "rest": {
+                    "week": {
+                        "regular": 26,
+                        "student": 22,
+                        "senior": 22,
+                        "veteran": 22
+                    },
+                    "wednesday": {
+                        "regular": 26,
+                        "student": 22,
+                        "senior": 22,
+                        "veteran": 22
+                    },
+                    "weekend": {
+                        "regular": 30,
+                        "student": 26,
+                        "senior": 26,
+                        "veteran": 26
+                    }
+                }
+            },
+            "4dx2d": {
+                "rest": {
+                    "week": {
+                        "regular": 35,
+                        "student": 31,
+                        "senior": 31,
+                        "veteran": 31
+                    },
+                    "wednesday": {
+                        "regular": 35,
+                        "student": 31,
+                        "senior": 31,
+                        "veteran": 31
+                    },
+                    "weekend": {
+                        "regular": 39,
+                        "student": 35,
+                        "senior": 35,
+                        "veteran": 35
+                    }
+                }
+            },
+            "4dx3d": {
+                "rest": {
+                    "week": {
+                        "regular": 37,
+                        "student": 33,
+                        "senior": 33,
+                        "veteran": 33
+                    },
+                    "wednesday": {
+                        "regular": 37,
+                        "student": 33,
+                        "senior": 33,
+                        "veteran": 33
+                    },
+                    "weekend": {
+                        "regular": 41,
+                        "student": 37,
+                        "senior": 37,
+                        "veteran": 37
+                    }
+                }
+            },
+            "vip3d": {
+                "rest": {
+                    "week": {
+                        "regular": 58,
+                        "student": 58,
+                        "senior": 58,
+                        "veteran": 58
+                    },
+                    "wednesday": {
+                        "regular": 58,
+                        "student": 58,
+                        "senior": 58,
+                        "veteran": 58
+                    },
+                    "weekend": {
+                        "regular": 58,
+                        "student": 58,
+                        "senior": 58,
+                        "veteran": 58
+                    }
+                }
+            },
+            "vip2d": {
+                "rest": {
+                    "week": {
+                        "regular": 55,
+                        "student": 55,
+                        "senior": 55,
+                        "veteran": 55
+                    },
+                    "wednesday": {
+                        "regular": 55,
+                        "student": 55,
+                        "senior": 55,
+                        "veteran": 55
+                    },
+                    "weekend": {
+                        "regular": 55,
+                        "student": 55,
+                        "senior": 55,
+                        "veteran": 55
+                    }
+                }
+            }
         }
     ],
     "unlimited": [
@@ -377,6 +557,62 @@
         },
         {
             "from": "06 Mar 2020",
+            "to": "01 May 2020",
+            "warsaw": 38,
+            "rest": 33,
+            "2d": 0,
+            "3d": 2,
+            "imax2d": 3,
+            "imax3d": 5,
+            "4dx2d": 14,
+            "4dx3d": 16,
+            "vip2d": 23,
+            "vip3d": 25
+        },
+        {
+            "from": "02 May 2020",
+            "to": "21 Jul 2020",
+            "warsaw": 0,
+            "rest": 0,
+            "2d": 0,
+            "3d": 0,
+            "imax2d": 0,
+            "imax3d": 0,
+            "4dx2d": 0,
+            "4dx3d": 0,
+            "vip2d": 0,
+            "vip3d": 0
+        },
+        {
+            "from": "22 Jul 2020",
+            "to": "28 Oct 2020",
+            "warsaw": 38,
+            "rest": 33,
+            "2d": 0,
+            "3d": 2,
+            "imax2d": 3,
+            "imax3d": 5,
+            "4dx2d": 14,
+            "4dx3d": 16,
+            "vip2d": 23,
+            "vip3d": 25
+        },
+        {
+            "from": "29 Oct 2020",
+            "to": "28 Jan 2021",
+            "warsaw": 0,
+            "rest": 0,
+            "2d": 0,
+            "3d": 0,
+            "imax2d": 0,
+            "imax3d": 0,
+            "4dx2d": 0,
+            "4dx3d": 0,
+            "vip2d": 0,
+            "vip3d": 0
+        },
+        {
+            "from": "29 Jan 2021",
             "warsaw": 38,
             "rest": 33,
             "2d": 0,

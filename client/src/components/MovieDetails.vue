@@ -1,6 +1,6 @@
 <template>
     <div class="container p-2">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-4 text-center">
                 <img
                     v-if="movie.Poster !== 'N/A'"
@@ -27,9 +27,9 @@
                         <span
                             class="badge badge-warning d-block mt-2 rating"
                             v-if="
-                                movie.imdbRating < 6.5 &&
-                                    movie.imdbRating >= 5.0
-                            "
+                                    movie.imdbRating < 6.5 &&
+                                        movie.imdbRating >= 5.0
+                                "
                         >{{ movie.imdbRating }}</span>
                         <span
                             class="badge badge-danger d-block mt-2 rating"
@@ -166,17 +166,17 @@ export default {
             active: {
                 details: true,
                 cast: false,
-                myRating: false
+                myRating: false,
             },
-            showAlert: false
+            showAlert: false,
         };
     },
     computed: {
-        ...getters
+        ...getters,
     },
     methods: {
         toggle(what) {
-            Object.keys(this.active).forEach(key => {
+            Object.keys(this.active).forEach((key) => {
                 this.active[key] = false;
             });
             this.active[what] = true;
@@ -191,15 +191,15 @@ export default {
             } catch (err) {
                 this.$router.push('/404');
             }
-        }
+        },
     },
     async created() {
         await this.getMovieDetails();
     },
     components: {
         RatingForm,
-        appAlert: Alert
-    }
+        appAlert: Alert,
+    },
 };
 </script>
 

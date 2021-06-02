@@ -56,6 +56,7 @@ import axios from 'axios';
 import StarRating from 'vue-star-rating';
 import Datepicker from 'vuejs-datepicker';
 import Alert from './Alert';
+import { proxy } from '../config';
 export default {
     data() {
         return {
@@ -91,7 +92,8 @@ export default {
             try {
                 //console.log(this.date, new Date(this.movie.Released));
                 await axios.post(
-                    `http://localhost:3000/api/ratings`,
+                    //`http://localhost:3000/api/ratings`,
+                    `${proxy}api/ratings`,
                     {
                         rating: this.rating,
                         review: this.review,
@@ -141,7 +143,8 @@ export default {
         async getRating() {
             try {
                 const result = await axios.get(
-                    `http://localhost:3000/api/users/${this.userId}/ratings/${this.movie.imdbID}`
+                    //`http://localhost:3000/api/users/${this.userId}/ratings/${this.movie.imdbID}`
+                    `${proxy}api/users/${this.userId}/ratings/${this.movie.imdbID}`
                 );
 
                 const { rating } = result.data;
@@ -159,7 +162,8 @@ export default {
         async deleteRating() {
             const jwt = localStorage.getItem('jwt');
             await axios.delete(
-                `http://localhost:3000/api/ratings/${this.movie.imdbID}`,
+                // `http://localhost:3000/api/ratings/${this.movie.imdbID}`,
+                `${proxy}api/ratings/${this.movie.imdbID}`,
                 {
                     headers: { Authorization: `Bearer ${jwt}` }
                 }

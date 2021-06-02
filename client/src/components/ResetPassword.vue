@@ -68,6 +68,7 @@
 <script>
 import axios from 'axios';
 import Alert from './Alert';
+import { proxy } from '../config';
 export default {
     data() {
         return {
@@ -107,7 +108,8 @@ export default {
             if (!this.errors.password && !this.errors.passwordComparision) {
                 try {
                     await axios.patch(
-                        `http://localhost:3000/api/users/reset-password/${this.$route.params.token}`,
+                        // `http://localhost:3000/api/users/reset-password/${this.$route.params.token}`,
+                        `${proxy}api/users/reset-password/${this.$route.params.token}`,
                         this.form
                     );
 

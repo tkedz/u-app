@@ -1,6 +1,6 @@
 <template>
     <div class="h-100 position-relative">
-        <header class="photo position-relative">
+        <header class="photo position-relative" :style="{ backgroundImage: `url(${require('@/assets/header-photo.jpg')})` }">
             <div class="container h-100 text-center">
                 <span class="d-inline-block p-5 text-warning font-weight-bold heading">U-APP</span>
             </div>
@@ -61,7 +61,8 @@ export default {
 
 <style scoped>
 .photo {
-    background-image: url('http://localhost:3000/img/header-photo.jpg');
+    /*background-image: url('http://localhost:3000/img/header-photo.jpg');*/
+    /*background-image: url('img/header-photo.jpg');*/
     min-height: 400px;
     background-size: cover;
     background-position: center;

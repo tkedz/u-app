@@ -4,9 +4,15 @@
             <div class="container">
                 <div class="row no-gutters">
                     <div class="col-md-5 d-flex justify-content-center">
-                        <img
+                        <!-- <img
                             :src="
                                 `http://localhost:3000/img/${profileOwner.photo}`
+                            "
+                            class="rounded-circle"
+                        /> -->
+                        <img
+                            :src="
+                                `${prx}img/${profileOwner.photo}`
                             "
                             class="rounded-circle"
                         />
@@ -63,9 +69,11 @@ import { getters, actions } from '../store';
 import UserSettings from './UserSettings';
 import UserRatings from './UserRatings';
 import UserStats from './UserStats';
+import { proxy } from '../config';
 export default {
     data() {
         return {
+            prx: proxy,
             profileOwner: {},
             myProfile: false,
             isDataFetched: false,
@@ -82,7 +90,8 @@ export default {
         async getUser() {
             try {
                 const result = await axios.get(
-                    `http://localhost:3000/api/users/${this.$route.params.username}`
+                    //`http://localhost:3000/api/users/${this.$route.params.username}`
+                    `${proxy}api/users/${this.$route.params.username}`
                 );
 
                 const { user } = result.data;

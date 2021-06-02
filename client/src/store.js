@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
+import { proxy } from './config';
 
 const state = Vue.observable({
     isLogged: false,
@@ -24,7 +25,8 @@ export const actions = {
         const jwt = localStorage.getItem('jwt');
         try {
             const result = await axios.get(
-                `http://localhost:3000/api/users/get-me`,
+                //`http://localhost:3000/api/users/get-me`,
+                `${proxy}api/users/get-me`,
                 {
                     headers: { Authorization: `Bearer ${jwt}` }
                 }

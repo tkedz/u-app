@@ -83,6 +83,7 @@ import MovieSearchCard from './MovieSearchCard';
 import UserSeachCard from './UserSearchCard';
 import Alert from './Alert';
 import axios from 'axios';
+import { proxy } from '../config';
 export default {
     name: 'search',
     data() {
@@ -130,7 +131,8 @@ export default {
             if (this.whatToSearch === 'movies') {
                 try {
                     const result = await axios.get(
-                        `http://localhost:3000/api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=${this.currentPage}`
+                        // `http://localhost:3000/api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=${this.currentPage}`
+                        `${proxy}api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=${this.currentPage}`
                     );
                     this.totalSearchResults = result.data.totalResults;
                     this.searchResults = result.data.data;

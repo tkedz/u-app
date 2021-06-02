@@ -53,6 +53,7 @@
 import axios from 'axios';
 import UserRating from './UserRating';
 import Datepicker from 'vuejs-datepicker';
+import { proxy } from '../config';
 export default {
     props: ['user', 'myProfile'],
     data() {
@@ -79,7 +80,8 @@ export default {
             try {
                 //console.log(this.user);
                 const result = await axios.get(
-                    `http://localhost:3000/api/users/${this.user.id}/ratings?${this.sortQuery}&from=${this.fromDate}&to=${this.toDate}`
+                    // `http://localhost:3000/api/users/${this.user.id}/ratings?${this.sortQuery}&from=${this.fromDate}&to=${this.toDate}`
+                    `${proxy}api/users/${this.user.id}/ratings?${this.sortQuery}&from=${this.fromDate}&to=${this.toDate}`
                 );
                 this.ratings = result.data.ratings;
                 //console.log(this.ratings);

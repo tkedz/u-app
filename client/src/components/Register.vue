@@ -131,6 +131,7 @@
 <script>
 import axios from 'axios';
 import Alert from './Alert';
+import { proxy } from '../config';
 export default {
     data() {
         return {
@@ -222,7 +223,8 @@ export default {
 
             if (isValid) {
                 const result = await axios.post(
-                    `http://localhost:3000/api/users/register`,
+                    // `http://localhost:3000/api/users/register`,
+                    `${proxy}api/users/register`,
                     this.form
                 );
 

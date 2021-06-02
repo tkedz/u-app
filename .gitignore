@@ -1,8 +1,12 @@
 .DS_Store
 node_modules
-/dist
+client/dist
 public
 config.js
+server/.gitignore
+.vscode
+.prettierignore
+.prettierrc
 
 # local env files
 .env

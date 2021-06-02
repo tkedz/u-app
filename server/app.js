@@ -13,8 +13,19 @@ app.use(mongoSanitize());
 app.use('/api/users', userRouter);
 app.use('/api/movies', movieRouter);
 app.use('/api/ratings', ratingRouter);
+app.use('/img', (req, res) =>
+    res.sendFile(`/public${req.originalUrl}`, { root: __dirname })
+);
 
-app.use(express.static(path.join(__dirname, 'public')));
+if (process.env.NODE_ENV === 'production') {
+    //static folder
+    app.use(express.static(path.join(__dirname, 'public')));
+
+    //handle SPA
+    app.get(/.*/, (req, res) =>
+        res.sendFile(`/public/index.html`, { root: __dirname })
+    );
+}
 
 app.use((err, req, res, next) => {
     // eslint-disable-next-line no-console

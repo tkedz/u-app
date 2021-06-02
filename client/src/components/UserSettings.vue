@@ -165,6 +165,7 @@
 import axios from 'axios';
 import Datepicker from 'vuejs-datepicker';
 import Alert from './Alert';
+import { proxy } from '../config';
 export default {
     props: ['user'],
     data() {
@@ -245,7 +246,8 @@ export default {
 
                 try {
                     const result = await axios.patch(
-                        `http://localhost:3000/api/users/update-profile`,
+                        // `http://localhost:3000/api/users/update-profile`,
+                        `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'password',
                             password: this.passwordForm.currentPassword,
@@ -317,7 +319,8 @@ export default {
 
                 try {
                     const result = await axios.patch(
-                        `http://localhost:3000/api/users/update-profile`,
+                        // `http://localhost:3000/api/users/update-profile`,
+                        `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'email',
                             email: this.emailForm.email,
@@ -365,7 +368,8 @@ export default {
 
                 try {
                     await axios.patch(
-                        `http://localhost:3000/api/users/update-profile`,
+                        //`http://localhost:3000/api/users/update-profile`,
+                        `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'unlimited',
                             unlimited: this.unlimitedForm.unlimited,
@@ -406,7 +410,8 @@ export default {
                 try {
                     const jwt = localStorage.getItem('jwt');
                     const result = await axios.patch(
-                        `http://localhost:3000/api/users/update-photo`,
+                        // `http://localhost:3000/api/users/update-photo`,
+                        `${proxy}api/users/update-photo`,
                         fd,
                         {
                             headers: { Authorization: `Bearer ${jwt}` }

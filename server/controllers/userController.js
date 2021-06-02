@@ -173,7 +173,7 @@ exports.resizeUserPhoto = async (req, res, next) => {
             .resize(200, 200)
             .toFormat('jpeg')
             .jpeg({ quality: 90 })
-            .toFile(`public/img/${req.file.filename}`);
+            .toFile(`public/user${req.file.filename}`);
     } catch (err) {
         next(
             new ErrorHandler(400, 'Something went wrong with processing image')

@@ -66,6 +66,7 @@
 import axios from 'axios';
 import { getters, actions } from '../store';
 import Alert from './Alert';
+import { proxy } from '../config';
 export default {
     data() {
         return {
@@ -91,7 +92,8 @@ export default {
             if (this.form.email && this.form.password) {
                 try {
                     const result = await axios.post(
-                        `http://localhost:3000/api/users/login`,
+                        //`http://localhost:3000/api/users/login`,
+                        `${proxy}api/users/login`,
                         this.form
                     );
 

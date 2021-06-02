@@ -37,6 +37,7 @@
 <script>
 import Alert from './Alert';
 import axios from 'axios';
+import { proxy } from '../config';
 export default {
     data() {
         return {
@@ -54,7 +55,8 @@ export default {
 
             try {
                 await axios.post(
-                    `http://localhost:3000/api/users/forgot-password`,
+                    //`http://localhost:3000/api/users/forgot-password`,
+                    `${proxy}api/users/forgot-password`,
                     { email: this.email }
                 );
 

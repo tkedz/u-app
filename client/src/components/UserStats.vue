@@ -214,6 +214,7 @@
 import axios from 'axios';
 import Datepicker from 'vuejs-datepicker';
 import Alert from './Alert';
+import { proxy } from '../config';
 
 export default {
     data() {
@@ -304,7 +305,8 @@ export default {
             const jwt = localStorage.getItem('jwt');
             try {
                 const result = await axios.get(
-                    `http://localhost:3000/api/users/${this.user.id}/stats?from=${this.fromDate}&to=${this.toDate}`,
+                    // `http://localhost:3000/api/users/${this.user.id}/stats?from=${this.fromDate}&to=${this.toDate}`,
+                    `${proxy}api/users/${this.user.id}/stats?from=${this.fromDate}&to=${this.toDate}`,
                     {
                         headers: { Authorization: `Bearer ${jwt}` }
                     }
@@ -325,7 +327,8 @@ export default {
             if (this.isComparision) {
                 try {
                     const result = await axios.get(
-                        `http://localhost:3000/api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
+                        // `http://localhost:3000/api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
+                        `${proxy}api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
                     );
                     this.compare = result.data.stats;
                     //(this.compare);

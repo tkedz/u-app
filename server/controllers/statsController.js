@@ -27,8 +27,6 @@ const formatStats = (array, objInit) => {
     return associativeArr;
 }
 
-
-
 exports.calcUserStats = async (req, res, next) => {
     const { userId } = req.params;
 
@@ -241,6 +239,8 @@ exports.calcUserStats = async (req, res, next) => {
     if(stats.directors.length < 11) {
         stats.directors = formatStats(stats.directors, {});
     } else {
+        stats.directors.sort((a,b) => b.count - a.count);
+        console.log(stats.directors);
         stats.directors = formatStats(stats.directors.slice(0, 10), {});
     }
     stats.screens = formatStats(stats.screens, {"2d": 0, "3d": 0, "imax2d": 0, "imax3d": 0, "4dx2d": 0, "4dx3d": 0, "vip2d": 0, "vip3d": 0});

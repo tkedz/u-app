@@ -2,10 +2,12 @@
 
 An app for users of the popular cinema subscription. Main functionality:
 
--   saving movies watched in the cinema,
--   calculation of subscription costs and determining the profitability of the subscription,
--   viewing statistics (favorite movie genres, number of pre-release screenings, etc.),
--   viewing other users' profiles and comparing non-financial statistics.
+-   saving movies watched in the cinema
+-   calculation of subscription costs and determining the profitability of the subscription
+-   viewing statistics (favorite movie genres, number of pre-release screenings, etc.)
+-   viewing other users' profiles and comparing non-financial statistics
+
+You can view the app [here](https://guarded-shore-09510.herokuapp.com/).
 
 ## Technologies
 

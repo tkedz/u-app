@@ -39,8 +39,8 @@
                 <div class="card-columns">
                     <div class="card text-center bg-info mb-3" v-if="myProfile">
                         <div class="card-body">
-                            <h5>Pieniądze wydane na abonament</h5>
-                            <h4 class="display-4">💵 {{ stats.subscription }} zł</h4>
+                            <h5 class="text-white">Koszt abonamentu</h5>
+                            <h4 class="display-4 text-white">💵 {{ stats.subscription }} zł</h4>
                         </div>
                     </div>
 
@@ -50,32 +50,27 @@
                         v-if="myProfile"
                     >
                         <div class="card-body">
-                            <h5>Zaoszczędzone</h5>
-                            <h4 class="display-4">
-                                💰
-                                {{
-                                stats.moneyWoSubscription -
-                                stats.subscription
-                                }}
-                                zł
+                            <h5 class="text-white">Zaoszczędzone</h5>
+                            <h4 class="display-4 text-white">
+                                💰{{stats.moneyWoSubscription - stats.subscription}} zł
                             </h4>
                         </div>
                     </div>
 
                     <div class="card text-center bg-primary mb-3" v-if="myProfile">
                         <div class="card-body">
-                            <h5>Pieniądze, które wydał/a bez abonamentu</h5>
-                            <h4 class="display-4">💸{{ stats.moneyWoSubscription }} zł</h4>
+                            <h5 class="text-white">Koszty bez abonamentu</h5>
+                            <h4 class="display-4 text-white">💸{{ stats.moneyWoSubscription }} zł</h4>
                         </div>
                     </div>
 
                     <div class="card text-center">
                         <div class="card-body">
-                            <h5>
+                            <h5 class="text-white">
                                 Liczba seansów
                                 <span v-if="isComparision">🎦</span>
                             </h5>
-                            <h4 class="display-4" v-if="!isComparision">🎦{{stats.moviesWatched}}</h4>
+                            <h4 class="display-4 text-white" v-if="!isComparision">🎦{{stats.moviesWatched}}</h4>
                             <h4 class="display-4" v-else>
                                 <span class="text-primary">{{stats.moviesWatched}}</span> 🆚
                                 <span class="text-warning">{{compare.moviesWatched}}</span>
@@ -85,11 +80,11 @@
 
                     <div class="card text-center bg-secondary mb-3">
                         <div class="card-body">
-                            <h5>
+                            <h5 class="text-white">
                                 Czas spędzony w kinie
                                 <span v-if="isComparision">💺</span>
                             </h5>
-                            <h2 v-if="!isComparision">
+                            <h2 class="text-white" v-if="!isComparision">
                                 💺
                                 {{ parseInt(stats.timeCount / 60, 10) }}h
                                 {{ stats.timeCount % 60 }}m
@@ -109,11 +104,11 @@
 
                     <div class="card text-center mb-3" style="background: #00796B;">
                         <div class="card-body">
-                            <h5>
+                            <h5 class="text-white">
                                 Przedpremiery
                                 <span v-if="isComparision">📅</span>
                             </h5>
-                            <h4 class="display-4" v-if="!isComparision">📅 {{ stats.preReleases }}</h4>
+                            <h4 class="display-4 text-white" v-if="!isComparision">📅 {{ stats.preReleases }}</h4>
                             <h4 class="display-4" v-else>
                                 <span class="text-primary">{{ stats.preReleases }}</span> 🆚
                                 <span class="text-warning">{{compare.preReleases}}</span>
@@ -123,7 +118,7 @@
                 </div>
 
                 <!-- ROZKŁAD OCEN -->
-                <h4 class="mt-2 text-muted">Rozkład ocen</h4>
+                <h4 class="mt-2 text-white">Rozkład ocen</h4>
                 <column-chart
                     :data="ratingsData"
                     xtitle="⭐Ocena"
@@ -132,11 +127,11 @@
                 ></column-chart>
                 <div class="card text-center mt-1">
                     <div class="card-body">
-                        <h5>
+                        <h5 class="text-white">
                             Średnia ocen
                             <span v-if="isComparision">⭐</span>
                         </h5>
-                        <h4 class="display-4" v-if="!isComparision">⭐{{stats.avgRating.toFixed(2)}}</h4>
+                        <h4 class="display-4 text-white" v-if="!isComparision">⭐{{stats.avgRating.toFixed(2)}}</h4>
                         <h4 class="display-4" v-if="isComparision && compare.avgRating">
                             <span class="text-primary">{{stats.avgRating.toFixed(2)}}</span> 🆚
                             <span class="text-warning">{{compare.avgRating.toFixed(2)}}</span>
@@ -145,7 +140,7 @@
                 </div>
 
                 <!-- Ulubieni twórcy -->
-                <h4 class="text-muted">Ulubieni twórcy</h4>
+                <h4 class="text-white">Ulubieni twórcy</h4>
                 <column-chart
                     :data="directorsData"
                     :library="chartOptions"
@@ -153,7 +148,7 @@
                 ></column-chart>
 
                 <!-- Ulubione gatunki -->
-                <h4 class="text-muted">Ulubione gatunki</h4>
+                <h4 class="text-white">Ulubione gatunki</h4>
                 <column-chart
                     :data="genresData"
                     :library="chartOptions"
@@ -161,7 +156,7 @@
                 ></column-chart>
 
                 <!-- Liczba obejrzanych filmów ze względu na kraj produkcji -->
-                <h4 class="text-muted">Liczba obejrzanych filmów ze względu na kraj produkcji</h4>
+                <!-- <h4 class="text-white">Liczba obejrzanych filmów ze względu na kraj produkcji</h4> -->
                 <!-- <geo-chart
                     :data="stats.countries"
                     :library="{backgroundColor: '#222', colorAxis: {colors: ['#71c7ec','#005073']}}"
@@ -172,10 +167,10 @@
                     :class="{'bg-primary': isComparision, 'text-white': isComparision}"
                 >
                     <div class="card-body">
-                        <h4
+                        <h4 class="text-white"
                             v-if="myProfile"
                         >Obejrzałeś/aś filmy z {{stats.countriesCount}} różnych krajów 🌎</h4>
-                        <h4
+                        <h4 class="text-white"
                             v-else
                         >{{user.username}} obejrzał/a filmy z {{stats.countriesCount}} różnych krajów 🌎</h4>
                     </div>
@@ -193,7 +188,7 @@
                 </div>
 
                 <!-- Sale kinowe -->
-                <h4 class="text-muted">Sale kinowe</h4>
+                <h4 class="text-white">Sale kinowe</h4>
                 <div class="alert alert-primary text-center m-2" v-if="isComparision">
                     <h4 class="alert-heading">{{user.username}}</h4>
                 </div>

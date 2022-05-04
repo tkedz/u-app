@@ -161,7 +161,7 @@ export default {
             } else {
                 try {
                     const result = await axios.get(
-                        `http://localhost:3000/api/users/search/${this.searchQuery.query}`
+                        `${proxy}api/users/search/${this.searchQuery.query}`
                     );
                     this.searchResults = result.data.users;
                     this.totalSearchResults = this.searchResults.length;

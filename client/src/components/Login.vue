@@ -49,14 +49,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div
-            class="alert alert-success mt-2"
-            v-if="successAlert"
-        >Pomyślnie zalogowano. Za chwilę zostaniesz przekierowany na stronę główną</div>-->
-        <!-- <div
-            class="alert alert-danger p-4 position-absolute"
-            v-if="errorAlert"
-        >Nie udało się zalogować. Spróbuj ponownie</div>-->
         <app-alert v-if="successAlert" :success="true">Pomyślnie zalogowano.</app-alert>
         <app-alert v-if="errorAlert" :success="false">Nie udało się zalogować. Spróbuj ponownie</app-alert>
     </div>
@@ -92,7 +84,6 @@ export default {
             if (this.form.email && this.form.password) {
                 try {
                     const result = await axios.post(
-                        //`http://localhost:3000/api/users/login`,
                         `${proxy}api/users/login`,
                         this.form
                     );

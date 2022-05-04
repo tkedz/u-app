@@ -246,7 +246,6 @@ export default {
 
                 try {
                     const result = await axios.patch(
-                        // `http://localhost:3000/api/users/update-profile`,
                         `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'password',
@@ -261,7 +260,6 @@ export default {
                     );
 
                     if (result.data.status === 'success') {
-                        //alert('Hasło zmienione');
                         this.alertMessage = 'Hasło zmienione';
                         this.clearPasswordFormErrors();
                         this.clearPasswordForm();
@@ -272,7 +270,6 @@ export default {
                         }, 2000);
                     }
                 } catch (err) {
-                    //alert('Uwierzytelnianie nieudane');
                     this.alertMessage = 'Uwierzytelnianie nieudane';
                     this.showErrorAlert = true;
                     setTimeout(() => {
@@ -319,7 +316,6 @@ export default {
 
                 try {
                     const result = await axios.patch(
-                        // `http://localhost:3000/api/users/update-profile`,
                         `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'email',
@@ -333,7 +329,6 @@ export default {
 
                     if (result.data.status === 'success') {
                         this.clearEmailForm();
-                        //alert('Email zmieniony');
                         this.alertMessage = 'Email zmieniony';
                         this.showSuccessAlert = true;
                         setTimeout(() => {
@@ -343,7 +338,6 @@ export default {
                         this.errors.emailForm.emailTaken = true;
                     }
                 } catch (err) {
-                    //alert('Uwierzytelnianie nieudane');
                     this.alertMessage = 'Uwierzytelnianie nieudane';
                     this.showErrorAlert = true;
                     setTimeout(() => {
@@ -368,7 +362,6 @@ export default {
 
                 try {
                     await axios.patch(
-                        //`http://localhost:3000/api/users/update-profile`,
                         `${proxy}api/users/update-profile`,
                         {
                             whatsChanged: 'unlimited',
@@ -383,14 +376,13 @@ export default {
                     this.user.unlimited = new Date(
                         this.unlimitedForm.unlimited
                     );
-                    //alert('Dane o abonamencie zmienione');
+
                     this.alertMessage = 'Dane o abonencie zmienione';
                     this.showSuccessAlert = true;
                     setTimeout(() => {
                         this.showSuccessAlert = false;
                     }, 2000);
                 } catch (err) {
-                    //alert('Uwierzytelnianie nieudane');
                     this.alertMessage = 'Uwierzytelnianie nieudane';
                     this.showErrorAlert = true;
                     setTimeout(() => {
@@ -410,7 +402,6 @@ export default {
                 try {
                     const jwt = localStorage.getItem('jwt');
                     const result = await axios.patch(
-                        // `http://localhost:3000/api/users/update-photo`,
                         `${proxy}api/users/update-photo`,
                         fd,
                         {
@@ -418,7 +409,6 @@ export default {
                         }
                     );
 
-                    //alert('Zdjecie zmienione');
                     this.alertMessage = 'Zdjecie zmienione';
                     this.showSuccessAlert = true;
                     setTimeout(() => {

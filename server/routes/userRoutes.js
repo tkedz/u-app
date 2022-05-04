@@ -23,11 +23,7 @@ router.patch(
     userController.saveUserPhoto
 );
 router.get('/get-me', authController.checkToken, userController.isLogged);
-router.get(
-    '/:username',
-    //userController.getUserProfile,
-    userController.sendUserProfile
-);
+router.get('/:username', userController.sendUserProfile);
 router.get(
     '/:userId/ratings',
     ratingController.getUserRatings,

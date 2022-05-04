@@ -7,11 +7,6 @@
                     :src="movie.Poster"
                     class="poster float-md-right"
                 />
-                <!-- <img
-                    v-else
-                    :src="`http://localhost:3000/img/noposter.jpg`"
-                    class="poster float-md-right"
-                /> -->
                 <img
                     v-else
                     :src="`${require('@/assets/noposter.jpg')}`"
@@ -164,7 +159,7 @@ import { getters } from '../store';
 import RatingForm from '../components/RatingForm';
 import Alert from './Alert';
 import { proxy } from '../config';
-// import StarRating from 'vue-star-rating';
+
 export default {
     data() {
         return {
@@ -190,7 +185,6 @@ export default {
         async getMovieDetails() {
             try {
                 const result = await axios.get(
-                    //`http://localhost:3000/api/movies/${this.$route.params.id}`
                     `${proxy}api/movies/${this.$route.params.id}`
                 );
 

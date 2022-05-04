@@ -139,15 +139,6 @@ exports.resetPassword = async (req, res, next) => {
     }
 };
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, './public/img/');
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, Date.now() + file.originalname);
-//     }
-// });
-
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
@@ -287,30 +278,11 @@ exports.isLogged = (req, res, next) => {
     });
 };
 
-// exports.getUserProfile = async (req, res, next) => {
-//     const { username } = req.params;
-
-//     const user = await User.findOne({ username });
-//     if (!user) return next(new ErrorHandler(404, 'User does not exist'));
-
-//     res.status(200).json({
-//         status: 'success',
-//         user: {
-//             username: user.username,
-//             unlimited: user.unlimited,
-//             id: user._id,
-//             photo: user.photo
-//         }
-//     });
-// };
-
 const getUserProfile = async (req, fullData) => {
     const { username, userId } = req.params;
     const query = username ? { username: username } : { _id: userId };
-    //console.log(username, userId, query);
 
     const user = await User.findOne(query);
-    //console.log(user);
 
     if (!user) return null;
 
@@ -336,7 +308,6 @@ exports.getUserProfile = getUserProfile;
 
 exports.sendUserProfile = async (req, res, next) => {
     const user = await getUserProfile(req, false);
-    console.log(user);
 
     if (!user) return next(new ErrorHandler(404, 'User does not exist'));
 
@@ -350,7 +321,6 @@ exports.searchUsers = async (req, res, next) => {
         },
         'username photo'
     );
-    console.log(users);
 
     if (users.length === 0) return next(new ErrorHandler(404, 'Nothing found'));
 

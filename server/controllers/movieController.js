@@ -48,7 +48,6 @@ exports.getDetails = async (req, res, next) => {
         const result = await axios.get(
             `http://www.omdbapi.com/?apikey=${process.env.OMDB_KEY}&i=${req.params.id}&plot=full`
         );
-        //console.log(result);
 
         //format rotten tomatoes rating
         result.data.RtRating = 'N/A';

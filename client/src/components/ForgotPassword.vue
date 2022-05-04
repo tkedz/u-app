@@ -55,7 +55,6 @@ export default {
 
             try {
                 await axios.post(
-                    //`http://localhost:3000/api/users/forgot-password`,
                     `${proxy}api/users/forgot-password`,
                     { email: this.email }
                 );

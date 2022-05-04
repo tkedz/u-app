@@ -2,7 +2,7 @@ const ErrorHandler = require('../utils/error');
 
 const handleMongoDuplicateFieldError = err => {
     const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-    //console.log(err);
+
     const message = `Duplicate field value: ${value}. Please use another value!`;
     return new ErrorHandler(400, message);
 };

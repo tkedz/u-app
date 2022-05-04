@@ -4,12 +4,6 @@
             <div class="container">
                 <div class="row no-gutters">
                     <div class="col-md-5 d-flex justify-content-center">
-                        <!-- <img
-                            :src="
-                                `http://localhost:3000/img/${profileOwner.photo}`
-                            "
-                            class="rounded-circle"
-                        /> -->
                         <img
                             :src="
                                 `${prx}img/${profileOwner.photo}`
@@ -90,15 +84,11 @@ export default {
         async getUser() {
             try {
                 const result = await axios.get(
-                    //`http://localhost:3000/api/users/${this.$route.params.username}`
                     `${proxy}api/users/${this.$route.params.username}`
                 );
 
                 const { user } = result.data;
 
-                //format date before assigning to variable
-                //const unlimitedDate = new Date(user.unlimited);
-                //user.unlimited = unlimitedDate;
                 this.profileOwner = user;
 
                 //check if profile owner is the same user as user logged in
@@ -107,9 +97,7 @@ export default {
                     this.profileOwner = this.user;
                 }
                 this.isDataFetched = true;
-                //console.log(this.profileOwner);
             } catch (err) {
-                //console.log(err);
                 this.$router.push('/404');
             }
         },
@@ -133,11 +121,9 @@ export default {
         }
     },
     async created() {
-        //await this.fetchLoggedUser();
         await this.getUser();
     },
     async beforeRouteUpdate(to, from, next) {
-        //console.log('beforeUpdate');
         next();
         await this.getUser();
     },

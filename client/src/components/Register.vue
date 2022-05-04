@@ -191,7 +191,6 @@ export default {
             }
         },
         validateUnlimited() {
-            //console.log('validate unlimited');
             this.errors.unlimited = false;
             if (!this.form.unlimited) {
                 this.errors.unlimited = true;
@@ -208,7 +207,6 @@ export default {
             for (const error in this.errors) {
                 //checking if property is not inherited
                 if (Object.prototype.hasOwnProperty.call(this.errors, error)) {
-                    //console.log(error + ' : ' + this.errors[error]);
                     if (this.errors[error] === true) {
                         isValid = false;
                         break;
@@ -223,7 +221,6 @@ export default {
 
             if (isValid) {
                 const result = await axios.post(
-                    // `http://localhost:3000/api/users/register`,
                     `${proxy}api/users/register`,
                     this.form
                 );
@@ -235,9 +232,7 @@ export default {
                     if (result.data.message === 'Username is already taken')
                         this.errors.usernameTaken = true;
                 } else {
-                    //TODO alert registration succesfull, and clear form
                     this.clearForm();
-                    //alert('Rejestracja udana');
                     this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;

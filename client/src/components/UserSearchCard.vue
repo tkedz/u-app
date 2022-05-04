@@ -7,12 +7,6 @@
                 width="150px"
                 height="150px"
             />
-            <!-- <img
-                :src="`img/${user.photo}`"
-                class="rounded-circle"
-                width="150px"
-                height="150px"
-            /> -->
             <h5 class="card-title mt-2 text-white">{{user.username}}</h5>
         </div>
     </router-link>

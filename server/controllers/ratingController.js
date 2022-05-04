@@ -38,8 +38,6 @@ exports.getUserRatings = async (req, res, next) => {
 
     if (sort !== 'date' && sort !== 'rating') sort = 'date';
 
-    //console.log(from, to);
-
     const ratings = await Rating.aggregate([
         {
             $match: {
@@ -57,7 +55,6 @@ exports.getUserRatings = async (req, res, next) => {
         }
     ]);
 
-    //console.log(ratings);
     if (ratings.length === 0)
         return next(new ErrorHandler(404, 'User didnt rate any movie'));
 
@@ -66,7 +63,6 @@ exports.getUserRatings = async (req, res, next) => {
 };
 
 exports.sendRatingsToClient = (req, res, next) => {
-    //console.log(req.ratings);
     res.status(200).json({ status: 'success', ratings: req.ratings });
 };
 
@@ -82,25 +78,6 @@ exports.deleteRating = async (req, res, next) => {
 };
 
 exports.saveRating = async (req, res, next) => {
-    // if (!req.body.rating || !req.body.screen || !req.body.date)
-    //     return next(new ErrorHandler(400, 'Provide rating/date/screen type'));
-
-    // if (!req.body.movieId || !req.body.movieTitle || !req.body.moviePoster)
-    //     return next(new ErrorHandler(400, 'Provide movie Id/Title/Poster'));
-
-    // if (
-    //     !req.body.movieGenre ||
-    //     !req.body.movieCountry ||
-    //     !req.body.movieDirector
-    // )
-    //     return next(
-    //         new ErrorHandler(400, 'Provide movie Genre/Country/Director')
-    //     );
-
-    // console.log(req.body);
-    // if (!('preRelease' in req.body) || !req.body.discount)
-    //     return next(new ErrorHandler(400, 'Provide preRelease/discount'));
-
     const rating = req.body;
     rating.user = req.user._id;
 
@@ -115,13 +92,11 @@ exports.saveRating = async (req, res, next) => {
             movieId: rating.movieId
         });
 
-        //console.log('rating', rating);
         if (!resultToSave) resultToSave = new Rating(rating);
         else {
             for (const [key, value] of Object.entries(rating)) {
                 resultToSave[key] = value;
             }
-            //console.log('RESULT TO SAVE', resultToSave);
         }
 
         await resultToSave.save();
@@ -153,7 +128,6 @@ exports.updateRating = async (req, res, next) => {
             { useFindAndModify: false, runValidators: true }
         );
 
-        //console.log(result);
         if (!result)
             return next(new ErrorHandler(404, 'Please rate this movie first'));
 

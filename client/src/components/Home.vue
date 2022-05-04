@@ -61,8 +61,6 @@ export default {
 
 <style scoped>
 .photo {
-    /*background-image: url('http://localhost:3000/img/header-photo.jpg');*/
-    /*background-image: url('img/header-photo.jpg');*/
     min-height: 400px;
     background-size: cover;
     background-position: center;

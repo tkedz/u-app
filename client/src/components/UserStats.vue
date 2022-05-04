@@ -162,11 +162,11 @@
 
                 <!-- Liczba obejrzanych filmów ze względu na kraj produkcji -->
                 <h4 class="text-muted">Liczba obejrzanych filmów ze względu na kraj produkcji</h4>
-                <geo-chart
+                <!-- <geo-chart
                     :data="stats.countries"
                     :library="{backgroundColor: '#222', colorAxis: {colors: ['#71c7ec','#005073']}}"
                     adapter="google"
-                ></geo-chart>
+                ></geo-chart> -->
                 <div
                     class="card text-center mt-1 m-2"
                     :class="{'bg-primary': isComparision, 'text-white': isComparision}"
@@ -180,12 +180,12 @@
                         >{{user.username}} obejrzał/a filmy z {{stats.countriesCount}} różnych krajów 🌎</h4>
                     </div>
                 </div>
-                <geo-chart
+                <!-- <geo-chart
                     :data="compare.countries"
                     :library="{backgroundColor: '#222'}"
                     adapter="google"
                     v-if="isComparision"
-                ></geo-chart>
+                ></geo-chart> -->
                 <div class="card text-center mt-1 bg-warning text-white m-2" v-if="isComparision">
                     <div class="card-body">
                         <h4>Obejrzałeś/aś filmy z {{compare.countriesCount}} różnych krajów 🌎</h4>
@@ -305,7 +305,6 @@ export default {
             const jwt = localStorage.getItem('jwt');
             try {
                 const result = await axios.get(
-                    // `http://localhost:3000/api/users/${this.user.id}/stats?from=${this.fromDate}&to=${this.toDate}`,
                     `${proxy}api/users/${this.user.id}/stats?from=${this.fromDate}&to=${this.toDate}`,
                     {
                         headers: { Authorization: `Bearer ${jwt}` }
@@ -313,27 +312,20 @@ export default {
                 );
                 this.stats = result.data.stats;
                 this.statsLoaded = true;
-                //console.log(this.stats);
             } catch (err) {
                 this.error = true;
             }
         },
         async compareStats(toggle) {
             if (toggle) this.isComparision = !this.isComparision;
-            // const compareStatsNotLoaded =
-            //     Object.keys(this.compare).length === 0 &&
-            //     this.compare.constructor === Object;
 
             if (this.isComparision) {
                 try {
                     const result = await axios.get(
-                        // `http://localhost:3000/api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
                         `${proxy}api/users/${this.loggedUser.id}/stats?from=${this.fromDate}&to=${this.toDate}`
                     );
                     this.compare = result.data.stats;
-                    //(this.compare);
                 } catch (err) {
-                    //alert('Nie masz żadnych ocen');
                     this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;

@@ -108,18 +108,15 @@ export default {
             if (!this.errors.password && !this.errors.passwordComparision) {
                 try {
                     await axios.patch(
-                        // `http://localhost:3000/api/users/reset-password/${this.$route.params.token}`,
                         `${proxy}api/users/reset-password/${this.$route.params.token}`,
                         this.form
                     );
 
-                    //alert('Hasło zresetowane');
                     this.showSuccessAlert = true;
                     setTimeout(() => {
                         this.showSuccessAlert = false;
                     }, 2000);
                 } catch (err) {
-                    //alert('Nie udało się zmienić hasła. Token wygasł');
                     this.showErrorAlert = true;
                     setTimeout(() => {
                         this.showErrorAlert = false;

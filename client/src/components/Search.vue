@@ -127,11 +127,9 @@ export default {
     },
     methods: {
         async search() {
-            //console.log('search');
             if (this.whatToSearch === 'movies') {
                 try {
                     const result = await axios.get(
-                        // `http://localhost:3000/api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=${this.currentPage}`
                         `${proxy}api/movies/search/${this.searchQuery.query}?year=${this.searchQuery.year}&page=${this.currentPage}`
                     );
                     this.totalSearchResults = result.data.totalResults;
@@ -151,7 +149,7 @@ export default {
                 } catch (err) {
                     this.totalSearchResults = 0;
                     this.searchResults = [];
-                    //alert('Nothing found');
+
                     this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;
@@ -172,7 +170,7 @@ export default {
                 } catch (err) {
                     this.totalSearchResults = 0;
                     this.searchResults = [];
-                    //alert('Nothing found');
+               
                     this.showAlert = true;
                     setTimeout(() => {
                         this.showAlert = false;
@@ -188,7 +186,6 @@ export default {
         AppAlert: Alert
     },
     async created() {
-        //console.log('created search component');
         let executeQuery = false;
 
         if (this.$route.query.title) {

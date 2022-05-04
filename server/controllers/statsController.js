@@ -32,12 +32,6 @@ exports.calcUserStats = async (req, res, next) => {
 
     //from - to dates
      const { from, to, profileOwner } = req;
-    // if (!from || from === 'null') from = new Date(0);
-    // else from = new Date(from);
-    // if (!to || to === 'null') to = new Date();
-    // else to = new Date(to);
-
-    //console.log(from, to);
 
     //calculate some stats using mongodb aggregation pipeline
     let stats = await Rating.aggregate([
@@ -123,7 +117,6 @@ exports.calcUserStats = async (req, res, next) => {
         }
     ]);
 
-    //console.log(stats);
     if (!stats) return next(new ErrorHandler(404, 'User didnt rate any movie'));
 
     stats = stats[0];
@@ -139,8 +132,7 @@ exports.calcUserStats = async (req, res, next) => {
         const currentDay = parseInt(currentDate.toDateString().split(' ')[2], 10);
     
         let unlimitedDate;
-        //from = new Date(2017, 11, 12);
-        //console.log(typeof user.unlimited);
+
         if (from.getTime() < user.unlimited.getTime()) {
             unlimitedDate = user.unlimited;
         } else {
@@ -159,7 +151,6 @@ exports.calcUserStats = async (req, res, next) => {
         stats.subscription = 0;
         const loop = new Date(unlimitedDate);
         for (let i = 0; i < months; i += 1) {
-            //console.log('PETLA: ' + months);
             for (let j = 0; j < priceList.unlimited.length; j += 1) {
                 if (
                     (priceList.unlimited[j].to && loop.getTime() >=
@@ -170,8 +161,6 @@ exports.calcUserStats = async (req, res, next) => {
                         loop.getTime() >=
                             new Date(priceList.unlimited[j].from).getTime())
                 ) {
-                   // console.log('MIESIAC: ' + loop.getMonth());
-                    //console.log('CENA: ' + priceList.unlimited[j][user.region]);
                     stats.subscription += priceList.unlimited[j][user.region];
                     loop.setMonth(loop.getMonth() + 1);
                     break;
@@ -222,7 +211,6 @@ exports.calcUserStats = async (req, res, next) => {
                 if([0, 6].includes(el.date.getDay())) week = 'weekend';
                 else if([3].includes(el.date.getDay())) week = 'wednesday';
                 
-                //console.log(el);
                 stats.moneyWoSubscription += validPrices[el.screen][user.region][week][el.discount];
     
                 stats.subscription += validUnlimited[el.screen];

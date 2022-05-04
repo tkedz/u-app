@@ -1,7 +1,6 @@
 <template>
     <router-link :to="`/movies/${movie.imdbID}`" tag="div" class="card">
         <img v-if="movie.Poster != 'N/A'" class="card-img-top" :src="movie.Poster" />
-        <!-- <img v-else class="card-img-top" :src="`http://localhost:3000/img/noposter.jpg`" /> -->
         <img v-else class="card-img-top" :src="`${require('@/assets/noposter.jpg')}`" />
         <div class="card-body">
             <p class="card-title">{{movie.Title}}</p>

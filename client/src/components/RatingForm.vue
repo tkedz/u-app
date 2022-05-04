@@ -90,9 +90,7 @@ export default {
 
             const jwt = localStorage.getItem('jwt');
             try {
-                //console.log(this.date, new Date(this.movie.Released));
                 await axios.post(
-                    //`http://localhost:3000/api/ratings`,
                     `${proxy}api/ratings`,
                     {
                         rating: this.rating,
@@ -133,7 +131,6 @@ export default {
                     date: this.date
                 });
             } catch (err) {
-                //console.log(err);
                 this.showAlert = true;
                 setTimeout(() => {
                     this.showAlert = false;
@@ -143,7 +140,6 @@ export default {
         async getRating() {
             try {
                 const result = await axios.get(
-                    //`http://localhost:3000/api/users/${this.userId}/ratings/${this.movie.imdbID}`
                     `${proxy}api/users/${this.userId}/ratings/${this.movie.imdbID}`
                 );
 
@@ -162,7 +158,6 @@ export default {
         async deleteRating() {
             const jwt = localStorage.getItem('jwt');
             await axios.delete(
-                // `http://localhost:3000/api/ratings/${this.movie.imdbID}`,
                 `${proxy}api/ratings/${this.movie.imdbID}`,
                 {
                     headers: { Authorization: `Bearer ${jwt}` }

@@ -28,7 +28,6 @@ export default {
         ...actions
     },
     async created() {
-        //('fetch user');
         await this.fetchLoggedUser();
         this.isDataFetched = true;
     },

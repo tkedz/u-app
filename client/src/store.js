@@ -24,13 +24,9 @@ export const actions = {
     async fetchLoggedUser() {
         const jwt = localStorage.getItem('jwt');
         try {
-            const result = await axios.get(
-                //`http://localhost:3000/api/users/get-me`,
-                `${proxy}api/users/get-me`,
-                {
-                    headers: { Authorization: `Bearer ${jwt}` }
-                }
-            );
+            const result = await axios.get(`${proxy}api/users/get-me`, {
+                headers: { Authorization: `Bearer ${jwt}` }
+            });
             if (result.data.status === 'success') {
                 const { user, isLogged } = result.data;
                 mutations.setUser(user);
